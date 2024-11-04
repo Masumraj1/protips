@@ -1,7 +1,4 @@
 
-
-
-
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:protippz/app/screens/home_screen/home_screen.dart';
 
@@ -15,7 +12,7 @@ class AppRoute {
 
   static List<GetPage> routes = [
     ///==================== Initial Routes ====================
-    GetPage(name: homeScreen, page: () =>  HomeScreen(),),
+    GetPage(name: homeScreen, page: () =>   HomeScreen(),),
 
   ];
 }
