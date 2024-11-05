@@ -47,6 +47,7 @@ dependencies:
   http:
   mime:
   http_parser:
+  flutter_spinkit: ^5.2.1
 
 dev_dependencies:
   flutter_test:
