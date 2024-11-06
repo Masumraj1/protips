@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:protippz/app/utils/app_icons.dart';
+import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 
 class CustomTextField extends StatefulWidget {
   const CustomTextField({
@@ -11,7 +10,7 @@ class CustomTextField extends StatefulWidget {
     this.focusNode,
     this.keyboardType = TextInputType.text,
     this.textInputAction = TextInputAction.next,
-    this.cursorColor =Colors.red ,
+    this.cursorColor = Colors.red,
     this.isColor = false, // Default value for isColor
     this.inputTextStyle,
     this.textAlignVertical = TextAlignVertical.center,
@@ -91,7 +90,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,
       cursorColor: widget.cursorColor,
-      style: textStyle, // Apply the dynamically determined text style
+      style: textStyle,
+      // Apply the dynamically determined text style
       onChanged: widget.onChanged,
       maxLines: widget.maxLines,
       obscureText: widget.isPassword ? obscureText : false,
@@ -100,7 +100,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         errorMaxLines: 2,
         errorStyle: const TextStyle(
           color: Colors.white, // Change this to your desired color
-          fontSize: 16,      // Optional: Change font size
+          fontSize: 16, // Optional: Change font size
         ),
         hintText: widget.hintText,
         hintStyle: widget.hintStyle,
@@ -109,16 +109,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
         prefixIcon: widget.prefixIcon,
         suffixIcon: widget.isPassword
             ? GestureDetector(
-          onTap: toggle,
-          child: Padding(
-            padding: const EdgeInsets.only(
-                left: 16, right: 16, top: 16, bottom: 16),
-            child: SvgPicture.asset(
-                obscureText ? AppIcons.eyeOff : AppIcons.eye,
-                height: 22,
-                width: 22),
-          ),
-        )
+                onTap: toggle,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 16, right: 16, top: 16, bottom: 16),
+                  child: obscureText
+                      ? Assets.icons.eyeOff.svg()
+                      : Assets.icons.eye.svg(),
+                ),
+              )
             : widget.suffixIcon,
         suffixIconColor: widget.suffixIconColor,
         border: OutlineInputBorder(

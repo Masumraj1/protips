@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/screens/favorite_screen/favorite_screen.dart';
@@ -9,7 +8,8 @@ import 'package:protippz/app/screens/notification_screen/notification_screen.dar
 import 'package:protippz/app/screens/profile_screen/profile_screen.dart';
 import 'package:protippz/app/screens/tippz_history_screen/tippz_history_screen.dart';
 import 'package:protippz/app/utils/app_colors.dart';
-import 'package:protippz/app/utils/app_icons.dart';
+import 'package:protippz/app/core/custom_assets/assets.gen.dart';
+import 'package:protippz/app/utils/app_constants.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
 class NavBar extends StatefulWidget {
@@ -24,20 +24,20 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   late int bottomNavIndex;
 
-  final List<String> unselectedIcon = [
-    AppIcons.homeUnselected,
-    AppIcons.notificationUnselected,
-    AppIcons.favoriteUnselected,
-    AppIcons.historyUnselected,
-    AppIcons.profileUnselected,
+  final List<Widget> unselectedIcon = [
+    Assets.icons.homeUnselected.svg(),
+    Assets.icons.notificationUnselected.svg(),
+    Assets.icons.favoriteUnselected.svg(),
+    Assets.icons.historyUnselected.svg(),
+    Assets.icons.profileUnselected.svg(),
   ];
 
-  final List<String> selectedIcon = [
-    AppIcons.homeSelected,
-    AppIcons.notificationSelected,
-    AppIcons.favoriteSelected,
-    AppIcons.historySelected,
-    AppIcons.profileSelected,
+  final List<Widget> selectedIcon = [
+    Assets.icons.homeSelected.svg(),
+    Assets.icons.notificationSelected.svg(),
+    Assets.icons.favoriteSelected.svg(),
+    Assets.icons.historySelected.svg(),
+    Assets.icons.profileSelected.svg(),
   ];
 
   final List<String> textList = [
@@ -46,7 +46,9 @@ class _NavBarState extends State<NavBar> {
     AppStrings.favorites,
     AppStrings.tippzHistory,
     AppStrings.profile,
+
   ];
+
 
   @override
   void initState() {
@@ -64,26 +66,27 @@ class _NavBarState extends State<NavBar> {
           topRight: Radius.circular(12),
         ),
       ),
-      height: 100.h,
+      height: 95.h,
       width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 7.h),
+      padding: EdgeInsets.symmetric(horizontal: 26.w, vertical: 13.5.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(
           unselectedIcon.length,
-              (index) => InkWell(
+          (index) => InkWell(
             onTap: () => onTap(index),
             child: Column(
               children: [
-                SvgPicture.asset(
-                  bottomNavIndex == index ? selectedIcon[index] : unselectedIcon[index],
-                  height: 24.h,
-                  width: 24.w,
-                ),
+                bottomNavIndex == index
+                    ? selectedIcon[index]
+                    : unselectedIcon[index],
                 CustomText(
                   text: textList[index],
                   fontSize: 12,
-
+                  fontWeight: FontWeight.w400,
+                  color: bottomNavIndex == index
+                      ? AppColors.green500
+                      : AppColors.gray300,
                 ),
               ],
             ),

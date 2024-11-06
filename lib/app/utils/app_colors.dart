@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
 
+  AppColors._();
   ///============================ Red Series ===============================
 
   static const Color gray500 = Color(0xff333333);
@@ -11,6 +12,7 @@ class AppColors {
   static const Color white50  = Color(0xffFFFFFF);
   static const Color navBarBackground  = Color(0xffFEFEFE);
   static const Color bg500  = Color(0xffF2F2F2);
+  static const Color gray300  = Color(0xff767676);
 
 
 }

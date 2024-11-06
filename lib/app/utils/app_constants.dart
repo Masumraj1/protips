@@ -1,5 +1,7 @@
 
 class AppConstants {
+
+  AppConstants._();
   static String bearerToken = "BearerToken";
   static String resetToken = "BearerToken";
   static String userId = "UserId";
@@ -16,4 +18,5 @@ class AppConstants {
 }
 
 enum Status { loading, error, completed, internetError }
+
 

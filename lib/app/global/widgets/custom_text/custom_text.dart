@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:protippz/app/utils/app_colors.dart';
 
 class CustomText extends StatelessWidget {
   const CustomText({
@@ -12,7 +14,7 @@ class CustomText extends StatelessWidget {
     this.bottom = 0,
     this.fontSize = 12,
     this.fontWeight = FontWeight.w300,
-    this.color = Colors.red,
+    this.color = AppColors.gray500,
     required this.text,
     this.overflow = TextOverflow.ellipsis,
     this.decoration,
@@ -41,7 +43,7 @@ class CustomText extends StatelessWidget {
         text,
         maxLines: maxLines,
         overflow: overflow,
-        style: TextStyle(
+        style: GoogleFonts.poppins(
           fontSize: fontSize.w,
           fontWeight: fontWeight,
           color: color,

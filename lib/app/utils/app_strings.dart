@@ -1,4 +1,6 @@
 class AppStrings {
+
+  AppStrings._();
   ///============================= Authentication ================================
   static const signUp = "Sign up";
   static const hello = "Hello!";
