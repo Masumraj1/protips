@@ -11,7 +11,7 @@ class AppStrings {
   static const enterYourEmail = "Enter your email";
   static const phoneNumber = "Phone Number (optional)";
   static const enterYourPhoneNumber = "Enter your phone number";
-  static const userName = "User Name";
+  static const userName = "User Name :";
   static const enterYourUserName = "Enter your user name";
   static const address = "Address";
   static const enterYourAddress = "Enter your address";
