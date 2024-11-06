@@ -49,6 +49,8 @@ dependencies:
   http_parser:
   flutter_spinkit: ^5.2.1
   google_fonts:
+  go_router: ^14.4.1
+  gap: ^3.0.1
 
 dev_dependencies:
   build_runner: ^2.4.10
