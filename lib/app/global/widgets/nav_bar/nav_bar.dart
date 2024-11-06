@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
+import 'package:protippz/app/core/routes/route_path.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/screens/favorite_screen/favorite_screen.dart';
 import 'package:protippz/app/screens/home_screen/home_screen.dart';
@@ -9,7 +11,6 @@ import 'package:protippz/app/screens/profile_screen/profile_screen.dart';
 import 'package:protippz/app/screens/tippz_history_screen/tippz_history_screen.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
-import 'package:protippz/app/utils/app_constants.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
 class NavBar extends StatefulWidget {
@@ -101,19 +102,19 @@ class _NavBarState extends State<NavBar> {
 
     switch (index) {
       case 0:
-        Get.offAll(() => const HomeScreen());
+        context.goNamed(RoutePath.homeScreen);
         break;
       case 1:
-        Get.to(() => const NotificationScreen());
+        context.goNamed(RoutePath.notificationScreen);
         break;
       case 2:
-        Get.to(() => const FavoriteScreen());
+        context.goNamed(RoutePath.favoriteScreen);
         break;
       case 3:
-        Get.to(() => const TippzHistoryScreen());
+        context.goNamed(RoutePath.tippzHistoryScreen);
         break;
       case 4:
-        Get.to(() => const ProfileScreen());
+        context.goNamed(RoutePath.profileScreen);
         break;
     }
     setState(() {

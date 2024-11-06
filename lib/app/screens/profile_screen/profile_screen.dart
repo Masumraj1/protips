@@ -7,9 +7,16 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const NavBar(currentIndex: 4,),
-
-      appBar: AppBar(title: Text('Profile'),),
-    );;
+      bottomNavigationBar: const NavBar(currentIndex: 4),
+      appBar: AppBar(
+        title: const Text('Profile'),
+      ),
+      body: Center(
+        child: Text(
+          'Profile Screen',
+          style: TextStyle(fontSize: 24),
+        ),
+      ),
+    );
   }
 }

@@ -12,7 +12,7 @@ class HomeScreen extends StatelessWidget {
       bottomNavigationBar: const NavBar(currentIndex: 0,),
       appBar: AppBar(
         backgroundColor: AppColors.white50,
-        title: Text('22'),),
+        title: const Text('22'),),
     );
   }
 }

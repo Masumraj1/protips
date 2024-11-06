@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
+import 'package:protippz/app/core/routes/route_path.dart';
 import 'package:protippz/app/global/controllers/auth_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
@@ -45,7 +48,7 @@ class OtpScreen extends StatelessWidget {
               // ),
 
 
-              const Gap(12),
+               Gap(12.h),
 
 
                     const Row(
@@ -61,9 +64,12 @@ class OtpScreen extends StatelessWidget {
                     ),
 
               //==========================VeryFy Code Button=================
-              const Gap(30),
+               Gap(30.h),
               CustomButton(
-                onTap: () {},
+                onTap: () {
+                  context.pushNamed(RoutePath.resetPasswordScreen);
+
+                },
                 title: AppStrings.verifyCode,
               ),
 

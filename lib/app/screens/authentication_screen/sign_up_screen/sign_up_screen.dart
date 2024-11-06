@@ -1,7 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
+import 'package:protippz/app/core/routes/route_path.dart';
 import 'package:protippz/app/global/controllers/auth_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
@@ -53,7 +56,7 @@ class SignUpScreen extends StatelessWidget {
                   title: AppStrings.fullName,
                   controller: authController.nameController,
                   validator: (v) {}),
-              const Gap(12),
+               Gap(12.h),
               //========================Email Field=====================
               CustomFromCard(
                   hinText: AppStrings.enterYourEmail,
@@ -61,28 +64,28 @@ class SignUpScreen extends StatelessWidget {
                   controller: authController.passwordController,
                   validator: (v) {}),
 
-              const Gap(12),
+               Gap(12.h),
               //========================Phone Number Field=====================
               CustomFromCard(
                   hinText: AppStrings.enterYourPhoneNumber,
                   title: AppStrings.phoneNumber,
                   controller: authController.phoneNumberController,
                   validator: (v) {}),
-              const Gap(12),
+               Gap(12.h),
               //========================User Name Field=====================
               CustomFromCard(
                   hinText: AppStrings.enterYourUserName,
                   title: AppStrings.userName,
                   controller: authController.userNameController,
                   validator: (v) {}),
-              const Gap(12),
+               Gap(12.h),
               //========================Address  Field=====================
               CustomFromCard(
                   hinText: AppStrings.enterYourAddress,
                   title: AppStrings.address,
                   controller: authController.addressController,
                   validator: (v) {}),
-              const Gap(12),
+               Gap(12.h),
               //========================Password Field=====================
               CustomFromCard(
                   isPassword: true,
@@ -90,7 +93,7 @@ class SignUpScreen extends StatelessWidget {
                   title: AppStrings.password,
                   controller: authController.passwordController,
                   validator: (v) {}),
-              const Gap(12),
+               Gap(12.h),
               //========================Confirm Password Field=====================
               CustomFromCard(
                   isPassword: true,
@@ -102,14 +105,17 @@ class SignUpScreen extends StatelessWidget {
 
 
               //===========================Sign Up Button=================
-              const Gap(30),
+               Gap(30.h),
               CustomButton(
-                onTap: () {},
+                onTap: () {
+                  context.pushNamed(RoutePath.homeScreen);
+
+                },
                 title: AppStrings.signUp,
               ),
 
 
-              const Gap(10),
+               Gap(10.h),
 
               Center(
                 child: RichText(
@@ -134,7 +140,7 @@ class SignUpScreen extends StatelessWidget {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            // Get.toNamed(AppRoutes.signUpScreen);
+                            context.pushNamed(RoutePath.signInScreen);
                           },
                       ),
                     ],

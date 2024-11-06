@@ -13,4 +13,12 @@ class RoutePath {
   static const String resetPasswordScreen = 'ResetPasswordScreen';
 
 
+  ///=======================main =====================
+  static const String homeScreen = 'HomeScreen';
+  static const String notificationScreen = 'NotificationScreen';
+  static const String favoriteScreen = 'FavoriteScreen';
+  static const String tippzHistoryScreen = 'TippzHistoryScreen';
+  static const String profileScreen = 'ProfileScreen';
+
+
 }
