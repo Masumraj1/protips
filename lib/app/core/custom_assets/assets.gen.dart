@@ -161,8 +161,12 @@ class $AssetsImagesGen {
   /// File path: assets/images/logo.png
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
 
+  /// File path: assets/images/no_internet.png
+  AssetGenImage get noInternet =>
+      const AssetGenImage('assets/images/no_internet.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [logo];
+  List<AssetGenImage> get values => [logo, noInternet];
 }
 
 class Assets {

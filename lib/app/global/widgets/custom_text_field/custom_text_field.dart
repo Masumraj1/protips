@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
+import 'package:protippz/app/utils/app_colors.dart';
 
 class CustomTextField extends StatefulWidget {
   const CustomTextField({
@@ -10,7 +11,7 @@ class CustomTextField extends StatefulWidget {
     this.focusNode,
     this.keyboardType = TextInputType.text,
     this.textInputAction = TextInputAction.next,
-    this.cursorColor = Colors.red,
+    this.cursorColor = AppColors.gray500,
     this.isColor = false, // Default value for isColor
     this.inputTextStyle,
     this.textAlignVertical = TextAlignVertical.center,
@@ -18,8 +19,8 @@ class CustomTextField extends StatefulWidget {
     this.onChanged,
     this.maxLines = 1,
     this.validator,
-    this.hintText,
-    this.hintStyle,
+    this.hintText ,
+    this.hintStyle ,
     this.fillColor = Colors.red,
     this.suffixIcon,
     this.suffixIconColor,

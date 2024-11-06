@@ -9,7 +9,7 @@ class AppStrings {
   static const enterYourFullName = "Enter your full name";
   static const email = "Email";
   static const enterYourEmail = "Enter your email";
-  static const phoneNumber = "Phone Number";
+  static const phoneNumber = "Phone Number (optional)";
   static const enterYourPhoneNumber = "Enter your phone number";
   static const userName = "User Name";
   static const enterYourUserName = "Enter your user name";
@@ -18,18 +18,20 @@ class AppStrings {
   static const password = "Password";
   static const enterYourPassword = "Enter your password";
   static const confirmPassword = "Confirm Password";
-  static const alreadyHaveAnAccount = "Already have an account?";
+  static const alreadyHaveAnAccount = "Already have an account? ";
   static const signIn = "Sign in";
   static const helloAgain = "Hello Again!";
   static const rememberMe = "Remember Me";
   static const forgotPasswordd = "Forgot password?";
   static const or = "Or";
+  static const checkYourEmail = "Check your email";
   static const welcomeBackToProtippzSignInto = "Welcome back to Protippz! Sign in to continue and access all our services.";
   static const signInGoogle = "Sign in with Google";
   static const forgotPassword = "Forgot password";
   static const enterYourEmailAndWe = "Enter your email and we will send you a verification code";
   static const sendCode = "Send Code";
   static const check = "Check your email";
+  static const dontHaveAnAccount = "Don’t have an account? ";
   static const resendOtp = "Resend OTP";
   static const verifyCode  = "Verify Code";
   static const resetPassword  = "Reset Password";
@@ -92,6 +94,9 @@ class AppStrings {
   static const favorites    = "Favorites";
   static const tippzHistory    = "Tippz History";
   static const profile     = "Profile";
+  static const tryAgain     = "Try Again";
+  static const whoops     = "Whoops!!";
+  static const noInternet     = "No internet connection was found. Check your connection or try again.";
 
 
 }

@@ -13,7 +13,7 @@ class CustomButton extends StatelessWidget {
         this.title = 'Welcome',
         this.marginVerticel = 0,
         this.marginHorizontal = 0,
-        this.fillColor,
+        this.fillColor = AppColors.green500,
         this.textColor = AppColors.white50 });
 
   final double height;
@@ -41,7 +41,7 @@ class CustomButton extends StatelessWidget {
         height: height,
         width: width,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8.r), color: fillColor),
+            borderRadius: BorderRadius.circular(25.r), color: fillColor),
         child: CustomText(
             fontSize: 14,
             fontWeight: FontWeight.w500,
