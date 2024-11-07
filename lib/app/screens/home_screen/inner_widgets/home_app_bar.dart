@@ -7,7 +7,6 @@ import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
-
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({
     super.key,
@@ -69,20 +68,21 @@ class HomeAppBar extends StatelessWidget {
                 width: 65.w,
               ),
 
-
-
               ///==========================Drawer button ====================
               GestureDetector(
                   onTap: () {
                     scaffoldKey.currentState?.openDrawer();
                   },
                   child: Container(
-                    padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       decoration: const BoxDecoration(
                         color: AppColors.green500,
                         shape: BoxShape.circle,
                       ),
-                      child: Assets.icons.drawer.svg()))
+                      child: Assets.icons.drawer.svg(
+                        colorFilter: const ColorFilter.mode(
+                            AppColors.white50, BlendMode.srcIn),
+                      )))
             ],
           ),
         ],

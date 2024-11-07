@@ -30,9 +30,6 @@ class HomeScreen extends StatelessWidget {
             HomeAppBar(scaffoldKey: scaffoldKey),
             SizedBox(height: 10.w),
 
-
-
-
           ],
         ),
       ),

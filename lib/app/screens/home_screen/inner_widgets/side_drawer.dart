@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:protippz/app/controller/home_controller.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
-import 'package:protippz/app/global/widgets/custom_image/custom_image.dart';
-import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
+import 'package:protippz/app/core/routes/route_path.dart';
+import 'package:protippz/app/global/widgets/custom_menu_card/custom_menu_card.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
@@ -37,14 +39,92 @@ class SideDrawer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ///===========================Customer care===================
-                customRow(
+                ///===========================Deposite Fund===================
+                CustomMenuCard(
                   onTap: () {
                   },
                   title: AppStrings.depositeFund,
                   icon: Assets.icons.deposite.svg(),
                 ),
 
+                ///===========================Withdraw Fund===================
+                CustomMenuCard(
+                  onTap: () {},
+                  title: AppStrings.withdrawFunds,
+                  icon: Assets.icons.withdraw.svg(),
+                ),
+
+                 ///===========================transactionLog===================
+                CustomMenuCard(
+                  onTap: () {},
+                  title: AppStrings.transactionLog,
+                  icon: Assets.icons.transactionLog.svg(),
+                ),
+
+                ///===========================Invite Friend===================
+                CustomMenuCard(
+                  onTap: () {},
+                  title: AppStrings.inviteFriends,
+                  icon: Assets.icons.inviteFriends.svg(),
+                ),
+
+                ///===========================Faqs===================
+                CustomMenuCard(
+                  onTap: () {
+                    context.pushNamed(RoutePath.faqScreen);
+
+                  },
+                  title: AppStrings.faqs,
+                  icon: Assets.icons.faqs.svg(),
+                ),
+
+                ///===========================Contact us===================
+                CustomMenuCard(
+                  onTap: () {
+                    context.pushNamed(RoutePath.contactScreen);
+
+                  },
+                  title: AppStrings.contactUs,
+                  icon: Assets.icons.contacts.svg(),
+                ),
+
+                ///===========================Terms ===================
+                CustomMenuCard(
+                  onTap: () {
+                    context.pushNamed(RoutePath.termsConditionScreen);
+
+                  },
+                  title: AppStrings.termsAndCondition,
+                  icon: Assets.icons.terms.svg(),
+                ),
+
+                ///===========================Privacy===================
+                CustomMenuCard(
+                  onTap: () {
+                    context.pushNamed(RoutePath.privacyPolicyScreen);
+
+                  },
+                  title: AppStrings.privacyPolicy,
+                  icon: Assets.icons.privacy.svg(),
+                ),
+
+                ///==========================Settings===================
+                CustomMenuCard(
+                  onTap: () {
+                    context.pushNamed(RoutePath.settingScreen);
+
+                  },
+                  title: AppStrings.settings,
+                  icon: Assets.icons.settings.svg(),
+                ),
+                
+                Gap(50.h),
+                ///==========================LogOut===================
+                CustomMenuCard(
+                  onTap: () {},
+                  title: "Log Out",
+                  icon: Assets.icons.logout.svg(),
+                ),
 
               ],
             ),
@@ -53,27 +133,5 @@ class SideDrawer extends StatelessWidget {
       ),
     );
   }
-  Widget customRow(
-      {required String title,
-        required Widget icon,
-        required VoidCallback onTap}) =>
-      GestureDetector(
-        onTap: () {
-          onTap();
-        },
-        child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            child: Row(
-              children: [
-               icon,
-                CustomText(
-                  color: AppColors.gray500,
-                  left: 16.w,
-                  text: title,
-                  fontSize: 14.w,
-                  fontWeight: FontWeight.w400,
-                ),
-              ],
-            )),
-      );
+
 }

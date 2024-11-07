@@ -20,6 +20,12 @@ class RoutePath {
   static const String tippzHistoryScreen = 'TippzHistoryScreen';
   static const String profileScreen = 'ProfileScreen';
   static const String editProfileScreen = 'EditProfileScreen';
+  static const String settingScreen = 'SettingScreen';
+  static const String changePasswordScreen = 'ChangePasswordScreen';
+  static const String privacyPolicyScreen = 'PrivacyPolicyScreen';
+  static const String termsConditionScreen = 'TermsConditionScreen';
+  static const String contactScreen = 'ContactScreen';
+  static const String faqScreen = 'FaqScreen';
 
 
 }

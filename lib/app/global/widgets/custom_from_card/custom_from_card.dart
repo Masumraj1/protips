@@ -10,6 +10,7 @@ class CustomFromCard extends StatelessWidget {
   final String? Function(String?) validator;
   final bool isPassword;
   final bool isRead;
+  final int? maxLine;
 
   const CustomFromCard({
     super.key,
@@ -17,7 +18,7 @@ class CustomFromCard extends StatelessWidget {
     required this.controller,
     required this.validator,
     this.isPassword = false,
-    this.isRead = false, this.hinText ,
+    this.isRead = false, this.hinText, this.maxLine ,
   });
 
   @override
@@ -33,6 +34,7 @@ class CustomFromCard extends StatelessWidget {
           bottom: 8,
         ),
         CustomTextField(
+          maxLines: maxLine,
           hintStyle: const TextStyle(color:AppColors.gray300 ),
           readOnly: isRead,
           validator: validator,

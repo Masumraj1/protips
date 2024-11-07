@@ -6,13 +6,19 @@ import 'package:protippz/app/screens/authentication_screen/otp_screen/otp_screen
 import 'package:protippz/app/screens/authentication_screen/reset_password_screen/reset_password_screen.dart';
 import 'package:protippz/app/screens/authentication_screen/sign_in_screen/sign_in_screen.dart';
 import 'package:protippz/app/screens/authentication_screen/sign_up_screen/sign_up_screen.dart';
+import 'package:protippz/app/screens/contact_screen/contact_screen.dart';
+import 'package:protippz/app/screens/faq_screen/faq_screen.dart';
 import 'package:protippz/app/screens/favorite_screen/favorite_screen.dart';
 import 'package:protippz/app/screens/home_screen/home_screen.dart';
 import 'package:protippz/app/screens/no_internet_screen/no_internet_screen.dart';
 import 'package:protippz/app/screens/notification_screen/notification_screen.dart';
+import 'package:protippz/app/screens/privacy_policy_screen/privacy_policy_screen.dart';
 import 'package:protippz/app/screens/profile_screen/edit_profile_screen/edit_profile_screen.dart';
 import 'package:protippz/app/screens/profile_screen/profile_screen.dart';
+import 'package:protippz/app/screens/setting_screen/change_password_screen/change_password_screen.dart';
+import 'package:protippz/app/screens/setting_screen/setting_screen.dart';
 import 'package:protippz/app/screens/splash_screen/splash_screen.dart';
+import 'package:protippz/app/screens/terms_condition_screen/terms_condition_screen.dart';
 import 'package:protippz/app/screens/tippz_history_screen/tippz_history_screen.dart';
 
 class AppRouter {
@@ -106,6 +112,32 @@ class AppRouter {
           name: RoutePath.editProfileScreen,
           path: RoutePath.editProfileScreen.addBasePath,
           builder: (context, state) =>  EditProfileScreen(),
+        ),
+
+        GoRoute(
+          name: RoutePath.settingScreen,
+          path: RoutePath.settingScreen.addBasePath,
+          builder: (context, state) =>  const SettingScreen(),
+        ), GoRoute(
+          name: RoutePath.changePasswordScreen,
+          path: RoutePath.changePasswordScreen.addBasePath,
+          builder: (context, state) =>  const ChangePasswordScreen(),
+        ),GoRoute(
+          name: RoutePath.privacyPolicyScreen,
+          path: RoutePath.privacyPolicyScreen.addBasePath,
+          builder: (context, state) =>  const PrivacyPolicyScreen(),
+        ),GoRoute(
+          name: RoutePath.termsConditionScreen,
+          path: RoutePath.termsConditionScreen.addBasePath,
+          builder: (context, state) =>  const TermsConditionScreen(),
+        ),GoRoute(
+          name: RoutePath.contactScreen,
+          path: RoutePath.contactScreen.addBasePath,
+          builder: (context, state) =>  const ContactScreen(),
+        ),GoRoute(
+          name: RoutePath.faqScreen,
+          path: RoutePath.faqScreen.addBasePath,
+          builder: (context, state) =>  const FaqScreen(),
         ),
 
         ///======================= No Internet Screen   Route =======================
