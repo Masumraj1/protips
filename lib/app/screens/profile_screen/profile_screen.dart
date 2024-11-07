@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
+import 'package:protippz/app/core/custom_assets/assets.gen.dart';
+import 'package:protippz/app/core/routes/route_path.dart';
+import 'package:protippz/app/core/routes/routes.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
+import 'package:protippz/app/global/widgets/custom_image/custom_image.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/global/widgets/nav_bar/nav_bar.dart';
@@ -17,10 +23,37 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
-      bottomNavigationBar: const NavBar(currentIndex: 4),
-      appBar: const CustomAppBar(
-        appBarContent: AppStrings.profile,
-        iconData: Icons.arrow_back,
+      bottomNavigationBar:  const NavBar(currentIndex: 4,),
+      // appBar: const CustomAppBar(
+      //   appBarContent: AppStrings.profile,
+      //   iconData: Icons.arrow_back,
+      // ),
+      appBar: AppBar(
+        actions: [
+          InkWell(
+            onTap: () {
+              context.pushNamed(RoutePath.editProfileScreen);
+              // Get.toNamed(AppRoute.editProfileScreen);
+            },
+            child: Assets.icons.edit.svg()
+          ),
+          const SizedBox(width: 10),
+        ],
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: const Icon(Icons.arrow_back),
+          color: AppColors.green500,
+        ),
+        backgroundColor: AppColors.white50,
+        title: CustomText(
+          text: AppStrings.profile,
+          color: AppColors.gray500,
+          fontSize: 20.sp,
+          fontWeight: FontWeight.w600,
+        ),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),

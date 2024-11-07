@@ -10,6 +10,7 @@ import 'package:protippz/app/screens/favorite_screen/favorite_screen.dart';
 import 'package:protippz/app/screens/home_screen/home_screen.dart';
 import 'package:protippz/app/screens/no_internet_screen/no_internet_screen.dart';
 import 'package:protippz/app/screens/notification_screen/notification_screen.dart';
+import 'package:protippz/app/screens/profile_screen/edit_profile_screen/edit_profile_screen.dart';
 import 'package:protippz/app/screens/profile_screen/profile_screen.dart';
 import 'package:protippz/app/screens/splash_screen/splash_screen.dart';
 import 'package:protippz/app/screens/tippz_history_screen/tippz_history_screen.dart';
@@ -100,6 +101,11 @@ class AppRouter {
           name: RoutePath.profileScreen,
           path: RoutePath.profileScreen.addBasePath,
           builder: (context, state) => const ProfileScreen(),
+        ),
+        GoRoute(
+          name: RoutePath.editProfileScreen,
+          path: RoutePath.editProfileScreen.addBasePath,
+          builder: (context, state) =>  EditProfileScreen(),
         ),
 
         ///======================= No Internet Screen   Route =======================

@@ -7,7 +7,7 @@ class TippzHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const NavBar(currentIndex: 3,),
+      // bottomNavigationBar:  NavBar(currentIndex: 3,),
 
       appBar: AppBar(title: Text('22'),),
     );

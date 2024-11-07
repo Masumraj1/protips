@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:protippz/app/core/routes/route_path.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
-import 'package:protippz/app/screens/favorite_screen/favorite_screen.dart';
-import 'package:protippz/app/screens/home_screen/home_screen.dart';
-import 'package:protippz/app/screens/notification_screen/notification_screen.dart';
-import 'package:protippz/app/screens/profile_screen/profile_screen.dart';
-import 'package:protippz/app/screens/tippz_history_screen/tippz_history_screen.dart';
+
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/utils/app_strings.dart';

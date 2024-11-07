@@ -19,6 +19,7 @@ class RoutePath {
   static const String favoriteScreen = 'FavoriteScreen';
   static const String tippzHistoryScreen = 'TippzHistoryScreen';
   static const String profileScreen = 'ProfileScreen';
+  static const String editProfileScreen = 'EditProfileScreen';
 
 
 }

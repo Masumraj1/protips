@@ -30,6 +30,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/dropdown.svg
   SvgGenImage get dropdown => const SvgGenImage('assets/icons/dropdown.svg');
 
+  /// File path: assets/icons/edit.svg
+  SvgGenImage get edit => const SvgGenImage('assets/icons/edit.svg');
+
   /// File path: assets/icons/eye.svg
   SvgGenImage get eye => const SvgGenImage('assets/icons/eye.svg');
 
@@ -127,6 +130,7 @@ class $AssetsIconsGen {
         deposite,
         drawer,
         dropdown,
+        edit,
         eye,
         eyeOff,
         faqs,
