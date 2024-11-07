@@ -26,6 +26,18 @@ class RoutePath {
   static const String termsConditionScreen = 'TermsConditionScreen';
   static const String contactScreen = 'ContactScreen';
   static const String faqScreen = 'FaqScreen';
+  static const String inviteScreen = 'InviteScreen';
+  static const String transactionScreen = 'TransactionScreen';
+  static const String withdrawScreen = 'WithdrawScreen';
+  static const String withdrawCardScreen = 'WithdrawCardScreen';
+  static const String depositeScreen = 'DepositeScreen';
+  static const String depositeCardScreen = 'DepositeCardScreen';
+  static const String tipzScreen = 'TipzScreen';
+  static const String withdrawAch = 'WithdrawAch';
+  static const String withdrawCheck = 'WithdrawCheck';
+  static const String playerzScreen = 'PlayerzScreen';
+  static const String teamzScreen = 'TeamzScreen';
+  static const String rewardzScreen = 'rewardzScreen';
 
 
 }

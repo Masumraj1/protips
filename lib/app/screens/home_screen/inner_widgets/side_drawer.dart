@@ -42,6 +42,8 @@ class SideDrawer extends StatelessWidget {
                 ///===========================Deposite Fund===================
                 CustomMenuCard(
                   onTap: () {
+                    context.pushNamed(RoutePath.depositeScreen);
+
                   },
                   title: AppStrings.depositeFund,
                   icon: Assets.icons.deposite.svg(),
@@ -49,21 +51,30 @@ class SideDrawer extends StatelessWidget {
 
                 ///===========================Withdraw Fund===================
                 CustomMenuCard(
-                  onTap: () {},
+                  onTap: () {
+                    context.pushNamed(RoutePath.withdrawScreen);
+
+                  },
                   title: AppStrings.withdrawFunds,
                   icon: Assets.icons.withdraw.svg(),
                 ),
 
                  ///===========================transactionLog===================
                 CustomMenuCard(
-                  onTap: () {},
+                  onTap: () {
+                    context.pushNamed(RoutePath.transactionScreen);
+
+                  },
                   title: AppStrings.transactionLog,
                   icon: Assets.icons.transactionLog.svg(),
                 ),
 
                 ///===========================Invite Friend===================
                 CustomMenuCard(
-                  onTap: () {},
+                  onTap: () {
+                    context.pushNamed(RoutePath.inviteScreen);
+
+                  },
                   title: AppStrings.inviteFriends,
                   icon: Assets.icons.inviteFriends.svg(),
                 ),
