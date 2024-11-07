@@ -7,7 +7,7 @@ class FavoriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // bottomNavigationBar:  NavBar(currentIndex: 2,),
+      bottomNavigationBar:  NavBar(currentIndex: 2,),
 
       appBar: AppBar(title: Text('favorite'),),
     );;

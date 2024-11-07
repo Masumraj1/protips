@@ -24,10 +24,6 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.bg500,
       bottomNavigationBar:  const NavBar(currentIndex: 4,),
-      // appBar: const CustomAppBar(
-      //   appBarContent: AppStrings.profile,
-      //   iconData: Icons.arrow_back,
-      // ),
       appBar: AppBar(
         actions: [
           InkWell(

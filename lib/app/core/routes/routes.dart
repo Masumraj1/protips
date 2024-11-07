@@ -95,7 +95,7 @@ class AppRouter {
         ),  GoRoute(
           name: RoutePath.tippzHistoryScreen,
           path: RoutePath.tippzHistoryScreen.addBasePath,
-          builder: (context, state) =>  const TippzHistoryScreen(),
+          builder: (context, state) =>   TippzHistoryScreen(),
         ),
         GoRoute(
           name: RoutePath.profileScreen,
