@@ -1,15 +1,102 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:protippz/app/controller/favorite_controller.dart';
+import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
+import 'package:protippz/app/global/widgets/custom_player_card/custom_player_card.dart';
+import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/global/widgets/nav_bar/nav_bar.dart';
+import 'package:protippz/app/utils/app_colors.dart';
+import 'package:protippz/app/utils/app_constants.dart';
+import 'package:protippz/app/utils/app_strings.dart';
 
 class FavoriteScreen extends StatelessWidget {
-  const FavoriteScreen({super.key});
+  FavoriteScreen({super.key});
+
+  final FavoriteController favoriteController = Get.find<FavoriteController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar:  NavBar(currentIndex: 2,),
+      backgroundColor: AppColors.bg500,
+      bottomNavigationBar: const NavBar(currentIndex: 2),
+      appBar: const CustomAppBar(
+        appBarContent: AppStrings.favorites,
+        iconData: Icons.arrow_back,
+      ),
+      body: Obx(
+            () {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Tab Selection Row
+              Container(
+                decoration: const BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: AppColors.gray300),
+                  ),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 22),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(
+                    favoriteController.favoriteTabList.length,
+                        (index) => GestureDetector(
+                      onTap: () {
+                        favoriteController.selectedIndex.value = index;
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.h, horizontal: 30.w),
+                        decoration: BoxDecoration(
+                          color: favoriteController.selectedIndex.value == index
+                              ? AppColors.green500
+                              : AppColors.white50,
+                        ),
+                        child: CustomText(
+                          textAlign: TextAlign.start,
+                          text: favoriteController.favoriteTabList[index],
+                          color: favoriteController.selectedIndex.value == index
+                              ? AppColors.gray500
+                              : AppColors.green500,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 40.h),
 
-      appBar: AppBar(title: Text('favorite'),),
-    );;
+              // Tab Content
+              Expanded(
+                child: GridView.builder(
+                  itemCount: 5,
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 16.w,
+                    mainAxisSpacing: 16.h,
+                    childAspectRatio: 0.8,
+                  ),
+                  itemBuilder: (context, index) {
+                    final bool isPlayerTab = favoriteController.selectedIndex.value == 0;
+                    return CustomPlayerCard(
+                      imageUrl: AppConstants.team,
+                      name: isPlayerTab ? 'Robert Smith' : 'Indiana Fever',
+                      team: isPlayerTab ? 'Manchester City' : null,
+                      position: isPlayerTab ? 'Quarterback' : 'Basketball',
+                      isTeam: isPlayerTab,
+                      isPosition: isPlayerTab,
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 }

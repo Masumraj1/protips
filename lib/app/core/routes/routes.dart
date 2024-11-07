@@ -78,7 +78,7 @@ class AppRouter {
         GoRoute(
           name: RoutePath.homeScreen,
           path: RoutePath.homeScreen.addBasePath,
-          builder: (context, state) =>  const HomeScreen(),
+          builder: (context, state) =>   HomeScreen(),
         ),
 
 
@@ -91,7 +91,7 @@ class AppRouter {
         GoRoute(
           name: RoutePath.favoriteScreen,
           path: RoutePath.favoriteScreen.addBasePath,
-          builder: (context, state) =>  const FavoriteScreen(),
+          builder: (context, state) =>   FavoriteScreen(),
         ),  GoRoute(
           name: RoutePath.tippzHistoryScreen,
           path: RoutePath.tippzHistoryScreen.addBasePath,
