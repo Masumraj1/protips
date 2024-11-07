@@ -9,22 +9,23 @@ class HistoryCard extends StatelessWidget {
   final String imageUrl;
   final String title;
   final String date;
-  final int points;
-  final double amount;
+  final int? points;
+  final String? amount;
+  final String? time;
 
   const HistoryCard({
     super.key,
     required this.imageUrl,
     required this.title,
     required this.date,
-    required this.points,
-    required this.amount,
+    this.points,
+     this.amount, this.time,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(
         children: [
           Row(
@@ -49,7 +50,8 @@ class HistoryCard extends StatelessWidget {
                       fontWeight: FontWeight.w500,
                       color: AppColors.gray500,
                     ),
-                    Gap(4.h), // Date
+                    Gap(4.h),
+                    // Date
                     CustomText(
                       text: date,
                       fontSize: 12,
@@ -67,7 +69,7 @@ class HistoryCard extends StatelessWidget {
                 children: [
                   // Points
                   CustomText(
-                    text: "+$points Points",
+                    text: points != null ? "+$points Points" : "",
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                     color: AppColors.grey400,
@@ -75,7 +77,7 @@ class HistoryCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   // Amount
                   CustomText(
-                    text: "\$${amount.toStringAsFixed(2)}",
+                    text: amount != null ?"\$${amount}" :"$time",
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: AppColors.gray500,
@@ -87,7 +89,7 @@ class HistoryCard extends StatelessWidget {
           Gap(12.h),
           const Divider(
             color: AppColors.white50,
-          )
+          ),
         ],
       ),
     );

@@ -85,7 +85,7 @@ class AppRouter {
         GoRoute(
           name: RoutePath.notificationScreen,
           path: RoutePath.notificationScreen.addBasePath,
-          builder: (context, state) =>  const NotificationScreen(),
+          builder: (context, state) =>   NotificationScreen(),
         ),
 
         GoRoute(
