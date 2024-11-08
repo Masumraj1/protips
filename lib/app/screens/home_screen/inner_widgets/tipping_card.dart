@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
+import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
+import 'package:protippz/app/utils/app_colors.dart';
+import 'package:protippz/app/utils/app_strings.dart';
 
 class TippingCard extends StatelessWidget {
-  const TippingCard({super.key});
+  const TippingCard({super.key, required this.onTap});
 
+
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,7 +19,8 @@ class TippingCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         image: DecorationImage(
-          image: AssetImage(Assets.images.indiana22.path), // Use AssetImage with path
+          image: AssetImage(Assets.images.indiana22.path),
+          // Use AssetImage with path
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
             Colors.black.withOpacity(0.4),
@@ -28,39 +34,37 @@ class TippingCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Start Tipping',
-              style: TextStyle(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
+            const CustomText(text: AppStrings.startTipping,
+              fontWeight: FontWeight.w600,
+              fontSize: 20,
+              color: AppColors.white50,),
             SizedBox(height: 8.h),
-            Text(
-              'Tip your favorite players and teams, earn rewards, win prizes, and join a community of passionate sports lovers.',
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: Colors.white,
-              ),
-            ),
+            const CustomText(
+              textAlign: TextAlign.start,
+              maxLines: 4,
+              text: AppStrings.tipYouFavorite,
+              fontWeight: FontWeight.w500,
+              fontSize: 11,
+              color: AppColors.white50,),
             SizedBox(height: 16.h),
-            Row(
-              children: [
-                Text(
-                  'Learn More',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: Colors.greenAccent,
+            GestureDetector(
+              onTap: onTap,
+              child: Row(
+                children: [
+                  const CustomText(
+                    textAlign: TextAlign.start,
+                    maxLines: 4,
+                    text: AppStrings.learnMore,
                     fontWeight: FontWeight.w500,
+                    fontSize: 12,
+                    color: AppColors.green500,),
+                  Icon(
+                    Icons.arrow_right_alt,
+                    color: Colors.greenAccent,
+                    size: 20.sp,
                   ),
-                ),
-                Icon(
-                  Icons.arrow_right_alt,
-                  color: Colors.greenAccent,
-                  size: 20.sp,
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

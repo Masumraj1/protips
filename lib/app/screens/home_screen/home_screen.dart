@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/controller/home_controller.dart';
+import 'package:protippz/app/core/app_routes.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/global/widgets/nav_bar/nav_bar.dart';
@@ -32,9 +33,12 @@ class HomeScreen extends StatelessWidget {
           children: [
             HomeAppBar(scaffoldKey: scaffoldKey),
             SizedBox(height: 10.w),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 104),
-              child: TippingCard(),
+             Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: TippingCard(
+                onTap: () {
+                  Get.toNamed(AppRoute.tipzScreen);
+                },),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
