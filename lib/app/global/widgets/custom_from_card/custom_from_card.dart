@@ -18,7 +18,9 @@ class CustomFromCard extends StatelessWidget {
     required this.controller,
     required this.validator,
     this.isPassword = false,
-    this.isRead = false, this.hinText, this.maxLine ,
+    this.isRead = false,
+    this.hinText,
+    this.maxLine,
   });
 
   @override
@@ -34,8 +36,8 @@ class CustomFromCard extends StatelessWidget {
           bottom: 8,
         ),
         CustomTextField(
-          maxLines: maxLine,
-          hintStyle: const TextStyle(color:AppColors.gray300 ),
+          maxLines: isPassword ? 1 : (maxLine ?? 1), // Ensure single line for password
+          hintStyle: const TextStyle(color: AppColors.gray300),
           readOnly: isRead,
           validator: validator,
           isPassword: isPassword,
@@ -44,9 +46,8 @@ class CustomFromCard extends StatelessWidget {
           inputTextStyle: const TextStyle(color: AppColors.gray500),
           fillColor: AppColors.white50,
           fieldBorderColor: AppColors.white50,
-          keyboardType: isPassword ? TextInputType.visiblePassword : TextInputType.name,
+          keyboardType: isPassword ? TextInputType.visiblePassword : TextInputType.text,
         ),
-
       ],
     );
   }

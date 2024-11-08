@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:protippz/app/controller/favorite_controller.dart';
 import 'package:protippz/app/controller/history_controller.dart';
 import 'package:protippz/app/controller/home_controller.dart';
+import 'package:protippz/app/controller/info_controller.dart';
 import 'package:protippz/app/controller/notification_controller.dart';
 import 'package:protippz/app/controller/payment_controller.dart';
 import 'package:protippz/app/controller/profile_controller.dart';
@@ -19,5 +20,6 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => FavoriteController(), fenix: true);
     Get.lazyPut(() => HomeController(), fenix: true);
     Get.lazyPut(() => PaymentController(), fenix: true);
+    Get.lazyPut(() => InfoController(), fenix: true);
   }
 }

@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:protippz/app/controller/payment_controller.dart';
 import 'package:protippz/app/core/app_routes.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
+import 'package:protippz/app/global/widgets/custom_payment_card/custom_payment_card.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
 class DepositeScreen extends StatelessWidget {
-  const DepositeScreen({super.key});
+  DepositeScreen({super.key});
+
+  final ValueNotifier<String?> _selectedPaymentMethod =
+      ValueNotifier<String?>(null);
+
+  final PaymentController paymentController = Get.find<PaymentController>();
+
+  void _onPaymentMethodSelected(String value) {
+    _selectedPaymentMethod.value = value;
+    print("Selected Payment Method: $value");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,17 +32,60 @@ class DepositeScreen extends StatelessWidget {
         appBarContent: AppStrings.depositFunds,
         iconData: Icons.arrow_back,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const CustomText(text: "Deposite Options",fontWeight: FontWeight.w500,fontSize: 16,bottom: 12,),
-            CustomButton(onTap: (){
-              Get.toNamed(AppRoute.depositeCardScreen);
-            },title: AppStrings.continues,)
-          ],
-        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const CustomText(
+            left: 20,
+            top: 10,
+            text: "Deposite Options",
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: AppColors.gray500,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: ValueListenableBuilder<String?>(
+              valueListenable: _selectedPaymentMethod,
+              builder: (context, selectedMethod, _) {
+                return Column(
+                  children: paymentController.paymentMethods.map((method) {
+                    final isSelected = selectedMethod == method["value"];
+                    return CustomPaymentCard(
+                      title: method["title"],
+                      icon: method["icon"],
+                      isSelected: isSelected,
+                      onTap: () => _onPaymentMethodSelected(method["value"]),
+                    );
+                  }).toList(),
+                );
+              },
+            ),
+          ),
+          const Spacer(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: ValueListenableBuilder<String?>(
+              valueListenable: _selectedPaymentMethod,
+              builder: (context, selectedMethod, _) {
+                return CustomButton(
+                  onTap: () {
+                    if (selectedMethod == "credit_card") {
+                      Get.toNamed(AppRoute.depositeCardScreen);
+                    } else {
+                      print("Please select Credit/Debit Card to continue.");
+                    }
+                  },
+                  title: AppStrings.continues,
+                  fillColor: selectedMethod == "credit_card"
+                      ? AppColors.green500
+                      : AppColors.gray300,
+                );
+              },
+            ),
+          ),
+          Gap(20.h),
+        ],
       ),
     );
   }

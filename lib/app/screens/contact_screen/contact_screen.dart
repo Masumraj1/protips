@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
@@ -50,7 +51,7 @@ class ContactScreen extends StatelessWidget {
             Gap(25.h),
             CustomButton(
               onTap: () {
-                context.pop();
+                Get.back();
               },
               title: "Submite",
             )

@@ -170,6 +170,12 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/ach.png
+  AssetGenImage get ach => const AssetGenImage('assets/images/ach.png');
+
+  /// File path: assets/images/check.png
+  AssetGenImage get check => const AssetGenImage('assets/images/check.png');
+
   /// File path: assets/images/earning.png
   AssetGenImage get earning => const AssetGenImage('assets/images/earning.png');
 
@@ -184,15 +190,31 @@ class $AssetsImagesGen {
   AssetGenImage get noInternet =>
       const AssetGenImage('assets/images/no_internet.png');
 
+  /// File path: assets/images/paypal.png
+  AssetGenImage get paypal => const AssetGenImage('assets/images/paypal.png');
+
   /// File path: assets/images/pt.png
   AssetGenImage get pt => const AssetGenImage('assets/images/pt.png');
 
   /// File path: assets/images/tipz.png
   AssetGenImage get tipz => const AssetGenImage('assets/images/tipz.png');
 
+  /// File path: assets/images/visa.png
+  AssetGenImage get visa => const AssetGenImage('assets/images/visa.png');
+
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [earning, indiana22, logo, noInternet, pt, tipz];
+  List<AssetGenImage> get values => [
+        ach,
+        check,
+        earning,
+        indiana22,
+        logo,
+        noInternet,
+        paypal,
+        pt,
+        tipz,
+        visa
+      ];
 }
 
 class Assets {

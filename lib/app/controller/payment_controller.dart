@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 
 class  PaymentController extends GetxController{
   final List<Map<String, dynamic>> transactionList = [
@@ -25,6 +26,51 @@ class  PaymentController extends GetxController{
     },
   ];
 
+
+  ///=======================Static deposite ======================
+  final List<Map<String, dynamic>> paymentMethods = [
+    {
+      "title": "Credit/Debit Card",
+      "value": "credit_card",
+      "icon": Row(
+        children: [
+          Assets.images.visa.image(),
+          const SizedBox(width: 8),
+          Assets.images.paypal.image(),
+        ],
+      ),
+    },
+    {
+      "title": "Paypal",
+      "value": "paypal",
+      "icon": Assets.images.paypal.image(),
+    },
+  ];
+  ///=======================Static withdraw ======================
+  final List<Map<String, dynamic>> withdrawMethod = [
+    {
+      "title": "Credit/Debit Card",
+      "value": "credit_card",
+      "icon": Row(
+        children: [
+          Assets.images.visa.image(),
+          const SizedBox(width: 8),
+          Assets.images.paypal.image(),
+        ],
+      ),
+    },
+    {
+      "title": "ACH",
+      "value": "ach",
+      "icon": Assets.images.ach.image(),
+    },
+
+    {
+      "title": "Check",
+      "value": "check",
+      "icon": Assets.images.check.image(),
+    },
+  ];
   TextEditingController cardHolderController = TextEditingController();
   TextEditingController cardNumberController = TextEditingController();
   TextEditingController amountController = TextEditingController();
