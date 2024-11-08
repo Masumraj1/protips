@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:protippz/app/controller/payment_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/history_card/history_card.dart';
-import 'package:protippz/app/screens/history_screen/inner_widget/history_card.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
