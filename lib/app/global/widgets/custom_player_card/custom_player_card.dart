@@ -11,6 +11,7 @@ class CustomPlayerCard extends StatelessWidget {
   final String imageUrl;
   final String name;
   final String? team;
+  final String? buttonTitle;
   final String? position;
   final bool isTeam;
   final bool isPosition;
@@ -22,7 +23,7 @@ class CustomPlayerCard extends StatelessWidget {
     required this.imageUrl,
     required this.name,
      this.team,
-    this.position, required this.isTeam, required this.isPosition,
+    this.position, required this.isTeam, required this.isPosition, this.buttonTitle,
   });
 
   @override
@@ -32,7 +33,7 @@ class CustomPlayerCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: Colors.grey.shade300),
+        border: Border.all(color: AppColors.green500),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -151,8 +152,9 @@ class CustomPlayerCard extends StatelessWidget {
             flex: 2,
             child: CustomButton(
               fillColor: AppColors.blue500,
-              onTap: () {},
-              title: AppStrings.sendTippz,
+              onTap: () {
+              },
+              title: buttonTitle??"",
             ),
           ),
         ],

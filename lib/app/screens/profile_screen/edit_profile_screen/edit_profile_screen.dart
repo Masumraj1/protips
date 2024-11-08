@@ -122,7 +122,7 @@ class EditProfileScreen extends StatelessWidget {
                 Gap(25.h),
                 CustomButton(
                   onTap: () {
-                    context.pop();
+                   Get.back();
                   },
                   title: "Save",
                 )

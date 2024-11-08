@@ -33,12 +33,13 @@ class HomeScreen extends StatelessWidget {
           children: [
             HomeAppBar(scaffoldKey: scaffoldKey),
             SizedBox(height: 10.w),
-             Padding(
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: TippingCard(
                 onTap: () {
                   Get.toNamed(AppRoute.tipzScreen);
-                },),
+                },
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -47,7 +48,9 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   _buildSectionTitle(AppStrings.tippzNow),
                   _buildTippzNowSection(),
-                  _buildRewardzHeader(),
+                  _buildRewardzHeader(() {
+                    Get.toNamed(AppRoute.rewardzScreen);
+                  }),
                   _buildHorizontalScrollableItems(AppConstants.reward),
                   _buildSectionTitle("Top Sports League"),
                   _buildHorizontalScrollableItems(AppConstants.team),
@@ -76,31 +79,38 @@ class HomeScreen extends StatelessWidget {
       children: List.generate(2, (index) {
         return Padding(
           padding: const EdgeInsets.only(left: 10),
-          child: Column(
-            children: [
-              CustomNetworkImage(
-                borderRadius: const BorderRadius.all(Radius.circular(8)),
-                imageUrl: AppConstants.playerz,
-                height: 108,
-                width: 162,
-              ),
-              const CustomText(
-                top: 10,
-                text: AppStrings.playerz,
-                color: AppColors.gray500,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-              ),
-            ],
+          child: GestureDetector(
+            onTap: () {
+              index == 0
+                  ? Get.toNamed(AppRoute.playerzScreen)
+                  : Get.toNamed(AppRoute.teamzScreen);
+            },
+            child: Column(
+              children: [
+                CustomNetworkImage(
+                  borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  imageUrl: index == 0 ? AppConstants.playerz : AppConstants.team,
+                  height: 108,
+                  width: 162,
+                ),
+                CustomText(
+                  top: 10,
+                  text: index == 0 ? AppStrings.playerz : AppStrings.teamz,
+                  color: AppColors.gray500,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
+            ),
           ),
         );
       }),
     );
   }
 
-  Widget _buildRewardzHeader() {
+  Widget _buildRewardzHeader(VoidCallback onTap) {
     return Row(
-      children: const [
+      children: [
         CustomText(
           top: 24,
           text: AppStrings.rewardz,
@@ -110,13 +120,16 @@ class HomeScreen extends StatelessWidget {
           bottom: 12,
         ),
         Spacer(),
-        CustomText(
-          top: 24,
-          text: AppStrings.viewAll,
-          color: AppColors.blue500,
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-          bottom: 12,
+        GestureDetector(
+          onTap: onTap,
+          child: CustomText(
+            top: 24,
+            text: AppStrings.viewAll,
+            color: AppColors.blue500,
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+            bottom: 12,
+          ),
         ),
       ],
     );
