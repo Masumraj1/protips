@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 import 'package:protippz/app/controller/home_controller.dart';
+import 'package:protippz/app/core/app_routes.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
-import 'package:protippz/app/core/routes/route_path.dart';
 import 'package:protippz/app/global/widgets/custom_menu_card/custom_menu_card.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_strings.dart';
@@ -42,7 +41,7 @@ class SideDrawer extends StatelessWidget {
                 ///===========================Deposite Fund===================
                 CustomMenuCard(
                   onTap: () {
-                    context.pushNamed(RoutePath.depositeScreen);
+                    Get.toNamed(AppRoute.depositeScreen);
 
                   },
                   title: AppStrings.depositeFund,
@@ -52,7 +51,7 @@ class SideDrawer extends StatelessWidget {
                 ///===========================Withdraw Fund===================
                 CustomMenuCard(
                   onTap: () {
-                    context.pushNamed(RoutePath.withdrawScreen);
+                    Get.toNamed(AppRoute.withdrawScreen);
 
                   },
                   title: AppStrings.withdrawFunds,
@@ -62,7 +61,7 @@ class SideDrawer extends StatelessWidget {
                  ///===========================transactionLog===================
                 CustomMenuCard(
                   onTap: () {
-                    context.pushNamed(RoutePath.transactionScreen);
+                    Get.toNamed(AppRoute.transactionScreen);
 
                   },
                   title: AppStrings.transactionLog,
@@ -72,7 +71,7 @@ class SideDrawer extends StatelessWidget {
                 ///===========================Invite Friend===================
                 CustomMenuCard(
                   onTap: () {
-                    context.pushNamed(RoutePath.inviteScreen);
+                    Get.toNamed(AppRoute.inviteScreen);
 
                   },
                   title: AppStrings.inviteFriends,
@@ -82,7 +81,7 @@ class SideDrawer extends StatelessWidget {
                 ///===========================Faqs===================
                 CustomMenuCard(
                   onTap: () {
-                    context.pushNamed(RoutePath.faqScreen);
+                    Get.toNamed(AppRoute.faqScreen);
 
                   },
                   title: AppStrings.faqs,
@@ -92,7 +91,7 @@ class SideDrawer extends StatelessWidget {
                 ///===========================Contact us===================
                 CustomMenuCard(
                   onTap: () {
-                    context.pushNamed(RoutePath.contactScreen);
+                    Get.toNamed(AppRoute.contactScreen);
 
                   },
                   title: AppStrings.contactUs,
@@ -102,7 +101,7 @@ class SideDrawer extends StatelessWidget {
                 ///===========================Terms ===================
                 CustomMenuCard(
                   onTap: () {
-                    context.pushNamed(RoutePath.termsConditionScreen);
+                    Get.toNamed(AppRoute.termsConditionScreen);
 
                   },
                   title: AppStrings.termsAndCondition,
@@ -112,7 +111,7 @@ class SideDrawer extends StatelessWidget {
                 ///===========================Privacy===================
                 CustomMenuCard(
                   onTap: () {
-                    context.pushNamed(RoutePath.privacyPolicyScreen);
+                    Get.toNamed(AppRoute.privacyPolicyScreen);
 
                   },
                   title: AppStrings.privacyPolicy,
@@ -122,7 +121,7 @@ class SideDrawer extends StatelessWidget {
                 ///==========================Settings===================
                 CustomMenuCard(
                   onTap: () {
-                    context.pushNamed(RoutePath.settingScreen);
+                    Get.toNamed(AppRoute.settingScreen);
 
                   },
                   title: AppStrings.settings,
@@ -132,7 +131,10 @@ class SideDrawer extends StatelessWidget {
                 Gap(50.h),
                 ///==========================LogOut===================
                 CustomMenuCard(
-                  onTap: () {},
+                  onTap: () {
+                    Get.offAllNamed(AppRoute.signInScreen);
+
+                  },
                   title: "Log Out",
                   icon: Assets.icons.logout.svg(),
                 ),

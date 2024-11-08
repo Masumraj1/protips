@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:protippz/app/core/routes/route_path.dart';
 
 extension RouteBasePathExt on String {
-  String get addBasePath {
-    return RoutePath.basePath + this;
-  }
+  // String get addBasePath {
+  //   return RoutePath.basePath + this;
+  // }
 }
 
 // extension ApiBasePathExt on String {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
+import 'package:get/get.dart';
+import 'package:protippz/app/core/app_routes.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
-import 'package:protippz/app/core/routes/route_path.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_card/custom_card.dart';
 import 'package:protippz/app/utils/app_colors.dart';
@@ -28,7 +28,7 @@ class SettingScreen extends StatelessWidget {
                 title: "Change Password",
                 icon: Assets.icons.key.svg(),
                 onTap: () {
-                  context.pushNamed(RoutePath.changePasswordScreen);
+                  Get.toNamed(AppRoute.changePasswordScreen);
 
                 }),
             Gap(15.h),

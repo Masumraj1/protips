@@ -1,11 +1,14 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:protippz/app/core/app_routes.dart';
 import 'package:protippz/app/core/dependency_injection/dependency.dart';
-import 'package:protippz/app/core/routes/routes.dart';
 import 'package:protippz/app/global/helper/device_utils/device_utils.dart';
 
-void main() async {
+
+
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   DeviceUtils.lockDevicePortrait();
   DependencyInjection di = DependencyInjection();
@@ -13,22 +16,24 @@ void main() async {
   runApp(const MyApp());
 }
 
+
+
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        designSize: const Size(393, 852),
-        minTextAdapt: true,
-        useInheritedMediaQuery: true,
-        key: Get.key,
-        builder: (context, child) => GetMaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              routeInformationParser: AppRouter.route.routeInformationParser,
-              routerDelegate: AppRouter.route.routerDelegate,
-              routeInformationProvider:
-                  AppRouter.route.routeInformationProvider,
-            ));
+      designSize: const Size(375, 812),
+      child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        defaultTransition: Transition.fadeIn,
+        transitionDuration: const Duration(milliseconds: 200),
+        initialRoute: AppRoute.splashScreen,
+        navigatorKey: Get.key,
+        getPages: AppRoute.routes,
+      ),
+    );
   }
 }

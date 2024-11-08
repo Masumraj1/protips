@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
-import 'package:protippz/app/core/routes/route_path.dart';
-import 'package:protippz/app/global/controllers/auth_controller.dart';
+import 'package:protippz/app/core/app_routes.dart';
+import 'package:protippz/app/global/controllers/auth_controller/auth_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
 import 'package:protippz/app/global/widgets/custom_from_card/custom_from_card.dart';
@@ -28,53 +28,44 @@ class ForgotPasswordScreen extends StatelessWidget {
         appBarContent: AppStrings.forgotPassword,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-        child: Column(
-          children: [
-            const CustomText(
-              text: AppStrings.forgotPasswordd,
-              fontWeight: FontWeight.w500,
-              fontSize: 22,
-              color: AppColors.blue500,
-              bottom: 10,
-            ),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+          child: Column(
+            children: [
+              const CustomText(
+                text: AppStrings.forgotPasswordd,
+                fontWeight: FontWeight.w500,
+                fontSize: 22,
+                color: AppColors.blue500,
+                bottom: 10,
+              ),
 
-            const CustomText(
-              text: AppStrings.enterYourEmailAndWe,
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-              color: AppColors.green500,
-              bottom: 40,
-              maxLines: 3,
-            ),
+              const CustomText(
+                text: AppStrings.enterYourEmailAndWe,
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                color: AppColors.green500,
+                bottom: 40,
+                maxLines: 3,
+              ),
 
-            //========================Email Field=====================
-            CustomFromCard(
-                hinText: AppStrings.enterYourEmail,
-                title: AppStrings.email,
-                controller: authController.emailController,
-                validator: (v) {}),
-             Gap(12.h),
+              //========================Email Field=====================
+              CustomFromCard(
+                  hinText: AppStrings.enterYourEmail,
+                  title: AppStrings.email,
+                  controller: authController.emailController,
+                  validator: (v) {}),
+              Gap(12.h),
 
-
-
-
-            //==========================Send Code Button=================
-             Gap(30.h),
-            CustomButton(
-              onTap: () {
-                context.pushNamed(RoutePath.otpScreen);
-
-              },
-              title: AppStrings.sendCode,
-            ),
-
-
-
-
-          ],
-        )
-      ),
+              //==========================Send Code Button=================
+              Gap(30.h),
+              CustomButton(
+                onTap: () {
+                  Get.toNamed(AppRoute.otpScreen);
+                },
+                title: AppStrings.sendCode,
+              ),
+            ],
+          )),
     );
   }
 }

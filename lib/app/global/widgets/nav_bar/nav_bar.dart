@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:protippz/app/core/routes/route_path.dart';
+import 'package:get/get.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
+import 'package:protippz/app/screens/favorite_screen/favorite_screen.dart';
+import 'package:protippz/app/screens/home_screen/home_screen.dart';
+import 'package:protippz/app/screens/notification_screen/notification_screen.dart';
+import 'package:protippz/app/screens/profile_screen/profile_screen.dart';
+import 'package:protippz/app/screens/tipz_screen/tipz_screen.dart';
 
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
@@ -93,27 +97,28 @@ class _NavBarState extends State<NavBar> {
   }
 
   void onTap(int index) {
-    if (bottomNavIndex == index) return;
-
-    switch (index) {
-      case 0:
-        context.goNamed(RoutePath.homeScreen);
-        break;
-      case 1:
-        context.goNamed(RoutePath.notificationScreen);
-        break;
-      case 2:
-        context.goNamed(RoutePath.favoriteScreen);
-        break;
-      case 3:
-        context.goNamed(RoutePath.tippzHistoryScreen);
-        break;
-      case 4:
-        context.goNamed(RoutePath.profileScreen);
-        break;
+    if (index == 0) {
+      if (!(widget.currentIndex == 0)) {
+        Get.offAll(() => HomeScreen());
+      }
+    } else if (index == 1) {
+      if (!(widget.currentIndex == 1)) {
+        Get.to(() =>  NotificationScreen());
+      }
+    } else if (index == 2) {
+      if (!(widget.currentIndex == 2)) {
+        Get.to(() =>   FavoriteScreen());
+      }
     }
-    setState(() {
-      bottomNavIndex = index;
-    });
+    //
+    else if (index == 3) {
+      if (!(widget.currentIndex == 3)) {
+        Get.to(() =>  const TipzScreen());
+      }
+    }else if (index == 4) {
+      if (!(widget.currentIndex == 4)) {
+        Get.to(() =>  const ProfileScreen());
+      }
+    }
   }
 }
