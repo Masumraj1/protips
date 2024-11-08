@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class  PaymentController extends GetxController{
@@ -23,4 +24,8 @@ class  PaymentController extends GetxController{
       'time': "\$150.00",
     },
   ];
+
+  TextEditingController cardHolderController = TextEditingController();
+  TextEditingController cardNumberController = TextEditingController();
+  TextEditingController amountController = TextEditingController();
 }
