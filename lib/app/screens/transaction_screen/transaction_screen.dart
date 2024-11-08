@@ -25,7 +25,6 @@ class TransactionScreen extends StatelessWidget {
           final item = paymentController.transactionList[index];
           return HistoryCard(
             isImage: false,
-            imageUrl: item['imageUrl'],
             title: item['title'],
             date: item['date'],
             time: item['time'],

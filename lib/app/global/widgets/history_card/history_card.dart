@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:protippz/app/global/widgets/custom_image/custom_image.dart';
+import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/utils/app_colors.dart';
@@ -39,7 +39,13 @@ class HistoryCard extends StatelessWidget {
                 height: 48,
                 width: 48,
                 boxShape: BoxShape.circle,
-              ): CustomImage(imageSrc: imageUrl??""),
+              ): Container(
+                padding: const EdgeInsets.all(15),
+                  decoration: const BoxDecoration(
+                    color: AppColors.white50,
+                    shape: BoxShape.circle
+                  ),
+                  child: Assets.icons.money.svg()),
               Gap(16.w),
               // Title, Date, and Points
               Expanded(
