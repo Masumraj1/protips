@@ -1,18 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:protippz/app/controller/payment_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
+import 'package:protippz/app/global/widgets/history_card/history_card.dart';
+import 'package:protippz/app/screens/history_screen/inner_widget/history_card.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
 class TransactionScreen extends StatelessWidget {
-  const TransactionScreen({super.key});
+   TransactionScreen({super.key});
 
+
+  final PaymentController  paymentController = Get.find<PaymentController>();
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return  Scaffold(
       backgroundColor: AppColors.bg500,
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         appBarContent: AppStrings.transactionLog,
         iconData: Icons.arrow_back,
+      ),
+      body: ListView.builder(
+        itemCount: paymentController.transactionList.length,
+        itemBuilder: (context, index) {
+          final item = paymentController.transactionList[index];
+          return HistoryCard(
+            isImage: false,
+            imageUrl: item['imageUrl'],
+            title: item['title'],
+            date: item['date'],
+            time: item['time'],
+          );
+        },
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/core/app_routes.dart';
+import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/global/controllers/auth_controller/auth_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
@@ -55,7 +56,7 @@ class SignInScreen extends StatelessWidget {
                   title: AppStrings.email,
                   controller: authController.emailController,
                   validator: (v) {}),
-               Gap(12.h),
+              Gap(12.h),
               //========================Password Field=====================
               CustomFromCard(
                   hinText: AppStrings.enterYourPassword,
@@ -99,7 +100,7 @@ class SignInScreen extends StatelessWidget {
               ),
 
               //===========================Sign In Button=================
-               Gap(30.h),
+              Gap(30.h),
               CustomButton(
                 onTap: () {
                   Get.toNamed(AppRoute.homeScreen);
@@ -115,13 +116,35 @@ class SignInScreen extends StatelessWidget {
                 top: 10,
               ),
 
+              Container(
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    color: AppColors.white50,
+                    border: Border.all(color: AppColors.grey400),
+                    borderRadius: const BorderRadius.all(Radius.circular(25))),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Assets.icons.googleSignIn.svg(),
+                    const CustomText(
+                      left: 10,
+                      text: AppStrings.signInGoogle,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.gray500,
+                    )
+                  ],
+                ),
+              ),
+              Gap(15.h),
               Center(
                 child: RichText(
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   text: TextSpan(
                     children: <TextSpan>[
-                       const TextSpan(
+                      const TextSpan(
                         text: AppStrings.dontHaveAnAccount,
                         style: TextStyle(
                           color: AppColors.green500,
@@ -129,7 +152,6 @@ class SignInScreen extends StatelessWidget {
                           fontSize: 14,
                         ),
                       ),
-
                       TextSpan(
                         text: AppStrings.signUp,
                         style: const TextStyle(
@@ -140,7 +162,6 @@ class SignInScreen extends StatelessWidget {
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             Get.toNamed(AppRoute.signUpScreen);
-
                           },
                       ),
                     ],

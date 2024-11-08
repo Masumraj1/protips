@@ -1,25 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:protippz/app/global/widgets/custom_image/custom_image.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 
 class HistoryCard extends StatelessWidget {
-  final String imageUrl;
+  final String? imageUrl;
   final String title;
   final String date;
   final int? points;
   final String? amount;
   final String? time;
+  final bool? isImage;
 
   const HistoryCard({
     super.key,
-    required this.imageUrl,
+    this.imageUrl,
     required this.title,
     required this.date,
     this.points,
-     this.amount, this.time,
+    this.amount, this.time,  this.isImage,
   });
 
   @override
@@ -31,12 +33,13 @@ class HistoryCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              isImage == true?
               CustomNetworkImage(
-                imageUrl: imageUrl,
+                imageUrl: imageUrl??"",
                 height: 48,
                 width: 48,
                 boxShape: BoxShape.circle,
-              ),
+              ): CustomImage(imageSrc: imageUrl??""),
               Gap(16.w),
               // Title, Date, and Points
               Expanded(
@@ -77,7 +80,7 @@ class HistoryCard extends StatelessWidget {
                   const SizedBox(height: 4),
                   // Amount
                   CustomText(
-                    text: amount != null ?"\$${amount}" :"$time",
+                    text: amount != null ?"\$$amount" :"$time",
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     color: AppColors.gray500,

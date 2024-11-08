@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/controller/history_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
+import 'package:protippz/app/global/widgets/history_card/history_card.dart';
 import 'package:protippz/app/global/widgets/nav_bar/nav_bar.dart';
-import 'package:protippz/app/screens/tippz_history_screen/inner_widget/history_card.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
-class TippzHistoryScreen extends StatelessWidget {
+class HistoryScreen extends StatelessWidget {
 
 
-    TippzHistoryScreen({super.key});
+  HistoryScreen({super.key});
 
    final HistoryController historyController = Get.find<HistoryController>();
   @override
@@ -27,6 +27,7 @@ class TippzHistoryScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final item = historyController.historyData[index];
           return HistoryCard(
+            isImage: true,
             imageUrl: item['imageUrl'],
             title: item['title'],
             date: item['date'],

@@ -10,6 +10,7 @@ import 'package:protippz/app/screens/deposite_screen/deposite_screen.dart';
 import 'package:protippz/app/screens/deposite_screen/inner_screen/deposite_card_screen.dart';
 import 'package:protippz/app/screens/faq_screen/faq_screen.dart';
 import 'package:protippz/app/screens/favorite_screen/favorite_screen.dart';
+import 'package:protippz/app/screens/history_screen/history_screen.dart';
 import 'package:protippz/app/screens/home_screen/home_screen.dart';
 import 'package:protippz/app/screens/invite_screen/invite_screen.dart';
 import 'package:protippz/app/screens/no_internet_screen/no_internet_screen.dart';
@@ -24,7 +25,6 @@ import 'package:protippz/app/screens/setting_screen/setting_screen.dart';
 import 'package:protippz/app/screens/splash_screen/splash_screen.dart';
 import 'package:protippz/app/screens/teamz_screen/teamz_screen.dart';
 import 'package:protippz/app/screens/terms_condition_screen/terms_condition_screen.dart';
-import 'package:protippz/app/screens/tippz_history_screen/tippz_history_screen.dart';
 import 'package:protippz/app/screens/tipz_screen/tipz_screen.dart';
 import 'package:protippz/app/screens/transaction_screen/transaction_screen.dart';
 import 'package:protippz/app/screens/withdraw_screen/inner_screen/withdraw_ach.dart';
@@ -54,7 +54,7 @@ class AppRoute {
   static const String homeScreen = '/HomeScreen';
   static const String notificationScreen = '/NotificationScreen';
   static const String favoriteScreen = '/FavoriteScreen';
-  static const String tippzHistoryScreen = '/TippzHistoryScreen';
+  static const String historyScreen = '/HistoryScreen';
   static const String profileScreen = '/ProfileScreen';
   static const String editProfileScreen = '/EditProfileScreen';
   static const String settingScreen = '/SettingScreen';
@@ -97,7 +97,7 @@ class AppRoute {
     GetPage(name: homeScreen, page: () =>  HomeScreen(),),
     GetPage(name: notificationScreen, page: () =>  NotificationScreen(),),
     GetPage(name: favoriteScreen, page: () =>  FavoriteScreen(),),
-    GetPage(name: tippzHistoryScreen, page: () =>  TippzHistoryScreen(),),
+    GetPage(name: historyScreen, page: () => HistoryScreen(),),
     GetPage(name: profileScreen, page: () =>  const ProfileScreen(),),
     GetPage(name: editProfileScreen, page: () =>  EditProfileScreen(),),
     GetPage(name: settingScreen, page: () =>  SettingScreen(),),

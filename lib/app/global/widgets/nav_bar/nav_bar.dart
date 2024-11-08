@@ -3,11 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/screens/favorite_screen/favorite_screen.dart';
+import 'package:protippz/app/screens/history_screen/history_screen.dart';
 import 'package:protippz/app/screens/home_screen/home_screen.dart';
 import 'package:protippz/app/screens/notification_screen/notification_screen.dart';
 import 'package:protippz/app/screens/profile_screen/profile_screen.dart';
-import 'package:protippz/app/screens/tippz_history_screen/tippz_history_screen.dart';
-import 'package:protippz/app/screens/tipz_screen/tipz_screen.dart';
+
 
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
@@ -45,7 +45,7 @@ class _NavBarState extends State<NavBar> {
     AppStrings.home,
     AppStrings.notification,
     AppStrings.favorites,
-    AppStrings.tippzHistory,
+    "History",
     AppStrings.profile,
 
   ];
@@ -114,7 +114,7 @@ class _NavBarState extends State<NavBar> {
     //
     else if (index == 3) {
       if (!(widget.currentIndex == 3)) {
-        Get.to(() =>   TippzHistoryScreen());
+        Get.to(() =>   HistoryScreen());
       }
     }else if (index == 4) {
       if (!(widget.currentIndex == 4)) {

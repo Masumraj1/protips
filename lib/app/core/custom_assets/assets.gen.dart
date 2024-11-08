@@ -80,6 +80,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/logout.svg
   SvgGenImage get logout => const SvgGenImage('assets/icons/logout.svg');
 
+  /// File path: assets/icons/money.svg
+  SvgGenImage get money => const SvgGenImage('assets/icons/money.svg');
+
   /// File path: assets/icons/notification_selected.svg
   SvgGenImage get notificationSelected =>
       const SvgGenImage('assets/icons/notification_selected.svg');
@@ -147,6 +150,7 @@ class $AssetsIconsGen {
         inviteFriends,
         key,
         logout,
+        money,
         notificationSelected,
         notificationUnselected,
         photoCamera,

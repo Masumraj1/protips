@@ -11,14 +11,14 @@ class HistoryController extends GetxController {
       'amount': "25.0",
     },
     {
-      'imageUrl': AppConstants.profileImage,
+      'imageUrl': AppConstants.team,
       'title': 'New York Liberty',
       'date': '11/08/24',
       'points': 150,
       'amount':" 15.0",
     },
     {
-      'imageUrl': AppConstants.profileImage,
+      'imageUrl': AppConstants.team,
       'title': 'Indiana Fever',
       'date': '08/08/24',
       'points': 300,
