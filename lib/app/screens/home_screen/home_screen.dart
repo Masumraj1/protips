@@ -32,8 +32,8 @@ class HomeScreen extends StatelessWidget {
           children: [
             HomeAppBar(scaffoldKey: scaffoldKey),
             SizedBox(height: 10.w),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 104),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 104),
               child: TippingCard(),
             ),
             Padding(
