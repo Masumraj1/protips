@@ -170,6 +170,13 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/earning.png
+  AssetGenImage get earning => const AssetGenImage('assets/images/earning.png');
+
+  /// File path: assets/images/indiana22.png
+  AssetGenImage get indiana22 =>
+      const AssetGenImage('assets/images/indiana22.png');
+
   /// File path: assets/images/logo.png
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
 
@@ -177,8 +184,15 @@ class $AssetsImagesGen {
   AssetGenImage get noInternet =>
       const AssetGenImage('assets/images/no_internet.png');
 
+  /// File path: assets/images/pt.png
+  AssetGenImage get pt => const AssetGenImage('assets/images/pt.png');
+
+  /// File path: assets/images/tipz.png
+  AssetGenImage get tipz => const AssetGenImage('assets/images/tipz.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [logo, noInternet];
+  List<AssetGenImage> get values =>
+      [earning, indiana22, logo, noInternet, pt, tipz];
 }
 
 class Assets {
