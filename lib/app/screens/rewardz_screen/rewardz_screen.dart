@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
+import 'package:protippz/app/global/widgets/custom_drop_down/custom_drop_down.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_player_card/custom_player_card.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
@@ -10,9 +11,38 @@ import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
-class RewardzScreen extends StatelessWidget {
+class RewardzScreen extends StatefulWidget {
   const RewardzScreen({super.key});
 
+  @override
+  State<RewardzScreen> createState() => _RewardzScreenState();
+}
+
+class _RewardzScreenState extends State<RewardzScreen> {
+  bool _isDropdownOpen = false;
+  String _selectedSortBy = 'Name';
+  String _selectedOrder = 'A to Z';
+
+  final List<String> _sortByOptions = ['Name', 'Team', ];
+
+  void _toggleDropdown() {
+    setState(() {
+      _isDropdownOpen = !_isDropdownOpen;
+    });
+  }
+
+  void _selectSortBy(String sortBy) {
+    setState(() {
+      _selectedSortBy = sortBy;
+      _isDropdownOpen = false;
+    });
+  }
+
+  void _toggleOrder() {
+    setState(() {
+      _selectedOrder = _selectedOrder == 'A to Z' ? 'Z to A' : 'A to Z';
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,6 +90,16 @@ class RewardzScreen extends StatelessWidget {
               prefixIcon: Icon(Icons.search,color: AppColors.gray500,),
               fillColor: AppColors.white50,
               fieldBorderColor: AppColors.grey400,
+            ),
+            Gap(14.h),
+            SortOptions(
+              selectedSortBy: _selectedSortBy,
+              selectedOrder: _selectedOrder,
+              isDropdownOpen: _isDropdownOpen,
+              sortByOptions: _sortByOptions,
+              toggleDropdown: _toggleDropdown,
+              selectSortBy: _selectSortBy,
+              toggleOrder: _toggleOrder, isName: false
             ),
             Gap(14.h),
 

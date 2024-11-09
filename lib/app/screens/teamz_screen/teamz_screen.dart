@@ -2,17 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
-import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
+import 'package:protippz/app/global/widgets/custom_drop_down/custom_drop_down.dart';
+import 'package:protippz/app/global/widgets/custom_horizontal_card/custom_horizontal_card.dart';
 import 'package:protippz/app/global/widgets/custom_player_card/custom_player_card.dart';
-import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/global/widgets/custom_text_field/custom_text_field.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
-class TeamzScreen extends StatelessWidget {
+class TeamzScreen extends StatefulWidget {
   const TeamzScreen({super.key});
 
+  @override
+  State<TeamzScreen> createState() => _TeamzScreenState();
+}
+
+class _TeamzScreenState extends State<TeamzScreen> {
+  bool _isDropdownOpen = false;
+  String _selectedSortBy = 'Name';
+  String _selectedOrder = 'A to Z';
+
+  final List<String> _sortByOptions = ['Name', 'Sport', ];
+
+  void _toggleDropdown() {
+    setState(() {
+      _isDropdownOpen = !_isDropdownOpen;
+    });
+  }
+
+  void _selectSortBy(String sortBy) {
+    setState(() {
+      _selectedSortBy = sortBy;
+      _isDropdownOpen = false;
+    });
+  }
+
+  void _toggleOrder() {
+    setState(() {
+      _selectedOrder = _selectedOrder == 'A to Z' ? 'Z to A' : 'A to Z';
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,35 +60,27 @@ class TeamzScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: List.generate(4, (index){
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Column(
-                      children: [
-                        CustomNetworkImage(
-                            imageUrl: AppConstants.nba,
-                            height: 72,
-                            width: 72),
-
-
-                        const CustomText(
-                          top: 10,
-                          text: "NBA",
-                          fontWeight: FontWeight.w500,
-                          fontSize: 12,
-                          color: AppColors.gray500,),
-                      ],
-                    ),
-                  );
+                  return CustomHorizontalCard(image: AppConstants.nba, title: "NBA");
                 }),
               ),
             ),
             Gap(24.h),
 
             const CustomTextField(
-              hintText: 'Search Players',
+              hintText: 'Search Teamz',
               prefixIcon: Icon(Icons.search,color: AppColors.gray500,),
               fillColor: AppColors.white50,
               fieldBorderColor: AppColors.grey400,
+            ),
+            Gap(14.h),
+            SortOptions(
+              selectedSortBy: _selectedSortBy,
+              selectedOrder: _selectedOrder,
+              isDropdownOpen: _isDropdownOpen,
+              sortByOptions: _sortByOptions,
+              toggleDropdown: _toggleDropdown,
+              selectSortBy: _selectSortBy,
+              toggleOrder: _toggleOrder, isName: true,
             ),
             Gap(14.h),
 
@@ -80,6 +101,7 @@ class TeamzScreen extends StatelessWidget {
                     position: 'Quarterback',
                     isTeam: false,
                     isPosition: false,
+                    buttonTitle: AppStrings.sendTippz,
                   );
                 },
               ),
