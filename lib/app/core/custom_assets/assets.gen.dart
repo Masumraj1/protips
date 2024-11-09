@@ -28,6 +28,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/deposite.svg
   SvgGenImage get deposite => const SvgGenImage('assets/icons/deposite.svg');
 
+  /// File path: assets/icons/dolar.svg
+  SvgGenImage get dolar => const SvgGenImage('assets/icons/dolar.svg');
+
   /// File path: assets/icons/drawer.svg
   SvgGenImage get drawer => const SvgGenImage('assets/icons/drawer.svg');
 
@@ -120,6 +123,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/settings.svg
   SvgGenImage get settings => const SvgGenImage('assets/icons/settings.svg');
 
+  /// File path: assets/icons/star.svg
+  SvgGenImage get star => const SvgGenImage('assets/icons/star.svg');
+
   /// File path: assets/icons/terms.svg
   SvgGenImage get terms => const SvgGenImage('assets/icons/terms.svg');
 
@@ -139,6 +145,7 @@ class $AssetsIconsGen {
         contacts,
         delete,
         deposite,
+        dolar,
         drawer,
         dropdown,
         edit,
@@ -165,6 +172,7 @@ class $AssetsIconsGen {
         rightCheck,
         search,
         settings,
+        star,
         terms,
         transactionLog,
         withdraw,
