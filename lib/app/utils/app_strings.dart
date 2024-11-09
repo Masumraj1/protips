@@ -145,5 +145,12 @@ class AppStrings {
   static const newPassword = "New Password";
   static const retype = "Retype New Password";
   static const deleteAccount = "Delete Account";
+  static const withdrawOptions = "Withdraw Options";
+  static const bankAccountNumber = "Bank Account Number";
+  static const routingNumber = "Routing Number ";
+  static const accountType = "Account Type";
+  static const bankName = "Bank Name";
+  static const accountHolderName = "Account Holder Name";
+  static const withdrawNow = "Withdraw Now";
 
 }

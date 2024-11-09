@@ -28,7 +28,6 @@ import 'package:protippz/app/screens/terms_condition_screen/terms_condition_scre
 import 'package:protippz/app/screens/tipz_screen/tipz_screen.dart';
 import 'package:protippz/app/screens/transaction_screen/transaction_screen.dart';
 import 'package:protippz/app/screens/withdraw_screen/inner_screen/withdraw_ach.dart';
-import 'package:protippz/app/screens/withdraw_screen/inner_screen/withdraw_card_screen.dart';
 import 'package:protippz/app/screens/withdraw_screen/inner_screen/withdraw_check.dart';
 import 'package:protippz/app/screens/withdraw_screen/withdraw_screen.dart';
 
@@ -109,7 +108,6 @@ class AppRoute {
     GetPage(name: inviteScreen, page: () =>  InviteScreen(),),
     GetPage(name: transactionScreen, page: () =>  TransactionScreen(),),
     GetPage(name: withdrawScreen, page: () =>  WithdrawScreen(),),
-    GetPage(name: withdrawCardScreen, page: () =>  WithdrawCardScreen(),),
     GetPage(name: withdrawCheck, page: () =>  WithdrawCheck(),),
     GetPage(name: withdrawAch, page: () =>  WithdrawAch(),),
     GetPage(name: depositeScreen, page: () =>  DepositeScreen(),),

@@ -28,6 +28,7 @@ class WithdrawScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
+      ///========================Withdraw funds========================
       appBar: const CustomAppBar(
         appBarContent: AppStrings.withdrawFunds,
         iconData: Icons.arrow_back,
@@ -38,7 +39,7 @@ class WithdrawScreen extends StatelessWidget {
           const CustomText(
             left: 20,
             top: 10,
-            text: "Withdraw Options",
+            text: AppStrings.withdrawOptions,
             fontSize: 16,
             fontWeight: FontWeight.w500,
             color: AppColors.gray500,

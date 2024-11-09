@@ -16,6 +16,7 @@ class WithdrawAch extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
+      ///=======================Ach=========================
       appBar: const CustomAppBar(
         appBarContent: AppStrings.ach,
         iconData: Icons.arrow_back,
@@ -33,42 +34,52 @@ class WithdrawAch extends StatelessWidget {
                 color: AppColors.gray500,
                 bottom: 15,
               ),
+              ///=========================bank Account ===================
               CustomFromCard(
                   hinText: AppStrings.typeHere,
-                  title: "Bank Account Number ",
+                  title: AppStrings.bankAccountNumber,
                   controller: TextEditingController(),
                   validator: (v) {}),
               Gap(12.h),
+              ///=========================Routing Number ===================
               CustomFromCard(
                   hinText: AppStrings.typeHere,
-                  title: "Routing Number ",
+                  title: AppStrings.routingNumber,
                   controller: TextEditingController(),
                   validator: (v) {}),
               Gap(12.h),
+              ///========================Account Type ===================
+
               CustomFromCard(
                   hinText: AppStrings.typeHere,
-                  title: "Account Type",
+                  title: AppStrings.accountType,
                   controller: TextEditingController(),
                   validator: (v) {}),
               Gap(12.h),
+              ///========================bankName ===================
               CustomFromCard(
                   hinText: AppStrings.typeHere,
-                  title: "Bank Name",
+                  title: AppStrings.bankName,
                   controller: TextEditingController(),
                   validator: (v) {}),
               Gap(12.h),
+              ///========================Account Holder Name ===================
+
               CustomFromCard(
                   hinText: AppStrings.typeHere,
-                  title: "Account Holder Name",
+                  title: AppStrings.accountHolderName,
                   controller: TextEditingController(),
                   validator: (v) {}),
               Gap(12.h),
+              ///========================amount ===================
+
               CustomFromCard(
                   hinText: AppStrings.typeHere,
-                  title: "Amount",
+                  title: AppStrings.amount,
                   controller: TextEditingController(),
                   validator: (v) {}),
               Gap(20.h),
+              //=========================withdrawFunds=====================
               CustomButton(
                 onTap: () {
                   Get.back();

@@ -16,8 +16,10 @@ class WithdrawCheck extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
-      appBar: CustomAppBar(
-        appBarContent: "Check ",
+
+      ///=======================Check===================
+      appBar: const CustomAppBar(
+        appBarContent: AppStrings.check,
         iconData: Icons.arrow_back,
       ),
       body: Padding(
@@ -26,67 +28,72 @@ class WithdrawCheck extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomText(
-                text: "Enter Details",
+              const CustomText(
+                text: AppStrings.enterDetails,
                 fontWeight: FontWeight.w500,
                 fontSize: 18,
                 color: AppColors.gray500,
                 bottom: 15,
               ),
+              ///=========================Full name================
               CustomFromCard(
                   hinText: AppStrings.typeHere,
-                  title: "Full Name ",
                   controller: TextEditingController(),
+                  title: AppStrings.fullName,
                   validator: (v) {}),
               Gap(12.h),
-              CustomText(
-                text: "Mailing Address",
+              const CustomText(
+                text: AppStrings.mailingAddress,
                 fontWeight: FontWeight.w500,
                 fontSize: 18,
                 color: AppColors.gray500,
                 bottom: 15,
               ),
+
+              ///======================Street address================
               CustomFromCard(
                   hinText: AppStrings.typeHere,
-                  title: "Street Address",
+                  title: AppStrings.streetAddress,
+                  controller: TextEditingController(),
+                  validator: (v) {}),
+
+              Gap(12.h),
+              ///============================City======================
+              CustomFromCard(
+                  hinText: AppStrings.typeHere,
+                  controller: TextEditingController(),
+                  title: AppStrings.city,
+                  validator: (v) {}),
+              Gap(12.h),
+
+              ///========================State===================
+              CustomFromCard(
+                  hinText: AppStrings.typeHere,
+                  title: AppStrings.state,
                   controller: TextEditingController(),
                   validator: (v) {}),
               Gap(12.h),
+
+              ///=======================Zip Code==================
               CustomFromCard(
                   hinText: AppStrings.typeHere,
-                  title: "Account Type",
-                  controller: TextEditingController(),
-                  validator: (v) {}),
-              Gap(12.h),
-              CustomFromCard(
-                  hinText: AppStrings.typeHere,
-                  title: "City",
-                  controller: TextEditingController(),
-                  validator: (v) {}),
-              Gap(12.h),
-              CustomFromCard(
-                  hinText: AppStrings.typeHere,
-                  title: "State",
-                  controller: TextEditingController(),
-                  validator: (v) {}),
-              Gap(12.h),
-              CustomFromCard(
-                  hinText: AppStrings.typeHere,
-                  title: "Zip Code",
+                  title: AppStrings.zipCode,
                   controller: TextEditingController(),
                   validator: (v) {}),
               Gap(20.h),Gap(12.h),
+              ///=======================Amount==================
               CustomFromCard(
                   hinText: AppStrings.typeHere,
-                  title: "Amount",
+                  title: AppStrings.amount,
                   controller: TextEditingController(),
                   validator: (v) {}),
               Gap(20.h),
+              ///========================now=====================
               CustomButton(
                 onTap: () {
                   Get.back();
                 },
-                title: "Withdraw Now",
+                title: AppStrings.withdrawNow,
               )
             ],
           ),
