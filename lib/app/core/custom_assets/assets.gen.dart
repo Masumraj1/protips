@@ -186,6 +186,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/ach.png
   AssetGenImage get ach => const AssetGenImage('assets/images/ach.png');
 
+  /// File path: assets/images/bg_image.png
+  AssetGenImage get bgImage =>
+      const AssetGenImage('assets/images/bg_image.png');
+
   /// File path: assets/images/check.png
   AssetGenImage get check => const AssetGenImage('assets/images/check.png');
 
@@ -218,6 +222,7 @@ class $AssetsImagesGen {
   /// List of all assets
   List<AssetGenImage> get values => [
         ach,
+        bgImage,
         check,
         earning,
         indiana22,

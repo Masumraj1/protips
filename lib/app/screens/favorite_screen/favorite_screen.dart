@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/controller/favorite_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
+import 'package:protippz/app/global/widgets/custom_dialogbox/custom_dialogbox.dart';
 import 'package:protippz/app/global/widgets/custom_player_card/custom_player_card.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/global/widgets/nav_bar/nav_bar.dart';
@@ -46,8 +46,8 @@ class FavoriteScreen extends StatelessWidget {
                         favoriteController.selectedIndex.value = index;
                       },
                       child: Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 10.h, horizontal: 30.w),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 30),
                         decoration: BoxDecoration(
                           color: favoriteController.selectedIndex.value == index
                               ? AppColors.green500
@@ -59,7 +59,7 @@ class FavoriteScreen extends StatelessWidget {
                           color: favoriteController.selectedIndex.value == index
                               ? AppColors.gray500
                               : AppColors.green500,
-                          fontSize: 16.sp,
+                          fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -67,17 +67,17 @@ class FavoriteScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 40.h),
+              const SizedBox(height: 40),
 
               // Tab Content
               Expanded(
                 child: GridView.builder(
                   itemCount: 5,
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: 16.w,
-                    mainAxisSpacing: 16.h,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
                     childAspectRatio: 0.8,
                   ),
                   itemBuilder: (context, index) {
@@ -88,13 +88,31 @@ class FavoriteScreen extends StatelessWidget {
                       team: isPlayerTab ? 'Manchester City' : null,
                       position: isPlayerTab ? 'Quarterback' : 'Basketball',
                       isTeam: isPlayerTab,
+                      buttonTitle: 'Send Tippz',
                       isPosition: isPlayerTab,
+                      onTap: () {
+                        showCustomDialog(context, 'Robert Smith', 'Manchester City', 'Forward');
+                      },
                     );
                   },
                 ),
               ),
             ],
           );
+        },
+      ),
+    );
+  }
+
+  void showCustomDialog(BuildContext context, String title, String team, String position) {
+    Get.dialog(
+      CustomDialogBox(
+        title: title,
+        team: team,
+        position: position,
+        onTap: () {
+          // Handle action here
+          Get.back();
         },
       ),
     );

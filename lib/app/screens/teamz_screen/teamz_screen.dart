@@ -101,7 +101,9 @@ class _TeamzScreenState extends State<TeamzScreen> {
                     position: 'Quarterback',
                     isTeam: false,
                     isPosition: false,
-                    buttonTitle: AppStrings.sendTippz,
+                    buttonTitle: AppStrings.sendTippz, onTap: () {
+
+                  },
                   );
                 },
               ),

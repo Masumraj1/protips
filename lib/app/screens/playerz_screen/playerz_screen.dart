@@ -98,7 +98,7 @@ class _PlayerzScreenState extends State<PlayerzScreen> {
                     position: 'Quarterback',
                     isTeam: true,
                     isPosition: true,
-                    buttonTitle: "Send Tippz",
+                    buttonTitle: "Send Tippz", onTap: () {  },
                   );
                 },
               ),
