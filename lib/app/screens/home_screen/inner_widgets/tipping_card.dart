@@ -19,7 +19,7 @@ class TippingCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
         image: DecorationImage(
-          image: AssetImage(Assets.images.indiana22.path),
+          image: AssetImage(Assets.images.tips.path),
           // Use AssetImage with path
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(

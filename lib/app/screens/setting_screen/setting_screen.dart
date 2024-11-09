@@ -6,6 +6,9 @@ import 'package:protippz/app/core/app_routes.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_card/custom_card.dart';
+import 'package:protippz/app/global/widgets/custom_image/custom_image.dart';
+import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
+import 'package:protippz/app/global/widgets/custom_text_field/custom_text_field.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
@@ -35,9 +38,123 @@ class SettingScreen extends StatelessWidget {
             CustomCard(
                 title: "Delete Account",
                 icon: Assets.icons.delete.svg(),
-                onTap: () {}),
+                onTap: () {
+                  showDialogBox(context);
+                }),
           ],
         ),
+      ),
+    );
+  }
+
+  ///========================= ===========Delete Account=============================
+  void showDialogBox(BuildContext context) {
+    Get.dialog(
+      AlertDialog(
+        backgroundColor: AppColors.white50,
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const SizedBox(),
+                const Spacer(),
+                GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Assets.icons.closeSmall.svg()
+                )
+              ],
+            ),
+            ///==========================Delete Account===============
+            CustomText(
+              left: 50,
+              fontSize: 20.sp,
+              text: "Delete Account",
+              fontWeight: FontWeight.w500,
+              color: AppColors.gray500,
+              bottom: 10,
+            ),
+            CustomText(
+              textAlign: TextAlign.start,
+              text: "Are you sure want to delete your account?",
+              fontWeight: FontWeight.w400,
+              color: AppColors.gray500,
+              fontSize: 14.sp,
+              maxLines: 2,
+            ),
+            CustomText(
+              top: 16,
+              text: "Password",
+              fontWeight: FontWeight.w500,
+              fontSize: 16.sp,
+              color: AppColors.gray500,
+              bottom: 16,
+            ),
+
+            ///======================================Password Field==================
+            const CustomTextField(
+              isColor: true,
+              hintText: "password",
+              hintStyle: TextStyle(color: AppColors.gray500),
+              isPassword: true,
+              fillColor: AppColors.bg500,
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+
+            Row(
+              children: [
+                ///=================================Yes Button============================
+
+                Expanded(
+                  flex: 5,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all<Color>(
+                          AppColors.blue500),
+                    ),
+                    onPressed: () {
+                    },
+                    child: CustomText(
+                      text: 'Confirm',
+                      color: Colors.white,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight
+                          .w600, // Make sure the text color contrasts with the button color
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 8.w,
+                ),
+                ///===================================Cancel Button=====================
+                Expanded(
+                  flex: 5,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all<Color>(
+                          AppColors.white50),
+                    ),
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: CustomText(
+                      text: "Cancel",
+                      color: AppColors.blue500,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight
+                          .w600, // Make sure the text color contrasts with the button color
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        )
       ),
     );
   }

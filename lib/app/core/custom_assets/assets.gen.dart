@@ -15,6 +15,10 @@ import 'package:vector_graphics/vector_graphics.dart' as _vg;
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/close_small.svg
+  SvgGenImage get closeSmall =>
+      const SvgGenImage('assets/icons/close_small.svg');
+
   /// File path: assets/icons/contacts.svg
   SvgGenImage get contacts => const SvgGenImage('assets/icons/contacts.svg');
 
@@ -131,6 +135,7 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<SvgGenImage> get values => [
+        closeSmall,
         contacts,
         delete,
         deposite,
@@ -196,8 +201,8 @@ class $AssetsImagesGen {
   /// File path: assets/images/pt.png
   AssetGenImage get pt => const AssetGenImage('assets/images/pt.png');
 
-  /// File path: assets/images/tipz.png
-  AssetGenImage get tipz => const AssetGenImage('assets/images/tipz.png');
+  /// File path: assets/images/tips.png
+  AssetGenImage get tips => const AssetGenImage('assets/images/tips.png');
 
   /// File path: assets/images/visa.png
   AssetGenImage get visa => const AssetGenImage('assets/images/visa.png');
@@ -212,7 +217,7 @@ class $AssetsImagesGen {
         noInternet,
         paypal,
         pt,
-        tipz,
+        tips,
         visa
       ];
 }
