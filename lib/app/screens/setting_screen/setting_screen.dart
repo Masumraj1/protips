@@ -6,7 +6,6 @@ import 'package:protippz/app/core/app_routes.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_card/custom_card.dart';
-import 'package:protippz/app/global/widgets/custom_image/custom_image.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/global/widgets/custom_text_field/custom_text_field.dart';
 import 'package:protippz/app/utils/app_colors.dart';
@@ -19,7 +18,8 @@ class SettingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
-      appBar: CustomAppBar(
+      ///=========================Setting========================
+      appBar: const CustomAppBar(
         appBarContent: AppStrings.settings,
         iconData: Icons.arrow_back_outlined,
       ),
@@ -27,16 +27,18 @@ class SettingScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: Column(
           children: [
+            ///=========================Change Password===================
             CustomCard(
-                title: "Change Password",
+                title: AppStrings.changePassword,
                 icon: Assets.icons.key.svg(),
                 onTap: () {
                   Get.toNamed(AppRoute.changePasswordScreen);
 
                 }),
             Gap(15.h),
+            ///=========================Delete Account===================
             CustomCard(
-                title: "Delete Account",
+                title: AppStrings.deleteAccount,
                 icon: Assets.icons.delete.svg(),
                 onTap: () {
                   showDialogBox(context);

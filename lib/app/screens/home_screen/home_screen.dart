@@ -31,8 +31,14 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            HomeAppBar(scaffoldKey: scaffoldKey),
+            ///=====================Appbar==================
+            HomeAppBar(
+              scaffoldKey: scaffoldKey,
+              name: 'Ronald Richards', image: AppConstants.profileImage,
+            ),
             SizedBox(height: 10.w),
+
+            ///======================Tip======================
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: TippingCard(
@@ -89,7 +95,8 @@ class HomeScreen extends StatelessWidget {
               children: [
                 CustomNetworkImage(
                   borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  imageUrl: index == 0 ? AppConstants.playerz : AppConstants.team,
+                  imageUrl:
+                      index == 0 ? AppConstants.playerz : AppConstants.team,
                   height: 108,
                   width: 162,
                 ),

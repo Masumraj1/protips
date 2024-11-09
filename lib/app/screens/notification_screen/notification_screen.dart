@@ -18,6 +18,7 @@ class NotificationScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.bg500,
       bottomNavigationBar: const NavBar(currentIndex: 1,),
+      ///====================Notification=================
       appBar: const CustomAppBar(
         appBarContent: AppStrings.notification,
         iconData: Icons.arrow_back,

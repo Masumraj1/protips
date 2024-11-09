@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 import 'package:protippz/app/controller/profile_controller.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
@@ -23,9 +22,11 @@ class EditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
+
+      ///========================Edit Profile==================
       appBar: const CustomAppBar(
         iconData: Icons.arrow_back_outlined,
-        appBarContent: "Edit Profile",
+        appBarContent: AppStrings.editProfile,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -120,11 +121,13 @@ class EditProfileScreen extends StatelessWidget {
                     controller: profileController.addressController,
                     validator: (v) {}),
                 Gap(25.h),
+
+                ///=================Save=================
                 CustomButton(
                   onTap: () {
                    Get.back();
                   },
-                  title: "Save",
+                  title: AppStrings.save,
                 )
               ],
             )

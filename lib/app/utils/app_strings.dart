@@ -11,6 +11,7 @@ class AppStrings {
   static const email = "Email";
   static const enterYourEmail = "Enter your email";
   static const phoneNumber = "Phone Number (optional)";
+  static const phoneNumbers = "Phone Number :";
   static const enterYourPhoneNumber = "Enter your phone number";
   static const userName = "User Name :";
   static const enterYourUserName = "Enter your user name";
@@ -118,4 +119,31 @@ class AppStrings {
   static const afterSelectingYour = "After selecting your player or team, you can show your support and love for their game by sending them tips.";
   static const selectYourFavorite =
       "Select your favorite player or team from a variety of sports and leagues including professional and college.";
+
+
+
+  ///==============================more======================
+  static const ach = "Ach";
+  static const enterDetails = "Enter Details";
+  static const name = "Name";
+  static const message = "Message";
+  static const creditCard = "Credit/Debit Card";
+  static const enterCardDetails = "Enter Card Details";
+  static const cardHolderName = "Card -holders Name";
+  static const cardName = "Card Number";
+  static const expireDate = "Expire Date";
+  static const cvv = "CVV";
+  static const amount = "Amount";
+  static const depositNow = "Deposit Now";
+  static const depositOption = "Deposite Options";
+  static const logout = "Log Out";
+  static const editProfile = "Edit Profile";
+  static const save = "Save";
+  static const searchReward = "Search Reward";
+  static const changePassword = "Change Password";
+  static const currentPassword = "Current Password";
+  static const newPassword = "New Password";
+  static const retype = "Retype New Password";
+  static const deleteAccount = "Delete Account";
+
 }

@@ -4,6 +4,7 @@ import 'package:protippz/app/controller/info_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/utils/app_colors.dart';
+import 'package:protippz/app/utils/app_strings.dart';
 
 class FaqScreen extends StatefulWidget {
   const FaqScreen({super.key});
@@ -29,7 +30,8 @@ final InfoController _infoController = Get.find<InfoController>();
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
-      appBar: const CustomAppBar(appBarContent: "FAQs",iconData: Icons.arrow_back,),
+      ///======================Faqs======================
+      appBar: const CustomAppBar(appBarContent: AppStrings.faqs,iconData: Icons.arrow_back,),
       body: ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         itemCount: _infoController.faqData.length,

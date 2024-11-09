@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
-import 'package:protippz/app/global/widgets/custom_dialogbox/custom_dialogbox.dart';
 import 'package:protippz/app/global/widgets/custom_drop_down/custom_drop_down.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_player_card/custom_player_card.dart';
@@ -55,6 +54,7 @@ class _RewardzScreenState extends State<RewardzScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
+      ///===========================Reward appbar======================
       appBar: const CustomAppBar(
         appBarContent: AppStrings.rewardz,
         iconData: Icons.arrow_back,
@@ -63,6 +63,8 @@ class _RewardzScreenState extends State<RewardzScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         child: Column(
           children: [
+
+            ///=========================Rewardz list======================
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -89,8 +91,10 @@ class _RewardzScreenState extends State<RewardzScreen> {
               ),
             ),
             Gap(24.h),
-            const CustomTextField(
-              hintText: 'Search Reward',
+
+             ///=========================Search =====================
+             const CustomTextField(
+              hintText:AppStrings.searchReward ,
               prefixIcon: Icon(
                 Icons.search,
                 color: AppColors.gray500,
@@ -99,6 +103,8 @@ class _RewardzScreenState extends State<RewardzScreen> {
               fieldBorderColor: AppColors.grey400,
             ),
             Gap(14.h),
+
+            ///========================Short by====================
             SortOptions(
                 selectedSortBy: _selectedSortBy,
                 selectedOrder: _selectedOrder,

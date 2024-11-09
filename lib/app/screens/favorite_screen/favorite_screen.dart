@@ -20,6 +20,7 @@ class FavoriteScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.bg500,
       bottomNavigationBar: const NavBar(currentIndex: 2),
+      ///========================Favorites===================
       appBar: const CustomAppBar(
         appBarContent: AppStrings.favorites,
         iconData: Icons.arrow_back,

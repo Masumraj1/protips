@@ -28,6 +28,7 @@ class DepositeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
+      ///==========================Deposit Funds===============
       appBar: const CustomAppBar(
         appBarContent: AppStrings.depositFunds,
         iconData: Icons.arrow_back,
@@ -35,10 +36,10 @@ class DepositeScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const CustomText(
+           const CustomText(
             left: 20,
             top: 10,
-            text: "Deposite Options",
+            text:AppStrings.depositOption ,
             fontSize: 16,
             fontWeight: FontWeight.w500,
             color: AppColors.gray500,
@@ -63,6 +64,8 @@ class DepositeScreen extends StatelessWidget {
             ),
           ),
           const Spacer(),
+
+          ///============================Continue button===================
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ValueListenableBuilder<String?>(

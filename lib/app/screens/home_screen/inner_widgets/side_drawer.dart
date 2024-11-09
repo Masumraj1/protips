@@ -51,55 +51,71 @@ class SideDrawer extends StatelessWidget {
               color: AppColors.bg500,
               child: ListView(
                 children: [
+                  ///=======================Deposit screen==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.depositeScreen),
                     title: AppStrings.depositeFund,
                     icon: Assets.icons.deposite.svg(),
                   ),
+                  ///=======================Withdraw==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.withdrawScreen),
                     title: AppStrings.withdrawFunds,
                     icon: Assets.icons.withdraw.svg(),
                   ),
+
+                  ///=======================Transaction==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.transactionScreen),
                     title: AppStrings.transactionLog,
                     icon: Assets.icons.transactionLog.svg(),
                   ),
+
+                  ///=======================Invite==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.inviteScreen),
                     title: AppStrings.inviteFriends,
                     icon: Assets.icons.inviteFriends.svg(),
                   ),
+                  ///=======================Faq==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.faqScreen),
                     title: AppStrings.faqs,
                     icon: Assets.icons.faqs.svg(),
                   ),
+                  ///=======================Contact==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.contactScreen),
                     title: AppStrings.contactUs,
                     icon: Assets.icons.contacts.svg(),
                   ),
+
+                  ///=======================Terms==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.termsConditionScreen),
                     title: AppStrings.termsAndCondition,
                     icon: Assets.icons.terms.svg(),
                   ),
+
+                  ///=======================Privacy==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.privacyPolicyScreen),
                     title: AppStrings.privacyPolicy,
                     icon: Assets.icons.privacy.svg(),
                   ),
+
+                  ///=======================setting==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.settingScreen),
                     title: AppStrings.settings,
                     icon: Assets.icons.settings.svg(),
                   ),
                   Gap(50.h),
+
+                  ///=======================logout==================
                   CustomMenuCard(
                     onTap: () => Get.offAllNamed(AppRoute.signInScreen),
-                    title: "Log Out",
+                    title: AppStrings.logout,
                     icon: Assets.icons.logout.svg(),
                   ),
                 ],

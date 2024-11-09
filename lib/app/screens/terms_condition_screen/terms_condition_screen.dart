@@ -10,14 +10,14 @@ class TermsConditionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: AppColors.bg500,
       appBar: CustomAppBar(
         appBarContent: AppStrings.termsAndCondition,
         iconData: Icons.arrow_back,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
         child: Column(
           children: [
             CustomText(

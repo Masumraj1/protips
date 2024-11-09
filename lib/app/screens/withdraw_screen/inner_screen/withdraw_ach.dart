@@ -16,8 +16,8 @@ class WithdrawAch extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
-      appBar: CustomAppBar(
-        appBarContent: "Ach",
+      appBar: const CustomAppBar(
+        appBarContent: AppStrings.ach,
         iconData: Icons.arrow_back,
       ),
       body: Padding(
@@ -26,8 +26,8 @@ class WithdrawAch extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomText(
-                text: "Enter Details",
+              const CustomText(
+                text: AppStrings.enterDetails,
                 fontWeight: FontWeight.w500,
                 fontSize: 18,
                 color: AppColors.gray500,

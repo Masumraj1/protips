@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/controller/payment_controller.dart';
-import 'package:protippz/app/core/app_routes.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
 import 'package:protippz/app/global/widgets/custom_from_card/custom_from_card.dart';
@@ -20,8 +19,10 @@ class DepositeCardScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
-      appBar: const CustomAppBar(
-        appBarContent: "Credit/Debit Card",
+
+      ///========================CreditCard===================
+      appBar:  const CustomAppBar(
+        appBarContent: AppStrings.creditCard,
         iconData: Icons.arrow_back,
       ),
       body: Padding(
@@ -29,21 +30,23 @@ class DepositeCardScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CustomText(
-              text: "Enter Card Details",
+             const CustomText(
+              text: AppStrings.enterCardDetails,
               fontWeight: FontWeight.w500,
               fontSize: 18,
               bottom: 12,
             ),
+            ///=================Card Holder Name===============
             CustomFromCard(
                 hinText: 'Bessie Cooper',
-                title: "Card -holders Name",
+                title: AppStrings.cardHolderName,
                 controller: paymentController.cardHolderController,
                 validator: (v) {}),
             Gap(12.h),
+            ///=================Card Number===============
             CustomFromCard(
                 hinText: '6578 3467 6967 2086',
-                title: "Card Number",
+                title: AppStrings.cardName,
                 controller: paymentController.cardNumberController,
                 validator: (v) {}),
             Gap(12.h),
@@ -54,7 +57,7 @@ class DepositeCardScreen extends StatelessWidget {
                   flex: 5,
                   child: CustomFromCard(
                       hinText: '08/2026',
-                      title: "Expire Date",
+                      title: AppStrings.expireDate,
                       controller: TextEditingController(),
                       validator: (v) {}),
                 ),
@@ -63,24 +66,25 @@ class DepositeCardScreen extends StatelessWidget {
                   flex: 5,
                   child: CustomFromCard(
                       hinText: '124',
-                      title: "CVV",
+                      title: AppStrings.cvv,
                       controller: TextEditingController(),
                       validator: (v) {}),
                 ),
               ],
             ),
-
+              ///=================Amount===============
             CustomFromCard(
                 hinText: '\$500',
-                title: "Amount",
+                title: AppStrings.amount,
                 controller: paymentController.cardHolderController,
                 validator: (v) {}),
             Gap(40.h),
+            ///========================Deposite Now==================
             CustomButton(
               onTap: () {
                 Get.back();
               },
-              title: "Deposite Now",
+              title: AppStrings.depositNow,
             )
           ],
         ),
