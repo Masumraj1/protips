@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
+import 'package:protippz/app/global/widgets/custom_dialogbox/custom_dialogbox.dart';
 import 'package:protippz/app/global/widgets/custom_drop_down/custom_drop_down.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_player_card/custom_player_card.dart';
@@ -121,13 +123,30 @@ class _RewardzScreenState extends State<RewardzScreen> {
                     team:'Manchester City' ,
                     position: 'Quarterback',
                     isTeam: true,
-                    isPosition: true, onTap: () {  },
+                    isPosition: true, onTap: () {
+                    showCustomDialog(context, 'Robert Smith', 'Manchester City', 'Forward');
+
+                  },
                   );
                 },
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void showCustomDialog(BuildContext context, String title, String team, String position) {
+    Get.dialog(
+      CustomDialogBox(
+        title: title,
+        team: team,
+        position: position,
+        onTap: () {
+          // Handle action here
+          Get.back();
+        },
       ),
     );
   }
