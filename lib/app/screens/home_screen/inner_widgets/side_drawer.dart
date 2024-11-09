@@ -18,18 +18,18 @@ class SideDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width / 1.3,
+      width: MediaQuery.of(context).size.width / 1.4,
       child: Column(
         children: [
           // Header Container
           Container(
-            padding: const EdgeInsets.only(right: 140),
+            padding: const EdgeInsets.only(right: 10,left: 50,top: 50,),
             color: AppColors.white50,
-            height: 180.h,
+            // height: 180.h,
 
             child: Column(
               children: [
-                Assets.images.logo.image(),
+                Assets.images.ptis.image(),
                 // Scrollable Row Container
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -43,6 +43,7 @@ class SideDrawer extends StatelessWidget {
               ],
             ),
           ),
+
           // Main Menu
           Expanded(
             child: Container(
@@ -113,7 +114,7 @@ class SideDrawer extends StatelessWidget {
   // Helper method to create stat cards
   Widget _buildStatCard({required SvgGenImage icon, required String text}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
       child: Container(
         decoration: const BoxDecoration(
           color: AppColors.green100,
