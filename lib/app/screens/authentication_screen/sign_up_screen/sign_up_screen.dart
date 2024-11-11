@@ -60,7 +60,7 @@ class SignUpScreen extends StatelessWidget {
               CustomFromCard(
                   hinText: AppStrings.enterYourEmail,
                   title: AppStrings.email,
-                  controller: authController.passwordController,
+                  controller: authController.emailController,
                   validator: (v) {}),
 
                Gap(12.h),
@@ -105,12 +105,13 @@ class SignUpScreen extends StatelessWidget {
 
               //===========================Sign Up Button=================
                Gap(30.h),
+
+
               CustomButton(
                 isRadius: true,
 
                 onTap: () {
-                  Get.toNamed(AppRoute.homeScreen);
-
+                authController.signUp();
                 },
                 title: AppStrings.signUp,
               ),
