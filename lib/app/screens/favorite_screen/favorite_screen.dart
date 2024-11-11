@@ -58,8 +58,8 @@ class FavoriteScreen extends StatelessWidget {
                           textAlign: TextAlign.start,
                           text: favoriteController.favoriteTabList[index],
                           color: favoriteController.selectedIndex.value == index
-                              ? AppColors.gray500
-                              : AppColors.green500,
+                              ? AppColors.white50
+                              : AppColors.gray300,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),

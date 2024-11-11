@@ -44,7 +44,7 @@ class TipzScreen extends StatelessWidget {
       top: top,
       bottom: bottom,
       maxLines: 5,
-      textAlign: TextAlign.start,
+      textAlign: TextAlign.center,
       text: text,
       fontWeight: FontWeight.w400,
       fontSize: 14,
