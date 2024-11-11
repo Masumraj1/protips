@@ -102,6 +102,7 @@ class SignInScreen extends StatelessWidget {
               //===========================Sign In Button=================
               Gap(30.h),
               CustomButton(
+                isRadius: true,
                 onTap: () {
                   Get.toNamed(AppRoute.homeScreen);
                 },
@@ -121,7 +122,7 @@ class SignInScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: AppColors.white50,
                     border: Border.all(color: AppColors.grey400),
-                    borderRadius: const BorderRadius.all(Radius.circular(25))),
+                    borderRadius: const BorderRadius.all(Radius.circular(30))),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,

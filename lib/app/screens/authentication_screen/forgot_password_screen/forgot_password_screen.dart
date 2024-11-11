@@ -58,6 +58,8 @@ class ForgotPasswordScreen extends StatelessWidget {
               //==========================Send Code Button=================
               Gap(30.h),
               CustomButton(
+                isRadius: true,
+
                 onTap: () {
                   Get.toNamed(AppRoute.otpScreen);
                 },

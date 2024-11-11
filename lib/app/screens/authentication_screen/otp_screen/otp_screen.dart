@@ -114,6 +114,8 @@ class _ForgetOtpState extends State<OtpScreen> {
             //==========================VeryFy Code Button=================
             Gap(30.h),
             CustomButton(
+              isRadius: true,
+
               onTap: () {
                 Get.toNamed(AppRoute.resetPasswordScreen);
               },

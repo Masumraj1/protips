@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
+import 'package:protippz/app/global/widgets/custom_text_field/custom_text_field.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 import 'package:protippz/app/utils/app_strings.dart';
@@ -33,6 +34,9 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
+      ),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -51,7 +55,9 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               child: Column(
                 children: [
                   CustomNetworkImage(
-                      imageUrl: AppConstants.profileImage, height: 120, width: 116),
+                      imageUrl: AppConstants.profileImage,
+                      height: 120,
+                      width: 116),
                   CustomText(
                     text: widget.title,
                     fontWeight: FontWeight.w600,
@@ -63,7 +69,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const CustomText(
-                        text: "Team: ",
+                        text: "Team:  ",
                         fontWeight: FontWeight.w500,
                         color: AppColors.green500,
                         fontSize: 14,
@@ -82,7 +88,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const CustomText(
-                        text: "Position:",
+                        text: "Position:  ",
                         fontWeight: FontWeight.w500,
                         color: AppColors.green500,
                         fontSize: 14,
@@ -110,34 +116,36 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             Column(
               children: amountOptions.map((amount) {
                 return RadioListTile<int>(
-                  value: amount,
-                  groupValue: _selectedValue,
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedValue = value;
-                    });
-                  },
-                  activeColor: Colors.teal,
-                  title: Text(
-                    '\$$amount',
-                    style: const TextStyle(color: Colors.blue, fontSize: 18),
-                  ),
-                );
+                    value: amount,
+
+                    groupValue: _selectedValue,
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedValue = value;
+                      });
+                    },
+                    activeColor: AppColors.green500,
+
+                    title: CustomText(
+                      textAlign: TextAlign.start,
+                      text: "\$$amount",
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      color: AppColors.blue500,
+                    ));
               }).toList(),
             ),
+            const CustomText(
+              text: AppStrings.enterYourAmount,
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: AppColors.gray500,
+            ),
             const SizedBox(height: 16),
-            TextField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.grey[200],
-                hintText: "Enter Amount",
-                hintStyle: TextStyle(color: Colors.grey[500]),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-              keyboardType: TextInputType.number,
+            const CustomTextField(
+              fieldBorderColor: AppColors.white50,
+              fillColor: AppColors.bg500,
+              hintText: AppStrings.enterAmount,
             ),
             const SizedBox(height: 20),
             CustomButton(

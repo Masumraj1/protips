@@ -71,6 +71,8 @@ class ResetPasswordScreen extends StatelessWidget {
                 //==========================Reset Password Button=================
                  Gap(30.h),
                 CustomButton(
+                  isRadius: true,
+
                   onTap: () {
                     Get.toNamed(AppRoute.signInScreen);
 

@@ -74,7 +74,7 @@ class SignUpScreen extends StatelessWidget {
               //========================User Name Field=====================
               CustomFromCard(
                   hinText: AppStrings.enterYourUserName,
-                  title: AppStrings.userName,
+                  title:"User Name",
                   controller: authController.userNameController,
                   validator: (v) {}),
                Gap(12.h),
@@ -106,6 +106,8 @@ class SignUpScreen extends StatelessWidget {
               //===========================Sign Up Button=================
                Gap(30.h),
               CustomButton(
+                isRadius: true,
+
                 onTap: () {
                   Get.toNamed(AppRoute.homeScreen);
 
