@@ -84,7 +84,7 @@ class FavoriteScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final bool isPlayerTab = favoriteController.selectedIndex.value == 0;
                     return CustomPlayerCard(
-                      imageUrl:isPlayerTab? AppConstants.team:AppConstants.team,
+                      imageUrl:isPlayerTab? AppConstants.player:AppConstants.team,
                       name: isPlayerTab ? 'Robert Smith' : 'Indiana Fever',
                       team: isPlayerTab ? 'Manchester City' : null,
                       position: isPlayerTab ? 'Quarterback' : 'Basketball',

@@ -7,7 +7,7 @@ import 'package:protippz/app/global/widgets/custom_network_image/custom_network_
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 
-class CustomPlayerCard extends StatefulWidget {
+class CustomTeamCard extends StatelessWidget {
   final String imageUrl;
   final String name;
   final String? team;
@@ -17,7 +17,7 @@ class CustomPlayerCard extends StatefulWidget {
   final bool isPosition;
   final VoidCallback onTap;
 
-  const CustomPlayerCard({
+  const CustomTeamCard({
     super.key,
     required this.imageUrl,
     required this.name,
@@ -25,27 +25,19 @@ class CustomPlayerCard extends StatefulWidget {
     this.position,
     required this.isTeam,
     required this.isPosition,
-    this.buttonTitle,
-    required this.onTap,
+    this.buttonTitle, required this.onTap,
   });
-
-  @override
-  _CustomPlayerCardState createState() => _CustomPlayerCardState();
-}
-
-class _CustomPlayerCardState extends State<CustomPlayerCard> {
-  bool isStarred = false; // Track star status
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.9),
+        color: Colors.white.withOpacity(0.9), // Slightly transparent background color
         borderRadius: BorderRadius.circular(10.r),
         border: Border.all(color: AppColors.green500),
         image: DecorationImage(
-          image: AssetImage(Assets.images.bgImage.path),
+          image: AssetImage(Assets.images.bgImage.path), // Using static background image
           fit: BoxFit.cover,
         ),
       ),
@@ -54,33 +46,29 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
         children: [
           // Player Image with Star Icon
           Expanded(
-            flex: 5,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            flex: 4,
+            child: Stack(
               children: [
-                CustomNetworkImage(
-                  borderRadius: BorderRadius.circular(10),
-                  backgroundColor: AppColors.green100,
-                  imageUrl: widget.imageUrl,
-                  width: 120,
-                  height: 140,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.r),
+                  child: CustomNetworkImage(
+                    imageUrl: imageUrl,
+                    height: 98.h,
+                    width: double.infinity, // Make image fill the card width
+                  ),
                 ),
-                Gap(10.h),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isStarred = !isStarred; // Toggle star status
-                    });
-                  },
+                Positioned(
+                  top: 5,
+                  right: 5,
                   child: Container(
                     height: 24.h,
                     width: 24.h,
-                    decoration: BoxDecoration(
-                      color: isStarred ? AppColors.gray300 : AppColors.green500, // Change color if starred
+                    decoration: const BoxDecoration(
+                      color: AppColors.green500,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
-                      isStarred ? Icons.star : Icons.star_border, // Toggle icon based on star status
+                      Icons.star,
                       color: Colors.white,
                       size: 16.w,
                     ),
@@ -96,7 +84,7 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
             flex: 2,
             child: Center(
               child: CustomText(
-                text: widget.name,
+                text: name,
                 fontWeight: FontWeight.w500,
                 fontSize: 16.sp,
                 color: AppColors.blue500,
@@ -111,14 +99,14 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
             child: Row(
               children: [
                 CustomText(
-                  text: widget.isTeam ? 'Team: ' : "",
+                  text: isTeam ? 'Team: ' : "",
                   fontWeight: FontWeight.w500,
                   fontSize: 12,
                   color: AppColors.green500,
                 ),
                 Expanded(
                   child: CustomText(
-                    text: widget.team ?? "",
+                    text: team ?? "",
                     maxLines: 2,
                     fontWeight: FontWeight.w500,
                     fontSize: 12,
@@ -136,14 +124,14 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
             child: Row(
               children: [
                 CustomText(
-                  text: widget.isPosition ? 'Position: ' : "Sports:",
+                  text: isPosition ? 'Position: ' : "Sports:",
                   fontWeight: FontWeight.w500,
                   fontSize: 12,
                   color: AppColors.green500,
                 ),
                 Expanded(
                   child: CustomText(
-                    text: widget.position ?? "",
+                    text: position ?? "",
                     maxLines: 2,
                     fontWeight: FontWeight.w500,
                     fontSize: 12,
@@ -160,8 +148,8 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
             flex: 2,
             child: CustomButton(
               fillColor: AppColors.blue500,
-              onTap: widget.onTap,
-              title: widget.buttonTitle ?? "",
+              onTap: onTap,
+              title: buttonTitle ?? "",
             ),
           ),
         ],
