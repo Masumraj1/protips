@@ -49,7 +49,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
               CustomText(
                 text: widget.appBarContent!,
                 fontWeight: FontWeight.w500,
-                fontSize: 24.sp,
+                fontSize:20,
                 color: AppColors.gray500,
               ),
             const Spacer(),

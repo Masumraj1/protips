@@ -70,7 +70,6 @@ class HistoryCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Gap(16.w),
 
               // Points and Amount
               Column(
@@ -83,7 +82,6 @@ class HistoryCard extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                     color: AppColors.grey400,
                   ),
-                  const SizedBox(height: 4),
                   // Amount
                   CustomText(
                     text: amount != null ?"\$$amount" :"$time",
@@ -95,7 +93,6 @@ class HistoryCard extends StatelessWidget {
               ),
             ],
           ),
-          Gap(12.h),
           const Divider(
             color: AppColors.white50,
           ),

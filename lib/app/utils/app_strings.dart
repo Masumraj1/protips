@@ -152,5 +152,8 @@ class AppStrings {
   static const bankName = "Bank Name";
   static const accountHolderName = "Account Holder Name";
   static const withdrawNow = "Withdraw Now";
+  static const confirm = "Confirm";
+  static const cancel = "Cancel";
+  static const areYouSureWant = "Are you sure want to delete your account?";
 
 }

@@ -15,6 +15,7 @@ class CustomButton extends StatelessWidget {
     this.fillColor = AppColors.green500,
     this.textColor = AppColors.white50,
     this.borderColor = Colors.transparent,
+    this.isRadius = false,
   });
 
   final double height;
@@ -22,6 +23,7 @@ class CustomButton extends StatelessWidget {
   final Color fillColor;
   final Color borderColor;
   final Color textColor;
+  final bool isRadius;
   final VoidCallback onTap;
   final String title;
   final double marginVertical;
@@ -42,10 +44,10 @@ class CustomButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: fillColor,
           border: Border.all(color: borderColor),
-          borderRadius: BorderRadius.circular(25.r),
+          borderRadius: isRadius ? BorderRadius.circular(25.r) : BorderRadius.circular(10.r),
         ),
         child: CustomText(
-          fontSize: 14.sp,
+          fontSize: 14,
           fontWeight: FontWeight.w500,
           color: textColor,
           textAlign: TextAlign.center,

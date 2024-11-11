@@ -8,12 +8,13 @@ class CustomMenuCard extends StatelessWidget {
   final String title;
   final Widget icon;
   final VoidCallback onTap;
+  final bool isDevider;
 
   const CustomMenuCard({
     super.key,
     required this.title,
     required this.icon,
-    required this.onTap,
+    required this.onTap, required this.isDevider,
   });
 
   @override
@@ -36,8 +37,8 @@ class CustomMenuCard extends StatelessWidget {
                 ),
               ],
             ),
-            Gap(10.h),
-            const Divider(color: AppColors.white50),
+            isDevider?
+            const Divider(color: AppColors.white50) :const SizedBox(),
           ],
         ),
       ),

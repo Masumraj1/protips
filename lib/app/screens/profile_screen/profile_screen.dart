@@ -29,9 +29,15 @@ class ProfileScreen extends StatelessWidget {
               Get.toNamed(AppRoute.editProfileScreen);
               // Get.toNamed(AppRoute.editProfileScreen);
             },
-            child: Assets.icons.edit.svg()
+            child: Container(
+              padding: const EdgeInsets.all(5),
+                decoration: const BoxDecoration(
+                    color: AppColors.green50,
+                  shape: BoxShape.circle
+                ),
+                child: Assets.icons.edit.svg())
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 25),
         ],
         leading: IconButton(
           onPressed: () {
@@ -75,8 +81,8 @@ class ProfileScreen extends StatelessWidget {
             const CustomText(
               text: 'robertsmith34@gmail.com',
               fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: AppColors.grey400,
+              fontWeight: FontWeight.w500,
+              color: AppColors.gray500,
               bottom: 35,
             ),
             Column(

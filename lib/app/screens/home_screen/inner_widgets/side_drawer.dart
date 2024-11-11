@@ -23,7 +23,7 @@ class SideDrawer extends StatelessWidget {
         children: [
           // Header Container
           Container(
-            padding: const EdgeInsets.only(right: 10,left: 50,top: 50,),
+            padding: const EdgeInsets.only(right: 10,top: 50,),
             color: AppColors.white50,
             // height: 180.h,
 
@@ -55,60 +55,60 @@ class SideDrawer extends StatelessWidget {
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.depositeScreen),
                     title: AppStrings.depositeFund,
-                    icon: Assets.icons.deposite.svg(),
+                    icon: Assets.icons.deposite.svg(), isDevider: true,
                   ),
                   ///=======================Withdraw==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.withdrawScreen),
                     title: AppStrings.withdrawFunds,
-                    icon: Assets.icons.withdraw.svg(),
+                    icon: Assets.icons.withdraw.svg(), isDevider: true,
                   ),
 
                   ///=======================Transaction==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.transactionScreen),
                     title: AppStrings.transactionLog,
-                    icon: Assets.icons.transactionLog.svg(),
+                    icon: Assets.icons.transactionLog.svg(), isDevider: true,
                   ),
 
                   ///=======================Invite==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.inviteScreen),
                     title: AppStrings.inviteFriends,
-                    icon: Assets.icons.inviteFriends.svg(),
+                    icon: Assets.icons.inviteFriends.svg(), isDevider: true,
                   ),
                   ///=======================Faq==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.faqScreen),
                     title: AppStrings.faqs,
-                    icon: Assets.icons.faqs.svg(),
+                    icon: Assets.icons.faqs.svg(), isDevider: true,
                   ),
                   ///=======================Contact==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.contactScreen),
                     title: AppStrings.contactUs,
-                    icon: Assets.icons.contacts.svg(),
+                    icon: Assets.icons.contacts.svg(), isDevider: true,
                   ),
 
                   ///=======================Terms==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.termsConditionScreen),
                     title: AppStrings.termsAndCondition,
-                    icon: Assets.icons.terms.svg(),
+                    icon: Assets.icons.terms.svg(), isDevider: true,
                   ),
 
                   ///=======================Privacy==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.privacyPolicyScreen),
                     title: AppStrings.privacyPolicy,
-                    icon: Assets.icons.privacy.svg(),
+                    icon: Assets.icons.privacy.svg(), isDevider: true,
                   ),
 
                   ///=======================setting==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.settingScreen),
                     title: AppStrings.settings,
-                    icon: Assets.icons.settings.svg(),
+                    icon: Assets.icons.settings.svg(), isDevider: true,
                   ),
                   Gap(50.h),
 
@@ -116,7 +116,8 @@ class SideDrawer extends StatelessWidget {
                   CustomMenuCard(
                     onTap: () => Get.offAllNamed(AppRoute.signInScreen),
                     title: AppStrings.logout,
-                    icon: Assets.icons.logout.svg(),
+                    icon: Assets.icons.logout.svg(), isDevider: false
+                    ,
                   ),
                 ],
               ),
@@ -130,29 +131,28 @@ class SideDrawer extends StatelessWidget {
   // Helper method to create stat cards
   Widget _buildStatCard({required SvgGenImage icon, required String text}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
       child: Container(
+        height: 25.h,
         decoration: const BoxDecoration(
-          color: AppColors.green100,
-          borderRadius: BorderRadius.all(Radius.circular(18)),
+          color: AppColors.green50,
+          borderRadius: BorderRadius.all(Radius.circular(15)),
         ),
         child: Row(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                height: 25,
-                width: 25,
-                decoration: const BoxDecoration(
-                  color: AppColors.green500,
-                  shape: BoxShape.circle,
-                ),
-                child: icon.svg(),
+            Container(
+              padding: const EdgeInsets.all(5),
+              height: 25,
+              width: 25,
+              decoration: const BoxDecoration(
+                color: AppColors.green100,
+                shape: BoxShape.circle,
               ),
+              child: icon.svg(height: 15,width: 9),
             ),
              CustomText(
               left: 10,
-              right: 15,
+              right: 30,
               text: text,
               color: AppColors.blue500,
               fontSize: 14,
