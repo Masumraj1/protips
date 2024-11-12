@@ -93,6 +93,7 @@ class AppStrings {
 
   ///============================Home Screen==================
   static const tippzNow = "Tippz Now";
+  static const topSportsLeague = "Top Sports League";
   static const playerz = "Playerz";
   static const teamz = "Teamz";
   static const viewAll = "View All";
