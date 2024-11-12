@@ -18,7 +18,7 @@ class HistoryScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.bg500,
         bottomNavigationBar: const NavBar(currentIndex: 3,),
-        ///==========================Tipz History==============
+        ///==========================Tipz History appbar==============
         appBar: const CustomAppBar(
       appBarContent: AppStrings.tippzHistory,
       iconData: Icons.arrow_back,

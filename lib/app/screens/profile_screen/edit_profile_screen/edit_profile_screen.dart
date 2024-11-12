@@ -110,7 +110,7 @@ class EditProfileScreen extends StatelessWidget {
 
                 ///==============================UserName = =====================
                 CustomFromCard(
-                    title: AppStrings.userName,
+                    title: AppStrings.userNam,
                     controller: profileController.userNameController,
                     validator: (v) {}),
                 Gap(12.h),

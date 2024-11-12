@@ -12,6 +12,8 @@ class InviteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
+
+      ///=================================Invite Friends=========================
       appBar: const CustomAppBar(
         appBarContent: AppStrings.inviteFriends,
         iconData: Icons.arrow_back,
@@ -21,16 +23,19 @@ class InviteScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionTitle("How It Works"),
-            _buildStepSection("1. Invite",
-                "Use the “Invite Friends” button below to share your unique referral link via text, email, or social media."),
-            _buildStepSection("2. Sign Up",
-                "When your friends sign up using your link, they’ll join the PROTIPPZ community where they can Tippz, win rewards, and participate in exclusive fan events."),
-            _buildStepSection("3. Earn Rewards",
-                "For each friend who joins, you’ll earn 100 points that you can redeem for special rewards, exclusive gear, or event tickets."),
-            _buildSectionTitle("Ready to Get Started?"),
+            _buildSectionTitle(AppStrings.howItWorks),
+            _buildStepSection(
+                AppStrings.invite1, AppStrings.useTheInviteFriend),
+            _buildStepSection(AppStrings.signUp2,
+                AppStrings.whenYourFriends),
+            _buildStepSection(AppStrings.earnRewards,
+                AppStrings.forEachFriend),
+            _buildSectionTitle(AppStrings.readyToGet),
             _buildDescription(
-                "Click below to start inviting friends and watch your rewards grow!", bottomPadding: 24),
+                AppStrings.clickBelow,
+                bottomPadding: 24),
+
+            ///============================Invite Friends=====================
             CustomButton(
               borderColor: AppColors.green500,
               fillColor: AppColors.white50,
@@ -43,6 +48,20 @@ class InviteScreen extends StatelessWidget {
       ),
     );
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   Widget _buildSectionTitle(String title) {
     return CustomText(

@@ -65,7 +65,7 @@ class HistoryCard extends StatelessWidget {
                       text: date,
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
-                      color: AppColors.grey400,
+                      color: AppColors.gray500,
                     ),
                   ],
                 ),
@@ -80,7 +80,7 @@ class HistoryCard extends StatelessWidget {
                     text: points != null ? "+$points Points" : "",
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
-                    color: AppColors.grey400,
+                    color: AppColors.gray500,
                   ),
                   // Amount
                   CustomText(

@@ -14,6 +14,7 @@ class AppStrings {
   static const phoneNumbers = "Phone Number :";
   static const enterYourPhoneNumber = "Enter your phone number";
   static const userName = "User Name :";
+  static const userNam = "User Name";
   static const confirmationOnce = "3. Confirmation: Once your information is verified, you will receive a confirmation message. For digital prizes, the tickets or cash will be sent to your verified email address. For physical prizes, the items will be shipped to your provided mailing address.:";
   static const veryFyYourNameAndMailing = "2. Verify Your Name and Mailing Address: For physical prizes like gear or merchandise, you will need to provide your full name and mailing address. Enter the required information in the designated fields and click “Submit.” Ensure that the details are accurate to avoid any delivery issues.:";
   static const veryFyYourEmailAddress = "1. Verify Your Email Address: Enter your email address in the provided field and click “Verify.” A verification link will be sent to your email. Open the email and click on the link to confirm your email address. This step is required for digital prizes such as tickets or cash.:";
@@ -51,7 +52,7 @@ class AppStrings {
   static const createANewPasswordEnsure =
       "Create a new password. Ensure it differs from previous ones for security";
 
-  ///============================
+  ///============================other========================
   static const oops = "Oops!";
   static const youDontHaveEnoughfunds =
       "You don’t have enough funds to continue payment. Please deposit fund to continue.";
@@ -160,5 +161,16 @@ class AppStrings {
   static const confirm = "Confirm";
   static const cancel = "Cancel";
   static const areYouSureWant = "Are you sure want to delete your account?";
+
+  ///====================================Invite Friend=========================
+  static const howItWorks = "How It Works";
+  static const invite1 = "1. Invite";
+  static const signUp2 = "2. Sign Up";
+  static const earnRewards = "3. Earn Rewards";
+  static const readyToGet = "Ready to Get Started?";
+  static const clickBelow = "Click below to start inviting friends and watch your rewards grow!";
+  static const forEachFriend = "For each friend who joins, you’ll earn 100 points that you can redeem for special rewards, exclusive gear, or event tickets.";
+  static const whenYourFriends = "When your friends sign up using your link, they’ll join the PROTIPPZ community where they can Tippz, win rewards, and participate in exclusive fan events.";
+  static const useTheInviteFriend = "Use the “Invite Friends” button below to share your unique referral link via text, email, or social media.";
 
 }
