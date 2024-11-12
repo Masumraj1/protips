@@ -81,37 +81,40 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildTippzNowSection() {
-    return Row(
-      children: List.generate(2, (index) {
-        return Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: GestureDetector(
-            onTap: () {
-              index == 0
-                  ? Get.toNamed(AppRoute.playerzScreen)
-                  : Get.toNamed(AppRoute.teamzScreen);
-            },
-            child: Column(
-              children: [
-                CustomNetworkImage(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  imageUrl:
-                      index == 0 ? AppConstants.playerz : AppConstants.team,
-                  height: 108,
-                  width: 162,
-                ),
-                CustomText(
-                  top: 10,
-                  text: index == 0 ? AppStrings.playerz : AppStrings.teamz,
-                  color: AppColors.gray500,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: List.generate(2, (index) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: GestureDetector(
+              onTap: () {
+                index == 0
+                    ? Get.toNamed(AppRoute.playerzScreen)
+                    : Get.toNamed(AppRoute.teamzScreen);
+              },
+              child: Column(
+                children: [
+                  CustomNetworkImage(
+                    borderRadius: const BorderRadius.all(Radius.circular(8)),
+                    imageUrl:
+                        index == 0 ? AppConstants.playerz : AppConstants.team,
+                    height: 108,
+                    width: 162,
+                  ),
+                  CustomText(
+                    top: 10,
+                    text: index == 0 ? AppStrings.playerz : AppStrings.teamz,
+                    color: AppColors.gray500,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 
