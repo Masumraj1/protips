@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/controller/home_controller.dart';
 import 'package:protippz/app/core/app_routes.dart';
+import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/global/widgets/nav_bar/nav_bar.dart';
@@ -59,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                   }),
                   _buildHorizontalScrollableItems(AppConstants.reward),
                   _buildSectionTitle("Top Sports League"),
-                  _buildHorizontalScrollableItems(AppConstants.team),
+                  _buildHorizontalScrollableItems(AppConstants.nba),
                 ],
               ),
             ),
@@ -95,13 +96,7 @@ class HomeScreen extends StatelessWidget {
               },
               child: Column(
                 children: [
-                  CustomNetworkImage(
-                    borderRadius: const BorderRadius.all(Radius.circular(8)),
-                    imageUrl:
-                        index == 0 ? AppConstants.playerz : AppConstants.team,
-                    height: 108,
-                    width: 162,
-                  ),
+                  index == 0 ? Assets.images.player.image() :Assets.images.team.image(),
                   CustomText(
                     top: 10,
                     text: index == 0 ? AppStrings.playerz : AppStrings.teamz,
@@ -162,7 +157,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 const CustomText(
                   top: 10,
-                  text: 'Golden ball',
+                  text: 'golden ball',
                   color: AppColors.gray500,
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
