@@ -7,7 +7,7 @@ import 'package:protippz/app/global/widgets/custom_network_image/custom_network_
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 
-class CustomPlayerCard extends StatefulWidget {
+class CustomRewadzCard extends StatefulWidget {
   final String imageUrl;
   final String name;
   final String? team;
@@ -18,7 +18,7 @@ class CustomPlayerCard extends StatefulWidget {
   final bool isVisible;
   final VoidCallback onTap;
 
-  const CustomPlayerCard({
+  const CustomRewadzCard({
     super.key,
     required this.imageUrl,
     required this.name,
@@ -35,12 +35,13 @@ class CustomPlayerCard extends StatefulWidget {
   _CustomPlayerCardState createState() => _CustomPlayerCardState();
 }
 
-class _CustomPlayerCardState extends State<CustomPlayerCard> {
+class _CustomPlayerCardState extends State<CustomRewadzCard> {
   bool isStarred = false;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 277,
       padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.9),
@@ -112,7 +113,7 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
               child: Row(
                 children: [
                   CustomText(
-                    text: widget.isTeam ? 'Team: ' : "",
+                    text: widget.isTeam ? 'Description: ' : "",
                     fontWeight: FontWeight.w500,
                     fontSize: 12,
                     color: AppColors.green500,
@@ -136,7 +137,7 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
             child: Row(
               children: [
                 CustomText(
-                  text: widget.isPosition ? 'Position: ' : "Sports:",
+                  text: widget.isPosition ? 'Points Required:' : "Sports:",
                   fontWeight: FontWeight.w500,
                   fontSize: 12,
                   color: AppColors.green500,
@@ -156,7 +157,7 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
           Gap(8.h),
 
           Expanded(
-                 flex: 2,
+            flex: 2,
             child: CustomButton(
 
               fillColor: AppColors.blue500,

@@ -80,10 +80,12 @@ class FavoriteScreen extends StatelessWidget {
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
                     childAspectRatio: 0.8,
+
                   ),
                   itemBuilder: (context, index) {
                     final bool isPlayerTab = favoriteController.selectedIndex.value == 0;
                     return CustomPlayerCard(
+                      isVisible: isPlayerTab?true:false,
                       imageUrl:isPlayerTab? AppConstants.player:AppConstants.team,
                       name: isPlayerTab ? 'Robert Smith' : 'Indiana Fever',
                       team: isPlayerTab ? 'Manchester City' : null,

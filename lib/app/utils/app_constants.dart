@@ -12,6 +12,7 @@ class AppConstants {
 
 
   static String successfull = "Request Successfull";
+  static String shirt = "https://img.drz.lazcdn.com/static/bd/p/84ecafe68034e703f5cd76960a6480b9.jpg_720x720q80.jpg";
   static String error = "Oops, something went wrong";
   static String profileID = "profileID";
   static String userStatus = "userStatus";

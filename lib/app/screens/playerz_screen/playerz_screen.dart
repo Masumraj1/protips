@@ -103,6 +103,7 @@ class _PlayerzScreenState extends State<PlayerzScreen> {
                 ),
                 itemBuilder: (context, index) {
                   return CustomPlayerCard(
+                    isVisible: true,
                     imageUrl: AppConstants.player,
                     name: 'Robert Smith',
                     team: 'Manchester City',

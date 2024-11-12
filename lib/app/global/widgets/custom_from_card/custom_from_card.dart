@@ -10,6 +10,7 @@ class CustomFromCard extends StatelessWidget {
   final String? Function(String?) validator;
   final bool isPassword;
   final bool isRead;
+  final bool? isBgColor;
   final int? maxLine;
 
   const CustomFromCard({
@@ -20,7 +21,7 @@ class CustomFromCard extends StatelessWidget {
     this.isPassword = false,
     this.isRead = false,
     this.hinText,
-    this.maxLine,
+    this.maxLine, this.isBgColor = false,
   });
 
   @override
@@ -44,7 +45,7 @@ class CustomFromCard extends StatelessWidget {
           textEditingController: controller,
           hintText: hinText,
           inputTextStyle: const TextStyle(color: AppColors.gray500),
-          fillColor: AppColors.white50,
+          fillColor:isBgColor ==true? AppColors.bg500:AppColors.white50,
           fieldBorderColor: AppColors.white50,
           keyboardType: isPassword ? TextInputType.visiblePassword : TextInputType.text,
         ),

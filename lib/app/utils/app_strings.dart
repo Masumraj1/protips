@@ -14,9 +14,9 @@ class AppStrings {
   static const phoneNumbers = "Phone Number :";
   static const enterYourPhoneNumber = "Enter your phone number";
   static const userName = "User Name :";
-  static const confirmationOnce = "Confirmation: Once your information is verified, you will receive a confirmation message. For digital prizes, the tickets or cash will be sent to your verified email address. For physical prizes, the items will be shipped to your provided mailing address.:";
-  static const veryFyYourNameAndMailing = "Verify Your Name and Mailing Address: For physical prizes like gear or merchandise, you will need to provide your full name and mailing address. Enter the required information in the designated fields and click “Submit.” Ensure that the details are accurate to avoid any delivery issues.:";
-  static const veryFyYourEmailAddress = "Verify Your Email Address: Enter your email address in the provided field and click “Verify.” A verification link will be sent to your email. Open the email and click on the link to confirm your email address. This step is required for digital prizes such as tickets or cash.:";
+  static const confirmationOnce = "3. Confirmation: Once your information is verified, you will receive a confirmation message. For digital prizes, the tickets or cash will be sent to your verified email address. For physical prizes, the items will be shipped to your provided mailing address.:";
+  static const veryFyYourNameAndMailing = "2. Verify Your Name and Mailing Address: For physical prizes like gear or merchandise, you will need to provide your full name and mailing address. Enter the required information in the designated fields and click “Submit.” Ensure that the details are accurate to avoid any delivery issues.:";
+  static const veryFyYourEmailAddress = "1. Verify Your Email Address: Enter your email address in the provided field and click “Verify.” A verification link will be sent to your email. Open the email and click on the link to confirm your email address. This step is required for digital prizes such as tickets or cash.:";
   static const howTOReceive = " How to receive the prize :";
   static const enterYourUserName = "Enter your user name";
   static const address = "Address";
