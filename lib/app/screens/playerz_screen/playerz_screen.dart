@@ -62,13 +62,16 @@ class _PlayerzScreenState extends State<PlayerzScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         child: Column(
           children: [
-            Row(
-              children: List.generate(4, (index) {
-                return CustomHorizontalCard(
-                  image: AppConstants.nba,
-                  title: 'NBA',
-                );
-              }),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(4, (index) {
+                  return CustomHorizontalCard(
+                    image: AppConstants.nba,
+                    title: 'NBA',
+                  );
+                }),
+              ),
             ),
             Gap(24.h),
             const CustomTextField(
@@ -100,7 +103,7 @@ class _PlayerzScreenState extends State<PlayerzScreen> {
                 ),
                 itemBuilder: (context, index) {
                   return CustomPlayerCard(
-                    imageUrl: AppConstants.team,
+                    imageUrl: AppConstants.player,
                     name: 'Robert Smith',
                     team: 'Manchester City',
                     position: 'Quarterback',

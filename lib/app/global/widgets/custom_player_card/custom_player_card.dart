@@ -59,13 +59,13 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomNetworkImage(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(5),
                   backgroundColor: AppColors.green100,
                   imageUrl: widget.imageUrl,
-                  width: 120,
-                  height: 140,
+                  width: MediaQuery.of(context).size.width/4,
+                  height: 100,
                 ),
-                Gap(10.h),
+                Gap(20.h),
                 GestureDetector(
                   onTap: () {
                     setState(() {

@@ -18,12 +18,12 @@ class SideDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width / 1.4,
+      width: MediaQuery.of(context).size.width / 1.3,
       child: Column(
         children: [
           // Header Container
           Container(
-            padding: const EdgeInsets.only(right: 10,top: 50,),
+            padding: const EdgeInsets.only(right: 10,top: 30,),
             color: AppColors.white50,
             // height: 180.h,
 
