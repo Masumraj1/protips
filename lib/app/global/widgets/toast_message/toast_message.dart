@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:protippz/app/utils/app_colors.dart';
 
 void showCustomSnackBar(String? message,
     {bool isError = true, bool getXSnackBar = false}) {
@@ -42,7 +43,7 @@ void showCustomSnackBar(String? message,
 void toastMessage({required String message}) {
   Fluttertoast.showToast(
     msg: message,
-    backgroundColor: Colors.green,
+    backgroundColor: AppColors.green500,
     textColor: Colors.white,
     gravity: ToastGravity.BOTTOM,
     toastLength: Toast.LENGTH_LONG,

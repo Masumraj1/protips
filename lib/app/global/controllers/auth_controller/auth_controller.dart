@@ -24,13 +24,14 @@ class AuthController extends GetxController {
   }
 
   //============================All Controller =====================
-  TextEditingController emailController = TextEditingController(text: kDebugMode?"promotion1":"");
+  TextEditingController emailController = TextEditingController(text: kDebugMode?"masumrna927@gmail.com":"");
   TextEditingController passwordController = TextEditingController(text: kDebugMode?"Masum017":"");
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController userNameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  TextEditingController pinController = TextEditingController();
 
   ///==================================SignUp Method=======================
   RxBool isSignUpLoading = false.obs;
@@ -103,6 +104,41 @@ class AuthController extends GetxController {
   }
 
 
+  ///============================== resetPassword ================================
+  RxBool isResend = false.obs;
+
+  resetPassword() async {
+    isResend.value = true;
+    refresh();
+    Map<String, String> body = {
+      "email":emailController.text,
+      "password": passwordController.text,
+      "confirmPassword":confirmPasswordController.text
+    };
+    var response = await ApiClient.postData(
+      ApiUrl.resetPassword,
+      jsonEncode(body),
+    );
+    if (response.statusCode == 200) {
+      // SharePrefsHelper.setString(AppConstants.bearerToken, response.body["token"]);
+
+      Get.offAllNamed(AppRoute.signInScreen);
+      toastMessage(
+        message: response.body["message"],
+      );
+    } else if (response.statusCode == 401) {
+      ApiChecker.checkApi(response);
+      toastMessage(
+        message: response.body["message"],
+      );
+    } else {
+      ApiChecker.checkApi(response);
+    }
+    isResend.value = false;
+    refresh();
+  }
+
+
   ///============================ Forget Password ==========================
 
   RxBool isForgetLoading = false.obs;
@@ -130,20 +166,22 @@ class AuthController extends GetxController {
   }
 
   ///=====================Sign up Otp==================
-  var activationCode = "";
-  RxBool isOtpLoading = false.obs;
+  String activationCode = "";
+  RxBool isSignUpOtp = false.obs;
 
   signUpVerifyOTP() async {
-    isOtpLoading.value = true;
+    isSignUpOtp.value = true;
     refresh();
-    Map<dynamic, String> body = {
+    int resetCode = int.tryParse(activationCode) ?? 0;
+
+    Map<dynamic, dynamic> body = {
       "email":emailController.text,
-      "verifyCode":activationCode
+      "verifyCode":resetCode
     };
 
     var response =
     await ApiClient.postData(ApiUrl.veryFyCode, jsonEncode(body));
-    isOtpLoading.value = false;
+    isSignUpOtp.value = false;
     refresh();
     if (response.statusCode == 200) {
       emailController.clear();
@@ -160,44 +198,53 @@ class AuthController extends GetxController {
     } else {
       ApiChecker.checkApi(response);
     }
-    isOtpLoading.value = false;
+    isSignUpOtp.value = false;
     refresh();
   }
 
-  // ///==============================Forget otp=================
-  // var otp = "";
-  // RxBool isForget = false.obs;
-  //
-  // forgetOtp() async {
-  //   isForget.value = true;
-  //   refresh();
-  //   Map<dynamic, String> body = {"email": emailController.text, "code": otp};
-  //
-  //   var response =
-  //   await ApiClient.postData(ApiUrl.verifyCOde, jsonEncode(body));
-  //   isForget.value = false;
-  //   refresh();
-  //   if (response.statusCode == 200) {
-  //     SharePrefsHelper.setString(
-  //         AppConstants.resetToken, response.body["password_reset_token"]);
-  //     // print(
-  //     //     '======================This is  User Name ${response.body["data"]['name']}');
-  //     print(
-  //         '======================User Token Saved::: ${response.body['password_reset_token']}');
-  //
-  //     Get.offAllNamed(AppRoute.resetPassword);
-  //     toastMessage(
-  //       message: response.body["message"],
-  //     );
-  //   } else if (response.statusCode == 401) {
-  //     toastMessage(
-  //       message: response.body["message"],
-  //     );
-  //   } else {
-  //     ApiChecker.checkApi(response);
-  //   }
-  //   isForget.value = false;
-  //   refresh();
-  // }
+  ///==============================Forget otp=================
+  String resetCodeInput = ""; // Example input for the reset code
+  RxBool isForget = false.obs;
+
+  forgetOtp() async {
+    isForget.value = true;
+    refresh();
+
+    // Safely parse the reset code input to an integer
+    int resetCode = int.tryParse(resetCodeInput) ?? 0;
+
+    // Create the API body with resetCode as a number
+    Map<String, dynamic> body = {
+      "email": emailController.text, // Get the email from the controller
+      "resetCode": resetCode // Pass resetCode as a number
+    };
+
+    print("====> API Body: ${jsonEncode(body)}"); // Debugging the API Body
+
+    var response = await ApiClient.postData(ApiUrl.forgetOtp, jsonEncode(body));
+
+    isForget.value = false;
+    refresh();
+
+    if (response.statusCode == 200) {
+      // Handle success
+      Get.offAllNamed(AppRoute.resetPasswordScreen);
+      toastMessage(
+        message: response.body["message"],
+      );
+    } else if (response.statusCode == 401) {
+      // Handle unauthorized error
+      toastMessage(
+        message: response.body["message"],
+      );
+    } else {
+      // Handle other errors
+      ApiChecker.checkApi(response);
+    }
+
+    isForget.value = false;
+    refresh();
+  }
+
 
 }

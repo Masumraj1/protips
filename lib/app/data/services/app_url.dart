@@ -8,6 +8,7 @@ class ApiUrl {
   static const signIn = "/auth/login";
   static const changePassword = "/auth/change-password";
   static const forgotPassword = "/auth/forget-password";
+  static const forgetOtp = "/auth/verify-reset-otp";
   static const resetPassword = "/auth/reset-password";
   static const getProfile = "/user/get-my-profile";
 
