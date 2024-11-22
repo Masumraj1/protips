@@ -9,7 +9,9 @@ class AppStrings {
   static const fullName = "Full Name";
   static const enterYourFullName = "Enter your full name";
   static const email = "Email";
+  static const userNameOrEmail = "UserName/Email";
   static const enterYourEmail = "Enter your email";
+  static const enterYourEmailOrUser = "Enter your email /UserName";
   static const phoneNumber = "Phone Number (optional)";
   static const phoneNumbers = "Phone Number :";
   static const enterYourPhoneNumber = "Enter your phone number";
@@ -172,5 +174,27 @@ class AppStrings {
   static const forEachFriend = "For each friend who joins, you’ll earn 100 points that you can redeem for special rewards, exclusive gear, or event tickets.";
   static const whenYourFriends = "When your friends sign up using your link, they’ll join the PROTIPPZ community where they can Tippz, win rewards, and participate in exclusive fan events.";
   static const useTheInviteFriend = "Use the “Invite Friends” button below to share your unique referral link via text, email, or social media.";
+
+
+  ///===========================validation text==========================
+  static RegExp passRegexp = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.{8,}$)');
+  static RegExp emailRegexp = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+  static const String fieldCantBeEmpty = "Field can't be empty";
+  static const String passDoesNotMatch = "Password does not match";
+  static const String passwordMustHaveEightWith =
+      "Password must have 8 characters With(A-z,a-z,0-9)";
+  static const String enterValidEmail = "Enter a valid email";
+  static const String passMustContainBoth =
+      "Password must be 8 characters long & must include one capital letter";
+  static const String enterAValidName = "Enter a valid name";
+  static const String enterAValidAddress = "Enter a valid Address";
+  static const String enterValidEmailOrUserName = "EnterValidEmailOrUsername";
+  static const String enterValidUserName = "EnterValidUsername";
+  static const String enterValidEamil = "Please Enter Your Email Address";
+  static const String passwordLengthAndContain =
+      "Password must be at least 8 characters long and at least one uppercase letter, one lowercase letter, one number";
+///================================Onboard screen=====================================
+
 
 }

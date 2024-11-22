@@ -4,6 +4,7 @@ class ApiUrl {
 
   ///================================= User Authentication url==========================
   static const signupAuth = "/user/register-user";
+  static const veryFyCode = "/user/verify-code";
   static const signIn = "/auth/login";
   static const changePassword = "/auth/change-password";
   static const forgotPassword = "/auth/forget-password";
