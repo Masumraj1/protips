@@ -7,7 +7,7 @@ import 'package:protippz/app/global/widgets/custom_network_image/custom_network_
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 
-class CustomTeamCard extends StatelessWidget {
+class CustomRewadzCard extends StatefulWidget {
   final String imageUrl;
   final String name;
   final String? team;
@@ -15,9 +15,10 @@ class CustomTeamCard extends StatelessWidget {
   final String? position;
   final bool isTeam;
   final bool isPosition;
+  final bool isVisible;
   final VoidCallback onTap;
 
-  const CustomTeamCard({
+  const CustomRewadzCard({
     super.key,
     required this.imageUrl,
     required this.name,
@@ -25,50 +26,64 @@ class CustomTeamCard extends StatelessWidget {
     this.position,
     required this.isTeam,
     required this.isPosition,
-    this.buttonTitle, required this.onTap,
+    this.buttonTitle,
+    required this.onTap,
+    this.isVisible = false,
   });
+
+  @override
+  _CustomPlayerCardState createState() => _CustomPlayerCardState();
+}
+
+class _CustomPlayerCardState extends State<CustomRewadzCard> {
+  bool isStarred = false;
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 277,
       padding: EdgeInsets.all(8.w),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.9), // Slightly transparent background color
+        color: Colors.white.withOpacity(0.9),
         borderRadius: BorderRadius.circular(10.r),
         border: Border.all(color: AppColors.green500),
         image: DecorationImage(
-          image: AssetImage(Assets.images.bgImage.path), // Using static background image
+          image: AssetImage(Assets.images.bgImage.path),
           fit: BoxFit.cover,
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min, // Allow column to adjust to its content
         children: [
-          // Player Image with Star Icon
           Expanded(
             flex: 4,
-            child: Stack(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.r),
-                  child: CustomNetworkImage(
-                    imageUrl: imageUrl,
-                    height: 98.h,
-                    width: double.infinity, // Make image fill the card width
-                  ),
+                CustomNetworkImage(
+                  borderRadius: BorderRadius.circular(5),
+                  backgroundColor: AppColors.green100,
+                  imageUrl: widget.imageUrl,
+                  width: MediaQuery.of(context).size.width / 4,
+                  height: 100,
                 ),
-                Positioned(
-                  top: 5,
-                  right: 5,
+                Gap(20.h),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isStarred = !isStarred;
+                    });
+                  },
                   child: Container(
                     height: 24.h,
                     width: 24.h,
-                    decoration: const BoxDecoration(
-                      color: AppColors.green500,
+                    decoration: BoxDecoration(
+                      color: isStarred ? AppColors.gray300 : AppColors.green500,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
-                      Icons.star,
+                      isStarred ? Icons.star : Icons.star_border,
                       color: Colors.white,
                       size: 16.w,
                     ),
@@ -79,59 +94,57 @@ class CustomTeamCard extends StatelessWidget {
           ),
           Gap(8.h),
 
-          // Player Name
           Expanded(
             flex: 2,
             child: Center(
               child: CustomText(
-                text: name,
+                text: widget.name,
                 fontWeight: FontWeight.w500,
-                fontSize: 16.sp,
+                fontSize: 16,
                 color: AppColors.blue500,
               ),
             ),
           ),
           Gap(4.h),
 
-          // Team Information
-          Expanded(
-            flex: 1,
-            child: Row(
-              children: [
-                CustomText(
-                  text: isTeam ? 'Team: ' : "",
-                  fontWeight: FontWeight.w500,
-                  fontSize: 12,
-                  color: AppColors.green500,
-                ),
-                Expanded(
-                  child: CustomText(
-                    text: team ?? "",
-                    maxLines: 2,
+          if (widget.isVisible) // Show only if isVisible is true
+            Expanded(
+              flex: 1,
+              child: Row(
+                children: [
+                  CustomText(
+                    text: widget.isTeam ? 'Description: ' : "",
                     fontWeight: FontWeight.w500,
                     fontSize: 12,
-                    color: AppColors.blue500,
+                    color: AppColors.green500,
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: CustomText(
+                      text: widget.team ?? "",
+                      maxLines: 2,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                      color: AppColors.blue500,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
           Gap(4.h),
 
-          // Position Information
           Expanded(
             flex: 1,
             child: Row(
               children: [
                 CustomText(
-                  text: isPosition ? 'Position: ' : "Sports:",
+                  text: widget.isPosition ? 'Points Required:' : "Sports:",
                   fontWeight: FontWeight.w500,
                   fontSize: 12,
                   color: AppColors.green500,
                 ),
                 Expanded(
                   child: CustomText(
-                    text: position ?? "",
+                    text: widget.position ?? "",
                     maxLines: 2,
                     fontWeight: FontWeight.w500,
                     fontSize: 12,
@@ -143,13 +156,13 @@ class CustomTeamCard extends StatelessWidget {
           ),
           Gap(8.h),
 
-          // Button
           Expanded(
             flex: 2,
             child: CustomButton(
+
               fillColor: AppColors.blue500,
-              onTap: onTap,
-              title: buttonTitle ?? "",
+              onTap: widget.onTap,
+              title: widget.buttonTitle ?? "",
             ),
           ),
         ],

@@ -27,7 +27,6 @@ class ProfileScreen extends StatelessWidget {
           InkWell(
             onTap: () {
               Get.toNamed(AppRoute.editProfileScreen);
-              // Get.toNamed(AppRoute.editProfileScreen);
             },
             child: Container(
               padding: const EdgeInsets.all(5),

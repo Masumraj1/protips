@@ -15,6 +15,7 @@ class CustomPlayerCard extends StatefulWidget {
   final String? position;
   final bool isTeam;
   final bool isPosition;
+  final bool isVisible;
   final VoidCallback onTap;
 
   const CustomPlayerCard({
@@ -27,6 +28,7 @@ class CustomPlayerCard extends StatefulWidget {
     required this.isPosition,
     this.buttonTitle,
     required this.onTap,
+    this.isVisible = false,
   });
 
   @override
@@ -34,7 +36,7 @@ class CustomPlayerCard extends StatefulWidget {
 }
 
 class _CustomPlayerCardState extends State<CustomPlayerCard> {
-  bool isStarred = false; // Track star status
+  bool isStarred = false;
 
   @override
   Widget build(BuildContext context) {
@@ -51,36 +53,36 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min, // Allow column to adjust to its content
         children: [
-          // Player Image with Star Icon
           Expanded(
-            flex: 5,
+            flex: 4,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomNetworkImage(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(5),
                   backgroundColor: AppColors.green100,
                   imageUrl: widget.imageUrl,
-                  width: 120,
-                  height: 140,
+                  width: MediaQuery.of(context).size.width / 4,
+                  height: 100,
                 ),
-                Gap(10.h),
+                Gap(20.h),
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      isStarred = !isStarred; // Toggle star status
+                      isStarred = !isStarred;
                     });
                   },
                   child: Container(
                     height: 24.h,
                     width: 24.h,
                     decoration: BoxDecoration(
-                      color: isStarred ? AppColors.gray300 : AppColors.green500, // Change color if starred
+                      color: isStarred ? AppColors.gray300 : AppColors.green500,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
-                      isStarred ? Icons.star : Icons.star_border, // Toggle icon based on star status
+                      isStarred ? Icons.star : Icons.star_border,
                       color: Colors.white,
                       size: 16.w,
                     ),
@@ -91,46 +93,44 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
           ),
           Gap(8.h),
 
-          // Player Name
           Expanded(
             flex: 2,
             child: Center(
               child: CustomText(
                 text: widget.name,
                 fontWeight: FontWeight.w500,
-                fontSize: 16.sp,
+                fontSize: 16,
                 color: AppColors.blue500,
               ),
             ),
           ),
           Gap(4.h),
 
-          // Team Information
-          Expanded(
-            flex: 1,
-            child: Row(
-              children: [
-                CustomText(
-                  text: widget.isTeam ? 'Team: ' : "",
-                  fontWeight: FontWeight.w500,
-                  fontSize: 12,
-                  color: AppColors.green500,
-                ),
-                Expanded(
-                  child: CustomText(
-                    text: widget.team ?? "",
-                    maxLines: 2,
+          if (widget.isVisible) // Show only if isVisible is true
+            Expanded(
+              flex: 1,
+              child: Row(
+                children: [
+                  CustomText(
+                    text: widget.isTeam ? 'Team: ' : "",
                     fontWeight: FontWeight.w500,
                     fontSize: 12,
-                    color: AppColors.blue500,
+                    color: AppColors.green500,
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: CustomText(
+                      text: widget.team ?? "",
+                      maxLines: 2,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 12,
+                      color: AppColors.blue500,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
           Gap(4.h),
 
-          // Position Information
           Expanded(
             flex: 1,
             child: Row(
@@ -155,10 +155,10 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
           ),
           Gap(8.h),
 
-          // Button
           Expanded(
-            flex: 2,
+                 flex: 2,
             child: CustomButton(
+
               fillColor: AppColors.blue500,
               onTap: widget.onTap,
               title: widget.buttonTitle ?? "",

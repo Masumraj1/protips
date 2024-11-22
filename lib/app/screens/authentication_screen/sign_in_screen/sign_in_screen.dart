@@ -50,14 +50,14 @@ class SignInScreen extends StatelessWidget {
                 maxLines: 3,
               ),
 
-              //========================Email Field=====================
+              ///========================Email Field=====================
               CustomFromCard(
                   hinText: AppStrings.enterYourEmail,
                   title: AppStrings.email,
                   controller: authController.emailController,
                   validator: (v) {}),
               Gap(12.h),
-              //========================Password Field=====================
+              ///========================Password Field=====================
               CustomFromCard(
                   hinText: AppStrings.enterYourPassword,
                   title: AppStrings.password,
@@ -99,7 +99,7 @@ class SignInScreen extends StatelessWidget {
                 ],
               ),
 
-              //===========================Sign In Button=================
+              ///===========================Sign In Button=================
               Gap(30.h),
               CustomButton(
                 isRadius: true,
@@ -108,6 +108,7 @@ class SignInScreen extends StatelessWidget {
                 },
                 title: AppStrings.signIn,
               ),
+              ///===========================Or=================
 
               const CustomText(
                 text: AppStrings.or,
@@ -116,26 +117,31 @@ class SignInScreen extends StatelessWidget {
                 bottom: 10,
                 top: 10,
               ),
-
-              Container(
-                padding: const EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                    color: AppColors.white50,
-                    border: Border.all(color: AppColors.grey400),
-                    borderRadius: const BorderRadius.all(Radius.circular(30))),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Assets.icons.googleSignIn.svg(),
-                    const CustomText(
-                      left: 10,
-                      text: AppStrings.signInGoogle,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.gray500,
-                    )
-                  ],
+               ///======================= Google Auth=====================
+              GestureDetector(
+                onTap: (){
+                  print('tap');
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                      color: AppColors.white50,
+                      border: Border.all(color: AppColors.grey400),
+                      borderRadius: const BorderRadius.all(Radius.circular(30))),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Assets.icons.googleSignIn.svg(),
+                      const CustomText(
+                        left: 10,
+                        text: AppStrings.signInGoogle,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.gray500,
+                      )
+                    ],
+                  ),
                 ),
               ),
               Gap(15.h),

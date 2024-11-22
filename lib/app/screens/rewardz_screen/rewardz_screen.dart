@@ -6,8 +6,10 @@ import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
 import 'package:protippz/app/global/widgets/custom_drop_down/custom_drop_down.dart';
+import 'package:protippz/app/global/widgets/custom_from_card/custom_from_card.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_player_card/custom_player_card.dart';
+import 'package:protippz/app/global/widgets/custom_rewadz_card/custom_rewadz_card.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/global/widgets/custom_text_field/custom_text_field.dart';
 import 'package:protippz/app/utils/app_colors.dart';
@@ -54,6 +56,7 @@ class _RewardzScreenState extends State<RewardzScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
+
       ///===========================Reward appbar======================
       appBar: const CustomAppBar(
         appBarContent: AppStrings.rewardz,
@@ -63,7 +66,6 @@ class _RewardzScreenState extends State<RewardzScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         child: Column(
           children: [
-
             ///=========================Rewardz list======================
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -92,9 +94,9 @@ class _RewardzScreenState extends State<RewardzScreen> {
             ),
             Gap(24.h),
 
-             ///=========================Search =====================
-             const CustomTextField(
-              hintText:AppStrings.searchReward ,
+            ///=========================Search =====================
+            const CustomTextField(
+              hintText: AppStrings.searchReward,
               prefixIcon: Icon(
                 Icons.search,
                 color: AppColors.gray500,
@@ -125,10 +127,11 @@ class _RewardzScreenState extends State<RewardzScreen> {
                   childAspectRatio: 0.8,
                 ),
                 itemBuilder: (context, index) {
-                  return CustomPlayerCard(
+                  return CustomRewadzCard(
+                    isVisible: true,
                     buttonTitle: "Redeem",
-                    imageUrl: AppConstants.team,
-                    name: 'Robert Smith',
+                    imageUrl: AppConstants.shirt,
+                    name: 'Signed Memorabilia ',
                     team: 'Manchester City',
                     position: 'Quarterback',
                     isTeam: true,
@@ -145,6 +148,7 @@ class _RewardzScreenState extends State<RewardzScreen> {
       ),
     );
   }
+
   void showDialogBox(BuildContext context) {
     Get.dialog(
       AlertDialog(
@@ -161,22 +165,20 @@ class _RewardzScreenState extends State<RewardzScreen> {
                       onTap: () {
                         Get.back();
                       },
-                      child: Assets.icons.closeSmall.svg()
-                  )
+                      child: Assets.icons.closeSmall.svg())
                 ],
               ),
-              ///==========================Delete Account===============
               const CustomText(
                 left: 50,
                 fontSize: 16,
-                text: " How to receive the prize ",
+                text: AppStrings.howTOReceive,
                 fontWeight: FontWeight.w500,
                 color: AppColors.gray500,
                 bottom: 10,
               ),
               const CustomText(
                 textAlign: TextAlign.start,
-                text: "Verify Your Email Address: Enter your email address in the provided field and click “Verify.” A verification link will be sent to your email. Open the email and click on the link to confirm your email address. This step is required for digital prizes such as tickets or cash.",
+                text: AppStrings.veryFyYourEmailAddress,
                 fontWeight: FontWeight.w400,
                 color: AppColors.gray500,
                 fontSize: 14,
@@ -184,40 +186,98 @@ class _RewardzScreenState extends State<RewardzScreen> {
               ),
               const CustomText(
                 textAlign: TextAlign.start,
-
                 top: 16,
-                text: "Verify Your Name and Mailing Address: For physical prizes like gear or merchandise, you will need to provide your full name and mailing address. Enter the required information in the designated fields and click “Submit.” Ensure that the details are accurate to avoid any delivery issues.",
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: AppColors.gray500,
-                bottom: 16,
-                maxLines: 10,
-              ),  const CustomText(
-                textAlign: TextAlign.start,
-
-                top: 16,
-                text: "Confirmation: Once your information is verified, you will receive a confirmation message. For digital prizes, the tickets or cash will be sent to your verified email address. For physical prizes, the items will be shipped to your provided mailing address.",
+                text: AppStrings.veryFyYourNameAndMailing,
                 fontWeight: FontWeight.w400,
                 fontSize: 14,
                 color: AppColors.gray500,
                 bottom: 16,
                 maxLines: 10,
               ),
-
-
+              const CustomText(
+                textAlign: TextAlign.start,
+                top: 16,
+                text: AppStrings.confirmationOnce,
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                color: AppColors.gray500,
+                bottom: 16,
+                maxLines: 10,
+              ),
               SizedBox(
                 height: 20.h,
               ),
-
-               CustomButton(onTap: (){
-                 showVerify(context);
-               },title: AppStrings.continues,fillColor: AppColors.blue500,)
+              CustomButton(
+                onTap: () {
+                  Get.back();
+                  whenShirtDialog(context);
+                },
+                title: AppStrings.continues,
+                fillColor: AppColors.blue500,
+              )
             ],
-          )
-      ),
+          )),
     );
   }
-  void showVerify(BuildContext context) {
+
+  // void showVerify(BuildContext context) {
+  //   Get.dialog(
+  //     AlertDialog(
+  //         backgroundColor: AppColors.white50,
+  //         content: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             Row(
+  //               children: [
+  //                 const SizedBox(),
+  //                 const Spacer(),
+  //                 GestureDetector(
+  //                     onTap: () {
+  //                       Get.back();
+  //                     },
+  //                     child: Assets.icons.closeSmall.svg())
+  //               ],
+  //             ),
+  //
+  //             ///==========================Delete Account===============
+  //             const CustomText(
+  //               left: 20,
+  //               fontSize: 16,
+  //               text: "Verify Email Address ",
+  //               fontWeight: FontWeight.w500,
+  //               color: AppColors.gray500,
+  //               bottom: 10,
+  //             ),
+  //             const CustomText(
+  //               textAlign: TextAlign.start,
+  //               fontSize: 16,
+  //               text: "Email",
+  //               fontWeight: FontWeight.w400,
+  //               color: AppColors.gray500,
+  //               bottom: 10,
+  //             ),
+  //
+  //             const CustomTextField(
+  //               fillColor: AppColors.bg500,
+  //               hintText: AppStrings.enterYourEmail,
+  //             ),
+  //
+  //             SizedBox(
+  //               height: 20.h,
+  //             ),
+  //
+  //             CustomButton(
+  //               onTap: () {},
+  //               title: AppStrings.sendCode,
+  //               fillColor: AppColors.blue500,
+  //             )
+  //           ],
+  //         )),
+  //   );
+  // }
+
+  void whenShirtDialog(BuildContext context) {
     Get.dialog(
       AlertDialog(
           backgroundColor: AppColors.white50,
@@ -233,42 +293,74 @@ class _RewardzScreenState extends State<RewardzScreen> {
                       onTap: () {
                         Get.back();
                       },
-                      child: Assets.icons.closeSmall.svg()
-                  )
+                      child: Assets.icons.closeSmall.svg())
                 ],
               ),
+
               ///==========================Delete Account===============
               const CustomText(
                 left: 20,
                 fontSize: 16,
-                text: "Verify Email Address ",
+                maxLines: 2,
+                text: "Verify Name and Mailing Address",
                 fontWeight: FontWeight.w500,
                 color: AppColors.gray500,
                 bottom: 10,
-              ),const CustomText(
+              ),
+              CustomFromCard(
+                  hinText: AppStrings.enterYourFullName,
+                  isBgColor: true,
+                  title: AppStrings.fullName,
+                  controller: TextEditingController(),
+                  validator: (v) {}),
+              const CustomText(
                 textAlign: TextAlign.start,
                 fontSize: 16,
-                text: "Email",
+                text: AppStrings.mailingAddress,
                 fontWeight: FontWeight.w400,
                 color: AppColors.gray500,
-                bottom: 10,
+                bottom: 18,
+                top: 18,
               ),
+              CustomFromCard(
+                  hinText: AppStrings.typeHere,
+                  isBgColor: true,
+                  title: AppStrings.streetAddress,
+                  controller: TextEditingController(),
+                  validator: (v) {}),
+              CustomFromCard(
+                  hinText: AppStrings.typeHere,
+                  isBgColor: true,
+                  title: AppStrings.city,
+                  controller: TextEditingController(),
+                  validator: (v) {}),
+              CustomFromCard(
+                  hinText: AppStrings.typeHere,
+                  isBgColor: true,
+                  title: AppStrings.state,
+                  controller: TextEditingController(),
+                  validator: (v) {}),
 
-              CustomTextField(
-                fillColor: AppColors.bg500,
-                hintText: AppStrings.enterYourEmail,
-              ),
 
+              CustomFromCard(
+                  hinText: AppStrings.typeHere,
+                  isBgColor: true,
+                  title: AppStrings.zipCode,
+                  controller: TextEditingController(),
+                  validator: (v) {}),
               SizedBox(
                 height: 20.h,
               ),
 
-               CustomButton(onTap: (){
-
-               },title: AppStrings.sendCode,fillColor: AppColors.blue500,)
+              CustomButton(
+                onTap: () {
+                  Get.back();
+                },
+                title: AppStrings.submit,
+                fillColor: AppColors.blue500,
+              )
             ],
-          )
-      ),
+          )),
     );
   }
 }

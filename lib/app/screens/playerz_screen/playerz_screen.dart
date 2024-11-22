@@ -24,7 +24,10 @@ class PlayerzScreen extends StatefulWidget {
 
 class _PlayerzScreenState extends State<PlayerzScreen> {
   int? _selectedValue;
-  final List<String> amountOptions = ["Send From Deposit Account","Send From Credit Card/Paypal"];
+  final List<String> amountOptions = [
+    "Send From Deposit Account",
+    "Send From Credit Card/Paypal"
+  ];
   bool _isDropdownOpen = false;
   String _selectedSortBy = 'Name';
   String _selectedOrder = 'A to Z';
@@ -62,13 +65,16 @@ class _PlayerzScreenState extends State<PlayerzScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         child: Column(
           children: [
-            Row(
-              children: List.generate(4, (index) {
-                return CustomHorizontalCard(
-                  image: AppConstants.nba,
-                  title: 'NBA',
-                );
-              }),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(4, (index) {
+                  return CustomHorizontalCard(
+                    image: AppConstants.nba,
+                    title: 'NBA',
+                  );
+                }),
+              ),
             ),
             Gap(24.h),
             const CustomTextField(
@@ -100,7 +106,8 @@ class _PlayerzScreenState extends State<PlayerzScreen> {
                 ),
                 itemBuilder: (context, index) {
                   return CustomPlayerCard(
-                    imageUrl: AppConstants.team,
+                    isVisible: true,
+                    imageUrl: AppConstants.player,
                     name: 'Robert Smith',
                     team: 'Manchester City',
                     position: 'Quarterback',
@@ -131,6 +138,7 @@ class _PlayerzScreenState extends State<PlayerzScreen> {
           team: team,
           position: position,
           onTap: () {
+            Get.back();
             showDialogBox(context);
           },
         );
@@ -139,68 +147,66 @@ class _PlayerzScreenState extends State<PlayerzScreen> {
   }
 
   void showDialogBox(BuildContext context) {
-    Navigator.of(context, rootNavigator: true).push(
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: AppColors.white50,
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const SizedBox(),
-                    const Spacer(),
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop(); // Close dialog
-                        },
-                        child: Assets.icons.closeSmall.svg())
-                  ],
-                ),
-                const CustomText(
-                  textAlign: TextAlign.start,
-                  maxLines: 2,
-                  fontSize: 20,
-                  text: "Select your payment method",
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.gray500,
-                  bottom: 10,
-                ),
-                Column(
-                  children: amountOptions.asMap().entries.map((entry) {
-                    int index = entry.key;
-                    String amount = entry.value;
-                    return RadioListTile<int>(
-                      value: index,
-                      groupValue: _selectedValue,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedValue = value;
-                        });
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: AppColors.white50,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const SizedBox(),
+                  const Spacer(),
+                  GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop(); // Close dialog
                       },
-                      activeColor: Colors.teal,
-                      title: Text(
-                        amount,
-                        style: const TextStyle(color: Colors.blue, fontSize: 18),
-                      ),
-                    );
-                  }).toList(),
-                ),
-                CustomButton(
-                  fillColor: AppColors.blue500,
-                  onTap: () {
-                    Navigator.of(context).pop(); // Close dialog
-                  },
-                  title: AppStrings.continues,
-                )
-              ],
-            ),
-          );
-        },
-      ),
+                      child: Assets.icons.closeSmall.svg())
+                ],
+              ),
+              const CustomText(
+                textAlign: TextAlign.start,
+                maxLines: 2,
+                fontSize: 20,
+                text: "Select your payment method",
+                fontWeight: FontWeight.w500,
+                color: AppColors.gray500,
+                bottom: 10,
+              ),
+              Column(
+                children: amountOptions.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  String amount = entry.value;
+                  return RadioListTile<int>(
+                    value: index,
+                    groupValue: _selectedValue,
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedValue = value;
+                      });
+                    },
+                    activeColor: Colors.teal,
+                    title: Text(
+                      amount,
+                      style: const TextStyle(color: Colors.blue, fontSize: 18),
+                    ),
+                  );
+                }).toList(),
+              ),
+              CustomButton(
+                fillColor: AppColors.blue500,
+                onTap: () {
+                  Navigator.of(context).pop(); // Close dialog
+                },
+                title: AppStrings.continues,
+              )
+            ],
+          ),
+        );
+      },
     );
   }
-
 }

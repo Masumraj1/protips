@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/controller/home_controller.dart';
 import 'package:protippz/app/core/app_routes.dart';
+import 'package:protippz/app/core/custom_assets/assets.gen.dart';
+import 'package:protippz/app/global/widgets/custom_image_card/custom_image_card.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/global/widgets/nav_bar/nav_bar.dart';
@@ -25,20 +27,23 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.bg500,
       key: scaffoldKey,
+
+      ///==========================Side Drawer===================
       drawer: SideDrawer(),
       bottomNavigationBar: const NavBar(currentIndex: 0),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ///=====================Appbar==================
+            ///=====================Home Appbar==================
             HomeAppBar(
               scaffoldKey: scaffoldKey,
-              name: 'Ronald Richards', image: AppConstants.profileImage,
+              name: 'Ronald Richards',
+              image: AppConstants.profileImage,
             ),
             SizedBox(height: 10.w),
 
-            ///======================Tip======================
+            ///======================Tip Information======================
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: TippingCard(
@@ -47,19 +52,43 @@ class HomeScreen extends StatelessWidget {
                 },
               ),
             ),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  ///=============================Tippz now =====================
                   _buildSectionTitle(AppStrings.tippzNow),
                   _buildTippzNowSection(),
+
+                  ///============================= Reward======================
                   _buildRewardzHeader(() {
                     Get.toNamed(AppRoute.rewardzScreen);
                   }),
-                  _buildHorizontalScrollableItems(AppConstants.reward),
-                  _buildSectionTitle("Top Sports League"),
-                  _buildHorizontalScrollableItems(AppConstants.team),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(4, (index) {
+                        return CustomImageCard(
+                            imageUrl: AppConstants.reward,
+                            title: 'Golden Boll');
+                      }),
+                    ),
+                  ),
+
+                  ///=========================Top Sports League==================
+                  _buildSectionTitle(AppStrings.topSportsLeague),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(4, (index) {
+                        return CustomImageCard(
+                            imageUrl: AppConstants.leage,
+                            title: 'NBA');
+                      }),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -68,7 +97,7 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
+//==================title======================
   Widget _buildSectionTitle(String title) {
     return CustomText(
       top: 24,
@@ -80,45 +109,46 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  //=========================Tip Now======================
   Widget _buildTippzNowSection() {
-    return Row(
-      children: List.generate(2, (index) {
-        return Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: GestureDetector(
-            onTap: () {
-              index == 0
-                  ? Get.toNamed(AppRoute.playerzScreen)
-                  : Get.toNamed(AppRoute.teamzScreen);
-            },
-            child: Column(
-              children: [
-                CustomNetworkImage(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  imageUrl:
-                      index == 0 ? AppConstants.playerz : AppConstants.team,
-                  height: 108,
-                  width: 162,
-                ),
-                CustomText(
-                  top: 10,
-                  text: index == 0 ? AppStrings.playerz : AppStrings.teamz,
-                  color: AppColors.gray500,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ],
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: List.generate(2, (index) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: GestureDetector(
+              onTap: () {
+                index == 0
+                    ? Get.toNamed(AppRoute.playerzScreen)
+                    : Get.toNamed(AppRoute.teamzScreen);
+              },
+              child: Column(
+                children: [
+                  index == 0
+                      ? Assets.images.player.image()
+                      : Assets.images.team.image(),
+                  CustomText(
+                    top: 10,
+                    text: index == 0 ? AppStrings.playerz : AppStrings.teamz,
+                    color: AppColors.gray500,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 
+  //=================View All================
   Widget _buildRewardzHeader(VoidCallback onTap) {
     return Row(
       children: [
-        CustomText(
+        const CustomText(
           top: 24,
           text: AppStrings.rewardz,
           color: AppColors.gray500,
@@ -126,10 +156,10 @@ class HomeScreen extends StatelessWidget {
           fontWeight: FontWeight.w500,
           bottom: 12,
         ),
-        Spacer(),
+        const Spacer(),
         GestureDetector(
           onTap: onTap,
-          child: CustomText(
+          child: const CustomText(
             top: 24,
             text: AppStrings.viewAll,
             color: AppColors.blue500,
@@ -139,36 +169,6 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildHorizontalScrollableItems(String imageUrl) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: List.generate(9, (index) {
-          return Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Column(
-              children: [
-                CustomNetworkImage(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  imageUrl: imageUrl,
-                  height: 105,
-                  width: 105,
-                ),
-                const CustomText(
-                  top: 10,
-                  text: 'Golden ball',
-                  color: AppColors.gray500,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ],
-            ),
-          );
-        }),
-      ),
     );
   }
 }

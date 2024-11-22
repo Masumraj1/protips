@@ -210,11 +210,17 @@ class $AssetsImagesGen {
   /// File path: assets/images/paypal.png
   AssetGenImage get paypal => const AssetGenImage('assets/images/paypal.png');
 
+  /// File path: assets/images/player.png
+  AssetGenImage get player => const AssetGenImage('assets/images/player.png');
+
   /// File path: assets/images/pt.png
   AssetGenImage get pt => const AssetGenImage('assets/images/pt.png');
 
   /// File path: assets/images/ptis.png
   AssetGenImage get ptis => const AssetGenImage('assets/images/ptis.png');
+
+  /// File path: assets/images/team.png
+  AssetGenImage get team => const AssetGenImage('assets/images/team.png');
 
   /// File path: assets/images/tips.png
   AssetGenImage get tips => const AssetGenImage('assets/images/tips.png');
@@ -232,8 +238,10 @@ class $AssetsImagesGen {
         logo,
         noInternet,
         paypal,
+        player,
         pt,
         ptis,
+        team,
         tips,
         visa
       ];
