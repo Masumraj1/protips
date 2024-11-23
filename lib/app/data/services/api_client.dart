@@ -166,6 +166,65 @@ class ApiClient extends GetxService {
     }
   }
 
+
+
+  ///====================================What===================
+  static Future<Response> patch({
+    required String url,
+    required Map<String, String> body,
+    File? file, // Optional file
+    String fileKey = 'file', // Default file field key
+    Map<String, String>? headers,
+  }) async {
+    try {
+      // Bearer token setup
+      String? bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
+      var defaultHeaders = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $bearerToken',
+      };
+
+      // Merge default headers with custom headers
+      var requestHeaders = {...defaultHeaders, if (headers != null) ...headers};
+
+      // Create Multipart Request
+      var request = http.MultipartRequest('PATCH', Uri.parse(ApiUrl.baseUrl + url));
+      request.fields.addAll(body);
+      request.headers.addAll(requestHeaders);
+
+      // Add file if provided
+      if (file != null && file.existsSync()) {
+        var mimeType = lookupMimeType(file.path);
+        if (mimeType != null) {
+          var multipartFile = await http.MultipartFile.fromPath(
+            fileKey,
+            file.path,
+            contentType: MediaType.parse(mimeType),
+          );
+          request.files.add(multipartFile);
+        }
+      }
+
+      // Send Request
+      var response = await request.send();
+      final responseBody = await response.stream.bytesToString();
+
+      return Response(
+        statusCode: response.statusCode,
+        body: responseBody,
+        statusText: response.statusCode == 200 ? "success" : "error",
+      );
+    } catch (e) {
+      return Response(
+        statusCode: 500,
+        statusText: e.toString(),
+      );
+    }
+  }
+
+
+  ///=============================Put data===================
+
   Future<Response> putData(String uri, dynamic body,
       {Map<String, String>? headers}) async {
     bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
