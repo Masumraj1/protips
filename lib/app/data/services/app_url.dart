@@ -12,6 +12,8 @@ class ApiUrl {
   static const forgetOtp = "/auth/verify-reset-otp";
   static const resetPassword = "/auth/reset-password";
   static const getProfile = "/user/get-my-profile";
+  static const deleteAccount = "/user/delete-account";
+  static const profileUpdate = "/normal-user/update-profile";
 
 
 }

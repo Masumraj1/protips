@@ -34,6 +34,8 @@ class AuthController extends GetxController {
   TextEditingController userNameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController pinController = TextEditingController();
+  TextEditingController oldPasswordController = TextEditingController();
+  TextEditingController newPasswordController = TextEditingController();
 
   ///==================================SignUp Method=======================
   RxBool isSignUpLoading = false.obs;
@@ -244,6 +246,59 @@ class AuthController extends GetxController {
     }
 
     isForget.value = false;
+    refresh();
+  }
+
+  ///=========================================Change password===================
+  RxBool isChangeLoading = false.obs;
+
+  changePassword() async {
+    isChangeLoading.value = true;
+    refresh();
+    Map<String, String> body ={
+      "oldPassword":oldPasswordController.text,
+      "newPassword":newPasswordController.text,
+      "confirmNewPassword":confirmPasswordController.text
+    };
+
+    var response = await ApiClient.postData(
+      ApiUrl.changePassword,
+      jsonEncode(body),
+    );
+    if (response.statusCode == 200) {
+      oldPasswordController.clear();
+      passwordController.clear();
+      confirmPasswordController.clear();
+      Get.back();
+      toastMessage(message: response.body["message"]);
+    } else {
+      ApiChecker.checkApi(response);
+    }
+    isChangeLoading.value = false;
+  }
+
+
+  ///=============================================account delete==========================
+  RxBool isDeleteLoading = false.obs;
+
+  deleteAccount() async {
+    isDeleteLoading.value = true;
+    refresh();
+    Map<dynamic, String> body = {"password": passwordController.text};
+    var response = await ApiClient.deleteData(ApiUrl.deleteAccount,
+        body: jsonEncode(body));
+
+    isDeleteLoading.value = false;
+    refresh();
+    if (response.statusCode == 200) {
+      await SharePrefsHelper.remove(
+          AppConstants.bearerToken);
+      toastMessage(message: response.body["message"]);
+      Get.offAllNamed(AppRoute.signInScreen);
+    } else {
+      ApiChecker.checkApi(response);
+    }
+    isDeleteLoading.value = false;
     refresh();
   }
 }
