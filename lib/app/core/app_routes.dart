@@ -39,7 +39,7 @@ class AppRoute {
 
 
   //=================== General screens ===================
-  static const String noInternetScreen = '/NoInternetScreen';
+  // static const String noInternetScreen = '/NoInternetScreen';
 
   //=========================Auth Screen ===================
   static const String signInScreen = '/SignInScreen';
@@ -84,7 +84,7 @@ class AppRoute {
   static List<GetPage> routes = [
     ///==================== Initial Routes ====================
     GetPage(name: splashScreen, page: () => const SplashScreen(),),
-    GetPage(name: noInternetScreen, page: () => const NoInternetScreen(),),
+    // GetPage(name: noInternetScreen, page: () =>  const NoInternetScreen(),),
     GetPage(name: signInScreen, page: () =>  SignInScreen(),),
     GetPage(name: signUpScreen, page: () =>  SignUpScreen(),),
     GetPage(name: otpScreen, page: () =>  OtpScreen(),),
@@ -97,7 +97,7 @@ class AppRoute {
     GetPage(name: notificationScreen, page: () =>  NotificationScreen(),),
     GetPage(name: favoriteScreen, page: () =>  FavoriteScreen(),),
     GetPage(name: historyScreen, page: () => HistoryScreen(),),
-    GetPage(name: profileScreen, page: () =>  const ProfileScreen(),),
+    GetPage(name: profileScreen, page: () =>   ProfileScreen(),),
     GetPage(name: editProfileScreen, page: () =>  EditProfileScreen(),),
     GetPage(name: settingScreen, page: () =>  SettingScreen(),),
     GetPage(name: changePasswordScreen, page: () =>  ChangePasswordScreen(),),

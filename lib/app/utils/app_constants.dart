@@ -1,7 +1,7 @@
 
 class AppConstants {
 
-  AppConstants._();
+  // AppConstants._();
   static String bearerToken = "BearerToken";
   static String resetToken = "BearerToken";
   static String userId = "UserId";

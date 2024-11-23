@@ -1,6 +1,7 @@
 class ApiUrl {
 
   static const baseUrl = "http://192.168.10.11:5050";
+  static const netWorkUrl = "http://192.168.10.11:5050/";
 
   ///================================= User Authentication url==========================
   static const signupAuth = "/user/register-user";

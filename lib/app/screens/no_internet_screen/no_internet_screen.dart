@@ -7,7 +7,8 @@ import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
 class NoInternetScreen extends StatelessWidget {
-  const NoInternetScreen({super.key});
+  const NoInternetScreen({super.key, required this.onTap});
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class NoInternetScreen extends StatelessWidget {
                 const Gap(24),
             ///=====================TryAgain Button===================
             CustomButton(
-              onTap: () {},
+              onTap:onTap,
               title: AppStrings.tryAgain,
             )
           ],

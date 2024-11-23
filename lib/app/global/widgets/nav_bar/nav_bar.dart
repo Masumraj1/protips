@@ -118,7 +118,7 @@ class _NavBarState extends State<NavBar> {
       }
     }else if (index == 4) {
       if (!(widget.currentIndex == 4)) {
-        Get.to(() =>  const ProfileScreen());
+        Get.to(() =>   ProfileScreen());
       }
     }
   }

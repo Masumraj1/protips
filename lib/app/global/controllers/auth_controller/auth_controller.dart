@@ -23,9 +23,11 @@ class AuthController extends GetxController {
     SharePrefsHelper.setBool(AppConstants.isRememberMe, isRemember.value);
   }
 
-  //============================All Controller =====================
-  TextEditingController emailController = TextEditingController(text: kDebugMode?"masumrna927@gmail.com":"");
-  TextEditingController passwordController = TextEditingController(text: kDebugMode?"Masum017":"");
+  ///============================All Controller =====================
+  TextEditingController emailController =
+      TextEditingController(text: kDebugMode ? "masumrna927@gmail.com" : "");
+  TextEditingController passwordController =
+      TextEditingController(text: kDebugMode ? "Masum017" : "");
   TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
@@ -77,16 +79,17 @@ class AuthController extends GetxController {
     isSignInLoading.value = true;
     refresh();
     Map<String, String> body = {
-      "userNameOrEmail":emailController.text,
-      "password":passwordController.text
+      "userNameOrEmail": emailController.text,
+      "password": passwordController.text
     };
     var response = await ApiClient.postData(
       ApiUrl.signIn,
       jsonEncode(body),
     );
     if (response.statusCode == 200) {
-      // SharePrefsHelper.setString(AppConstants.bearerToken, response.body["token"]);
+      SharePrefsHelper.setString(AppConstants.bearerToken, response.body['data']["accessToken"]);
 
+      debugPrint('======================token   ${response.body['data']['accessToken']}');
       Get.toNamed(AppRoute.homeScreen);
       toastMessage(
         message: response.body["message"],
@@ -103,7 +106,6 @@ class AuthController extends GetxController {
     refresh();
   }
 
-
   ///============================== resetPassword ================================
   RxBool isResend = false.obs;
 
@@ -111,9 +113,9 @@ class AuthController extends GetxController {
     isResend.value = true;
     refresh();
     Map<String, String> body = {
-      "email":emailController.text,
+      "email": emailController.text,
       "password": passwordController.text,
-      "confirmPassword":confirmPasswordController.text
+      "confirmPassword": confirmPasswordController.text
     };
     var response = await ApiClient.postData(
       ApiUrl.resetPassword,
@@ -138,7 +140,6 @@ class AuthController extends GetxController {
     refresh();
   }
 
-
   ///============================ Forget Password ==========================
 
   RxBool isForgetLoading = false.obs;
@@ -148,7 +149,7 @@ class AuthController extends GetxController {
     refresh();
     Map<dynamic, String> body = {"email": emailController.text};
     var response =
-    await ApiClient.postData(ApiUrl.forgotPassword, jsonEncode(body));
+        await ApiClient.postData(ApiUrl.forgotPassword, jsonEncode(body));
     isForgetLoading.value = false;
     refresh();
     if (response.statusCode == 200) {
@@ -165,7 +166,7 @@ class AuthController extends GetxController {
     refresh();
   }
 
-  ///=====================Sign up Otp==================
+  ///=====================Sign up Otp==========================================
   String activationCode = "";
   RxBool isSignUpOtp = false.obs;
 
@@ -175,12 +176,12 @@ class AuthController extends GetxController {
     int resetCode = int.tryParse(activationCode) ?? 0;
 
     Map<dynamic, dynamic> body = {
-      "email":emailController.text,
-      "verifyCode":resetCode
+      "email": emailController.text,
+      "verifyCode": resetCode
     };
 
     var response =
-    await ApiClient.postData(ApiUrl.veryFyCode, jsonEncode(body));
+        await ApiClient.postData(ApiUrl.veryFyCode, jsonEncode(body));
     isSignUpOtp.value = false;
     refresh();
     if (response.statusCode == 200) {
@@ -245,6 +246,4 @@ class AuthController extends GetxController {
     isForget.value = false;
     refresh();
   }
-
-
 }
