@@ -24,6 +24,8 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   final AuthController authenticationController = Get.find<AuthController>();
   final String isSignUp = Get.parameters[AppStrings.signUp] ?? "true";
+  final String email = Get.parameters[AppStrings.email] ?? "";
+
   final formKey = GlobalKey<FormState>();
   int _secondsRemaining = 200;
   late Timer _timer;
@@ -82,8 +84,18 @@ class _OtpScreenState extends State<OtpScreen> {
                     fontSize: 22,
                     color: AppColors.blue500,
                   ),
+                   CustomText(
+                     top: 15,
+                     maxLines: 5,
 
-                  Gap(50.h),
+                    text: "We sent a reset link to $email. Please enter the 5-digit code.",
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                    color: AppColors.green500,
+                  ),
+
+
+                  Gap(60.h),
 
                   /// Pin Code Text Field
                   PinCodeTextField(
@@ -130,36 +142,36 @@ class _OtpScreenState extends State<OtpScreen> {
                   SizedBox(height: 50.h),
 
                   /// Resend OTP Section
-                  // Align(
-                  //   alignment: Alignment.centerRight,
-                  //   child: GestureDetector(
-                  //     onTap: _secondsRemaining == 0
-                  //         ? () {
-                  //       setState(() {
-                  //         _secondsRemaining = 200; // Reset timer
-                  //         startTimer(); // Restart the timer
-                  //       });
-                  //
-                  //       // Call the resend function
-                  //       authenticationController.resentUser().then((value) {
-                  //         if (!value) {
-                  //           setState(() {
-                  //             _timer.cancel(); // Cancel timer if resend failed
-                  //             _secondsRemaining = 0;
-                  //           });
-                  //         }
-                  //       });
-                  //     }
-                  //         : null,
-                  //     child: CustomText(
-                  //       text: _secondsRemaining == 0
-                  //           ? "Resend OTP"
-                  //           : "Resend OTP in $_secondsRemaining seconds",
-                  //       color: AppColors.green500,
-                  //       fontWeight: FontWeight.w600,
-                  //     ),
-                  //   ),
-                  // ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: _secondsRemaining == 0
+                          ? () {
+                        setState(() {
+                          _secondsRemaining = 200; // Reset timer
+                          startTimer(); // Restart the timer
+                        });
+
+                        // // Call the resend function
+                        // authenticationController.resentUser().then((value) {
+                        //   if (!value) {
+                        //     setState(() {
+                        //       _timer.cancel(); // Cancel timer if resend failed
+                        //       _secondsRemaining = 0;
+                        //     });
+                        //   }
+                        // });
+                      }
+                          : null,
+                      child: CustomText(
+                        text: _secondsRemaining == 0
+                            ? "Resend OTP"
+                            : "Resend OTP in $_secondsRemaining seconds",
+                        color: AppColors.green500,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
 
                   Gap(30.h),
 

@@ -59,7 +59,10 @@ class AuthController extends GetxController {
       jsonEncode(body),
     );
     if (response.statusCode == 200) {
-      Get.toNamed(AppRoute.otpScreen, parameters: {AppStrings.signUp: "true"});
+      Get.toNamed(AppRoute.otpScreen, parameters: {
+        AppStrings.signUp: "true",
+        AppStrings.email: emailController.text,
+      });
       toastMessage(
         message: response.body["message"],
       );
@@ -89,9 +92,11 @@ class AuthController extends GetxController {
       jsonEncode(body),
     );
     if (response.statusCode == 200) {
-      SharePrefsHelper.setString(AppConstants.bearerToken, response.body['data']["accessToken"]);
+      SharePrefsHelper.setString(
+          AppConstants.bearerToken, response.body['data']["accessToken"]);
 
-      debugPrint('======================token   ${response.body['data']['accessToken']}');
+      debugPrint(
+          '======================token   ${response.body['data']['accessToken']}');
       Get.toNamed(AppRoute.homeScreen);
       toastMessage(
         message: response.body["message"],
@@ -156,7 +161,13 @@ class AuthController extends GetxController {
     refresh();
     if (response.statusCode == 200) {
       // emailController.clear();
-      Get.toNamed(AppRoute.otpScreen, parameters: {AppStrings.signUp: "false"});
+      Get.toNamed(
+        AppRoute.otpScreen,
+        parameters: {
+          AppStrings.signUp: "false",
+          AppStrings.email: emailController.text, // Use a proper key for email
+        },
+      );
 
       toastMessage(
         message: response.body["message"],
@@ -192,8 +203,11 @@ class AuthController extends GetxController {
       confirmPasswordController.clear();
       nameController.clear();
 
-      // SharePrefsHelper.setString(
-      //     AppConstants.bearerToken, response.body["token"]);
+      SharePrefsHelper.setString(
+          AppConstants.bearerToken, response.body['data']["accessToken"]);
+
+      debugPrint(
+          '======================token   ${response.body['data']['accessToken']}');
       Get.offAllNamed(AppRoute.homeScreen);
       toastMessage(
         message: response.body["message"],
@@ -255,10 +269,10 @@ class AuthController extends GetxController {
   changePassword() async {
     isChangeLoading.value = true;
     refresh();
-    Map<String, String> body ={
-      "oldPassword":oldPasswordController.text,
-      "newPassword":newPasswordController.text,
-      "confirmNewPassword":confirmPasswordController.text
+    Map<String, String> body = {
+      "oldPassword": oldPasswordController.text,
+      "newPassword": newPasswordController.text,
+      "confirmNewPassword": confirmPasswordController.text
     };
 
     var response = await ApiClient.postData(
@@ -277,7 +291,6 @@ class AuthController extends GetxController {
     isChangeLoading.value = false;
   }
 
-
   ///=============================================account delete==========================
   RxBool isDeleteLoading = false.obs;
 
@@ -291,8 +304,7 @@ class AuthController extends GetxController {
     isDeleteLoading.value = false;
     refresh();
     if (response.statusCode == 200) {
-      await SharePrefsHelper.remove(
-          AppConstants.bearerToken);
+      await SharePrefsHelper.remove(AppConstants.bearerToken);
       toastMessage(message: response.body["message"]);
       Get.offAllNamed(AppRoute.signInScreen);
     } else {
@@ -300,5 +312,31 @@ class AuthController extends GetxController {
     }
     isDeleteLoading.value = false;
     refresh();
+  }
+
+
+  ///=============================Resend password========================
+  final rxRequestStatus = Status.loading.obs;
+
+  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+  resentUser() async {
+    setRxRequestStatus(Status.loading);
+    update();
+    Map<String, String> body = {"email": emailController.text};
+
+    var response = await ApiClient.postData(
+      ApiUrl.signUpResendOtp,
+      jsonEncode(body),
+    );
+    if (response.statusCode == 200) {
+      setRxRequestStatus(Status.completed);
+      toastMessage(message: response.body["message"]);
+      update();
+      return true;
+    } else {
+      ApiChecker.checkApi(response);
+      update();
+      return false;
+    }
   }
 }
