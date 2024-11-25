@@ -25,6 +25,8 @@ class AppConstants {
   static String profileImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqafzhnwwYzuOTjTlaYMeQ7hxQLy_Wq8dnQg&s';
 }
 
+
+
 enum Status { loading, error, completed, internetError }
 
 
