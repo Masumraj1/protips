@@ -115,7 +115,7 @@ class AppRoute {
     GetPage(name: tipzScreen, page: () =>  TipzScreen(),),
     GetPage(name: playerzScreen, page: () =>  PlayerzScreen(),),
     GetPage(name: teamzScreen, page: () =>  TeamzScreen(),),
-    GetPage(name: rewardzScreen, page: () =>  const RewardzScreen(),),
+    GetPage(name: rewardzScreen, page: () =>   RewardzScreen(),),
 
 
   ];

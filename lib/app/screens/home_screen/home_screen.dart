@@ -68,12 +68,14 @@ class HomeScreen extends StatelessWidget {
                   }),
                   Obx(() {
                     return  homeController.rewardList.isEmpty
-                        ? const CustomText(
-                      text: "No Reward Founded",
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.gray500,
-                    )
+                        ? const Center(
+                          child: CustomText(
+                                                text: "No Reward Founded",
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
+                                                color: AppColors.gray500,
+                                              ),
+                        )
                         : SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
@@ -93,12 +95,14 @@ class HomeScreen extends StatelessWidget {
                   _buildSectionTitle(AppStrings.topSportsLeague),
                   Obx(() {
                     return homeController.leagueList.isEmpty
-                        ? const CustomText(
-                            text: "No League Founded",
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.gray500,
-                          )
+                        ? const Center(
+                          child: CustomText(
+                              text: "No League Founded",
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.gray500,
+                            ),
+                        )
                         : SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Row(
