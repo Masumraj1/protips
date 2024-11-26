@@ -1,38 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:get/get.dart';
+import 'package:protippz/app/global/controllers/genarel_controller/genarel_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
-import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
+import 'package:protippz/app/global/widgets/custom_loader/custom_loader.dart';
+import 'package:protippz/app/global/widgets/genarel_error/genarel_error.dart';
+import 'package:protippz/app/screens/no_internet_screen/no_internet_screen.dart';
 import 'package:protippz/app/utils/app_colors.dart';
+import 'package:protippz/app/utils/app_constants.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
-  const PrivacyPolicyScreen({super.key});
+  PrivacyPolicyScreen({super.key});
+
+  final GeneralController _generalController = Get.find<GeneralController>();
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: AppColors.bg500,
+    return Scaffold(
+        backgroundColor: AppColors.bg500,
 
-      ///========================Privacy===================
-      appBar: CustomAppBar(
-        appBarContent: AppStrings.privacyPolicy,
-        iconData: Icons.arrow_back,
-      ),
-      body: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 20,vertical: 20),
-        child: Column(
-          children: [
-            CustomText(
-              maxLines: 50,
-              textAlign: TextAlign.start,
-              text:
-              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.',
-              color: AppColors.gray500,
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-            ),
-          ],
+        ///========================Privacy===================
+        appBar: const CustomAppBar(
+          appBarContent: AppStrings.privacyPolicy,
+          iconData: Icons.arrow_back,
         ),
-      ),
-    );
+        body: Obx(() {
+          switch (_generalController.rxRequestStatus.value) {
+            case Status.loading:
+              return const CustomLoader(); // Show loading indicator
+
+            case Status.internetError:
+              return NoInternetScreen(onTap: () {
+                _generalController.getPrivacy();
+              });
+
+            case Status.error:
+              return GeneralErrorScreen(
+                onTap: () {
+                  _generalController.getPrivacy(); // Retry fetching data on error
+                },
+              );
+
+            case Status.completed:
+              return SingleChildScrollView(
+                padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 20.w),
+                child: HtmlWidget(
+                    _generalController.privacyModel.data?.description ?? "",
+                    textStyle: const TextStyle(
+                        color: AppColors.gray500, fontSize: 16)),
+              );
+            default:
+              return const SizedBox();
+          }
+        }));
   }
 }

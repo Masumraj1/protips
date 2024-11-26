@@ -2,10 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:protippz/app/data/models/privacy_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';
 import 'package:protippz/app/data/services/api_client.dart';
 import 'package:protippz/app/data/services/app_url.dart';
 import 'package:protippz/app/global/widgets/toast_message/toast_message.dart';
+import 'package:protippz/app/utils/app_constants.dart';
 
 class GeneralController extends GetxController {
   ///==============================ContactUs==========================
@@ -62,5 +64,63 @@ class GeneralController extends GetxController {
     emailController.clear();
     phoneController.clear();
     messageController.clear();
+  }
+
+
+  ///========================Terms and condition========================
+  final rxRequestStatus = Status.loading.obs;
+
+  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+
+  ///===================================GetTerms=========================
+  PrivacyModel privacyModel = PrivacyModel();
+  getPrivacy() async {
+    setRxRequestStatus(Status.loading);
+    refresh();
+    var response = await ApiClient.getData(ApiUrl.getPrivacyPolicy);
+    setRxRequestStatus(Status.completed);
+
+    if (response.statusCode == 200) {
+      privacyModel = PrivacyModel.fromJson(response.body);
+      print('Value========================"${privacyModel.data?.description}"');
+    } else {
+      if (response.statusText == ApiClient.noInternetMessage) {
+        setRxRequestStatus(Status.internetError);
+      } else {
+        setRxRequestStatus(Status.error);
+      }
+      ApiChecker.checkApi(response);
+    }
+  }
+
+
+  PrivacyModel termsModel = PrivacyModel();
+
+  getTerms() async {
+    setRxRequestStatus(Status.loading);
+    refresh();
+    var response = await ApiClient.getData(ApiUrl.getTermsAndConditions);
+    setRxRequestStatus(Status.completed);
+
+    if (response.statusCode == 200) {
+      termsModel = PrivacyModel.fromJson(response.body);
+      print('Value========================"${termsModel.data?.description}"');
+    } else {
+      if (response.statusText == ApiClient.noInternetMessage) {
+        setRxRequestStatus(Status.internetError);
+      } else {
+        setRxRequestStatus(Status.error);
+      }
+      ApiChecker.checkApi(response);
+    }
+  }
+
+
+
+  @override
+  void onInit() {
+   getPrivacy();
+   getTerms();
+    super.onInit();
   }
 }
