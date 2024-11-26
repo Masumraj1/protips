@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/data/models/league_model.dart';
 import 'package:protippz/app/data/models/rewadz_model.dart';
+import 'package:protippz/app/data/models/selected_reward_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';
 import 'package:protippz/app/data/services/api_client.dart';
 import 'package:protippz/app/data/services/app_url.dart';
@@ -67,6 +68,49 @@ class HomeController extends GetxController{
   }
 
 
+  ///<<<<<<<<<<======================================Search Method====================>>>>>>>
+  TextEditingController searchController = TextEditingController();
+
+  searchReward({required String search}) async {
+    setRxRequestStatus(Status.loading);
+    selectRewardList.refresh();
+    var response = await ApiClient.getData("${ApiUrl.searchReward}=$search");
+    selectRewardList.refresh();
+    if (response.statusCode == 200) {
+      selectRewardList = RxList<SelectRewardList>.from(
+          response.body["data"]['result'].map((x) => SelectRewardList.fromJson(x)));
+      setRxRequestStatus(Status.completed);
+      selectRewardList.refresh();
+    } else {
+      ApiChecker.checkApi(response);
+    }
+  }
+
+///========================selected Reward method===========================
+  Rx<int?> selectedIndex = Rx<int?>(null); // Track selected index
+
+  RxList<SelectRewardList> selectRewardList = <SelectRewardList>[].obs;
+  selectedReward({required String id}) async {
+    setRxRequestStatus(Status.loading);
+    refresh();
+    var response = await ApiClient.getData(
+        ApiUrl.selectReward(id: id));
+
+    if (response.statusCode == 200) {
+      selectRewardList.value = List<SelectRewardList>.from(
+          response.body["data"]['result'].map((x) => SelectRewardList.fromJson(x)));
+      print('SelectRewardList=========================="${selectRewardList.length}"');
+      setRxRequestStatus(Status.completed);
+      refresh();
+    } else {
+      if (response.statusText == ApiClient.noInternetMessage) {
+        setRxRequestStatus(Status.internetError);
+      } else {
+        setRxRequestStatus(Status.error);
+      }
+      ApiChecker.checkApi(response);
+    }
+  }
 
   @override
   void onInit() {

@@ -42,6 +42,11 @@ class ApiUrl {
 
   ///======================Reward====================
   static const getReward = "/reward-category/get-all";
+  static String selectReward({required String id}) {
+    return "/reward/get-all?category=$id";
+  }
+  static const searchReward = "/reward/get-all?searchTerm";
+
 
 
 }
