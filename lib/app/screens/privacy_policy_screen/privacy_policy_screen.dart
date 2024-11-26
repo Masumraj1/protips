@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
-import 'package:protippz/app/global/controllers/genarel_controller/genarel_controller.dart';
+import 'package:protippz/app/controller/info_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_loader/custom_loader.dart';
 import 'package:protippz/app/global/widgets/genarel_error/genarel_error.dart';
@@ -14,7 +14,7 @@ import 'package:protippz/app/utils/app_strings.dart';
 class PrivacyPolicyScreen extends StatelessWidget {
   PrivacyPolicyScreen({super.key});
 
-  final GeneralController _generalController = Get.find<GeneralController>();
+  final InfoController _infoController = Get.find<InfoController>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,19 +27,19 @@ class PrivacyPolicyScreen extends StatelessWidget {
           iconData: Icons.arrow_back,
         ),
         body: Obx(() {
-          switch (_generalController.rxRequestStatus.value) {
+          switch (_infoController.rxRequestStatus.value) {
             case Status.loading:
               return const CustomLoader(); // Show loading indicator
 
             case Status.internetError:
               return NoInternetScreen(onTap: () {
-                _generalController.getPrivacy();
+                _infoController.getPrivacy();
               });
 
             case Status.error:
               return GeneralErrorScreen(
                 onTap: () {
-                  _generalController.getPrivacy(); // Retry fetching data on error
+                  _infoController.getPrivacy(); // Retry fetching data on error
                 },
               );
 
@@ -47,7 +47,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               return SingleChildScrollView(
                 padding: EdgeInsets.symmetric(vertical: 24.h, horizontal: 20.w),
                 child: HtmlWidget(
-                    _generalController.privacyModel.data?.description ?? "",
+                    _infoController.privacyModel.data?.description ?? "",
                     textStyle: const TextStyle(
                         color: AppColors.gray500, fontSize: 16)),
               );

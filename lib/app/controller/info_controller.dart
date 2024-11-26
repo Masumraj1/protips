@@ -1,27 +1,102 @@
 import 'package:get/get.dart';
+import 'package:protippz/app/data/models/faq_model.dart';
+import 'package:protippz/app/data/models/privacy_model.dart';
+import 'package:protippz/app/data/services/api_check.dart';
+import 'package:protippz/app/data/services/api_client.dart';
+import 'package:protippz/app/data/services/app_url.dart';
+import 'package:protippz/app/utils/app_constants.dart';
 
 class InfoController extends GetxController{
-  // Sample data for FAQ
-  final List<Map<String, String>> faqData = [
-    {
-      "question": "How much does delivery cost?",
-      "answer": "Delivery charges vary depending on the location and the amount of fuel ordered. You will see the total cost, including delivery fees, before confirming your order."
-    },
-    {
-      "question": "How do I pay for fuel delivery?",
-      "answer": "You can pay for fuel delivery using a credit card, debit card, or mobile payment options."
-    },
-    {
-      "question": "Is there a minimum or maximum fuel order?",
-      "answer": "Yes, minimum and maximum order amounts apply. Please check our ordering guidelines for specific limits."
-    },
-    {
-      "question": "How do I know when my fuel will arrive?",
-      "answer": "Once your order is placed, you'll receive an estimated delivery time."
-    },
-    {
-      "question": "How do I pay for fuel delivery?",
-      "answer": "You can pay for fuel delivery through various payment options."
-    },
-  ];
+
+  final rxRequestStatus = Status.loading.obs;
+
+  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+
+  ///===================================getPrivacy=========================
+  PrivacyModel privacyModel = PrivacyModel();
+  getPrivacy() async {
+    setRxRequestStatus(Status.loading);
+    refresh();
+    var response = await ApiClient.getData(ApiUrl.getPrivacyPolicy);
+    setRxRequestStatus(Status.completed);
+
+    if (response.statusCode == 200) {
+      privacyModel = PrivacyModel.fromJson(response.body);
+      print('Value========================"${privacyModel.data?.description}"');
+    } else {
+      if (response.statusText == ApiClient.noInternetMessage) {
+        setRxRequestStatus(Status.internetError);
+      } else {
+        setRxRequestStatus(Status.error);
+      }
+      ApiChecker.checkApi(response);
+    }
+  }
+
+
+  ///===========================GetTerms===========================
+  PrivacyModel termsModel = PrivacyModel();
+
+  getTerms() async {
+    setRxRequestStatus(Status.loading);
+    refresh();
+    var response = await ApiClient.getData(ApiUrl.getTermsAndConditions);
+    setRxRequestStatus(Status.completed);
+
+    if (response.statusCode == 200) {
+      termsModel = PrivacyModel.fromJson(response.body);
+      print('Value========================"${termsModel.data?.description}"');
+    } else {
+      if (response.statusText == ApiClient.noInternetMessage) {
+        setRxRequestStatus(Status.internetError);
+      } else {
+        setRxRequestStatus(Status.error);
+      }
+      ApiChecker.checkApi(response);
+    }
+  }
+
+  ///=============================Get Faq Method=======================
+// Track the selected FAQ item index
+  var selectedIndex = Rx<int?>(null);
+
+// Toggle the selected FAQ item
+  void toggleItem(int index) {
+    selectedIndex.value = selectedIndex.value == index ? null : index;
+  }
+
+  RxList<FaqList> faqList = <FaqList>[].obs;
+
+  getFaq() async {
+    setRxRequestStatus(Status.loading);
+    refresh();
+    var response = await ApiClient.getData(ApiUrl.faqList);
+
+    if (response.statusCode == 200) {
+      faqList.value = List<FaqList>.from(
+          response.body["data"].map((x) => FaqList.fromJson(x))
+      );
+
+      setRxRequestStatus(Status.completed);
+      refresh();
+    } else {
+      if (response.statusText == ApiClient.noInternetMessage) {
+        setRxRequestStatus(Status.internetError);
+      } else {
+        setRxRequestStatus(Status.error);
+      }
+      ApiChecker.checkApi(response);
+    }
+  }
+
+
+
+  @override
+  void onInit() {
+    getFaq();
+    getTerms();
+    getPrivacy();
+    super.onInit();
+  }
+
 }
