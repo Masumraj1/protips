@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:protippz/app/controller/home_controller.dart';
 import 'package:protippz/app/core/app_routes.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
+import 'package:protippz/app/data/services/app_url.dart';
 import 'package:protippz/app/global/widgets/custom_image_card/custom_image_card.dart';
-import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/global/widgets/nav_bar/nav_bar.dart';
 import 'package:protippz/app/screens/home_screen/inner_widgets/home_app_bar.dart';
@@ -66,29 +66,54 @@ class HomeScreen extends StatelessWidget {
                   _buildRewardzHeader(() {
                     Get.toNamed(AppRoute.rewardzScreen);
                   }),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: List.generate(4, (index) {
-                        return CustomImageCard(
-                            imageUrl: AppConstants.reward,
-                            title: 'Golden Boll');
-                      }),
-                    ),
-                  ),
+                  Obx(() {
+                    return  homeController.rewardList.isEmpty
+                        ? const CustomText(
+                      text: "No Reward Founded",
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.gray500,
+                    )
+                        : SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: List.generate(
+                            homeController.rewardList.length, (index) {
+                          return CustomImageCard(
+                              imageUrl:
+                                  "${ApiUrl.netWorkUrl}${homeController.rewardList[index].image ?? ""}",
+                              title:
+                                  homeController.rewardList[index].name ?? "");
+                        }),
+                      ),
+                    );
+                  }),
 
                   ///=========================Top Sports League==================
                   _buildSectionTitle(AppStrings.topSportsLeague),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: List.generate(4, (index) {
-                        return CustomImageCard(
-                            imageUrl: AppConstants.leage,
-                            title: 'NBA');
-                      }),
-                    ),
-                  ),
+                  Obx(() {
+                    return homeController.leagueList.isEmpty
+                        ? const CustomText(
+                            text: "No League Founded",
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.gray500,
+                          )
+                        : SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: List.generate(
+                                  homeController.leagueList.length, (index) {
+                                return CustomImageCard(
+                                    imageUrl:
+                                        "${ApiUrl.netWorkUrl}${homeController.leagueList[index].leagueImage ?? ""}",
+                                    title:
+                                        homeController.leagueList[index].name ??
+                                            "");
+                              }),
+                            ),
+                          );
+                  }),
                 ],
               ),
             ),
@@ -97,6 +122,7 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+
 //==================title======================
   Widget _buildSectionTitle(String title) {
     return CustomText(
