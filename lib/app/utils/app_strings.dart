@@ -75,6 +75,9 @@ class AppStrings {
   static const zipCode = "Zip Code";
   static const submit = "Submit";
   static const team = "Team:";
+  static const redeem = "Redeem";
+  static const description = "Description: ";
+  static const pointRequired = "Points Required: ";
   static const position = "Position:";
   static const selectYourAmount = "Select Your Amount";
   static const enterYourAmount = "Enter Your Amount";

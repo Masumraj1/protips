@@ -219,6 +219,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/ptis.png
   AssetGenImage get ptis => const AssetGenImage('assets/images/ptis.png');
 
+  /// File path: assets/images/reward.png
+  AssetGenImage get reward => const AssetGenImage('assets/images/reward.png');
+
   /// File path: assets/images/team.png
   AssetGenImage get team => const AssetGenImage('assets/images/team.png');
 
@@ -241,6 +244,7 @@ class $AssetsImagesGen {
         player,
         pt,
         ptis,
+        reward,
         team,
         tips,
         visa

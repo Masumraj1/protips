@@ -11,6 +11,7 @@ import 'package:protippz/app/global/widgets/custom_rewadz_card/custom_rewadz_car
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/global/widgets/custom_text_field/custom_text_field.dart';
 import 'package:protippz/app/global/widgets/genarel_error/genarel_error.dart';
+import 'package:protippz/app/global/widgets/reward_card/reward_card.dart';
 import 'package:protippz/app/screens/no_internet_screen/no_internet_screen.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_constants.dart';
@@ -60,8 +61,8 @@ class _RewardzScreenState extends State<RewardzScreen> {
               return SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children:
-                      List.generate(homeController.rewardList.length, (index) {
+                  children: List.generate(homeController.rewardList.length,
+                      (index) {
                     final item = homeController.rewardList[index];
                     final isSelected =
                         homeController.selectedIndex.value == index;
@@ -77,7 +78,8 @@ class _RewardzScreenState extends State<RewardzScreen> {
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           border: isSelected
-                              ? Border.all(color: AppColors.green500, width: 2)
+                              ? Border.all(
+                                  color: AppColors.green500, width: 2)
                               : null,
                         ),
                         child: Column(
@@ -131,6 +133,7 @@ class _RewardzScreenState extends State<RewardzScreen> {
             Gap(14.h),
 
             /// ======================== Reward Details ======================
+
             Expanded(
               child: Obx(() {
                 if (homeController.rxRequestStatus.value == Status.loading) {
@@ -174,31 +177,27 @@ class _RewardzScreenState extends State<RewardzScreen> {
                 }
 
                 return GridView.builder(
+
                   itemCount: homeController.selectRewardList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 16.w,
                     mainAxisSpacing: 16.h,
                     childAspectRatio: 0.8,
+                    mainAxisExtent: 280
                   ),
                   itemBuilder: (context, index) {
                     var data = homeController.selectRewardList[index];
-                    return CustomRewadzCard(
-                      isVisible: true,
-                      buttonTitle: "Redeem",
-                      imageUrl: "${ApiUrl.netWorkUrl}${data.rewardImage ?? ""}",
-                      name: data.name ?? "",
-                      team: data.name ?? "Team Name",
-                      position: data.description ?? "Position",
-                      isTeam: true,
-                      isPosition: true,
-                      onTap: () {
-                        // Handle Redeem Logic
-                        print("Redeem clicked for ${data.name}");
-                      },
+                    return   RewardCard(
+                      imageUrl: "${ApiUrl.netWorkUrl}${data.rewardImage??""}",
+                      name: data.name??"",
+                      describe: data.description??"",
+                      points: data.pointRequired.toString(),
+                      onTap: () {},
                     );
                   },
                 );
+
               }),
             ),
           ],
