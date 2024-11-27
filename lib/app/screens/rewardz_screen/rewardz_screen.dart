@@ -3,16 +3,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/controller/home_controller.dart';
+import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/data/services/app_url.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
+import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
+import 'package:protippz/app/global/widgets/custom_from_card/custom_from_card.dart';
 import 'package:protippz/app/global/widgets/custom_loader/custom_loader.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
-import 'package:protippz/app/global/widgets/custom_rewadz_card/custom_rewadz_card.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/global/widgets/custom_text_field/custom_text_field.dart';
 import 'package:protippz/app/global/widgets/genarel_error/genarel_error.dart';
 import 'package:protippz/app/global/widgets/reward_card/reward_card.dart';
-import 'package:protippz/app/screens/no_internet_screen/no_internet_screen.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 import 'package:protippz/app/utils/app_strings.dart';
@@ -35,6 +36,8 @@ class _RewardzScreenState extends State<RewardzScreen> {
       homeController.selectedReward(id: homeController.rewardList[0].id ?? "");
     }
   }
+
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +64,8 @@ class _RewardzScreenState extends State<RewardzScreen> {
               return SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: List.generate(homeController.rewardList.length,
-                      (index) {
+                  children:
+                      List.generate(homeController.rewardList.length, (index) {
                     final item = homeController.rewardList[index];
                     final isSelected =
                         homeController.selectedIndex.value == index;
@@ -78,8 +81,7 @@ class _RewardzScreenState extends State<RewardzScreen> {
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           border: isSelected
-                              ? Border.all(
-                                  color: AppColors.green500, width: 2)
+                              ? Border.all(color: AppColors.green500, width: 2)
                               : null,
                         ),
                         child: Column(
@@ -177,27 +179,33 @@ class _RewardzScreenState extends State<RewardzScreen> {
                 }
 
                 return GridView.builder(
-
                   itemCount: homeController.selectRewardList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 16.w,
                     mainAxisSpacing: 16.h,
                     childAspectRatio: 0.8,
-                    mainAxisExtent: 280
+                    mainAxisExtent: 280,
                   ),
                   itemBuilder: (context, index) {
                     var data = homeController.selectRewardList[index];
-                    return   RewardCard(
-                      imageUrl: "${ApiUrl.netWorkUrl}${data.rewardImage??""}",
-                      name: data.name??"",
-                      describe: data.description??"",
+                    return RewardCard(
+                      imageUrl: "${ApiUrl.netWorkUrl}${data.rewardImage ?? ""}",
+                      name: data.name ?? "",
+                      describe: data.description ?? "",
                       points: data.pointRequired.toString(),
-                      onTap: () {},
+                      onTap: () {
+                        // Fixed comparison using '==' instead of '='
+                        if (data.category?.deliveryOption ==
+                            "Shipping Address") {
+                          whenShirtDialog(context);
+                        } else if (data.category?.deliveryOption == "Email") {
+                          showDialogBox(context);
+                        }
+                      },
                     );
                   },
                 );
-
               }),
             ),
           ],
@@ -205,163 +213,237 @@ class _RewardzScreenState extends State<RewardzScreen> {
       ),
     );
   }
-}
 
-//
-// void showDialogBox(BuildContext context) {
-//   Get.dialog(
-//     AlertDialog(
-//         backgroundColor: AppColors.white50,
-//         content: Column(
-//           mainAxisSize: MainAxisSize.min,
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Row(
-//               children: [
-//                 const SizedBox(),
-//                 const Spacer(),
-//                 GestureDetector(
-//                     onTap: () {
-//                       Get.back();
-//                     },
-//                     child: Assets.icons.closeSmall.svg())
-//               ],
-//             ),
-//             const CustomText(
-//               left: 50,
-//               fontSize: 16,
-//               text: AppStrings.howTOReceive,
-//               fontWeight: FontWeight.w500,
-//               color: AppColors.gray500,
-//               bottom: 10,
-//             ),
-//             const CustomText(
-//               textAlign: TextAlign.start,
-//               text: AppStrings.veryFyYourEmailAddress,
-//               fontWeight: FontWeight.w400,
-//               color: AppColors.gray500,
-//               fontSize: 14,
-//               maxLines: 10,
-//             ),
-//             const CustomText(
-//               textAlign: TextAlign.start,
-//               top: 16,
-//               text: AppStrings.veryFyYourNameAndMailing,
-//               fontWeight: FontWeight.w400,
-//               fontSize: 14,
-//               color: AppColors.gray500,
-//               bottom: 16,
-//               maxLines: 10,
-//             ),
-//             const CustomText(
-//               textAlign: TextAlign.start,
-//               top: 16,
-//               text: AppStrings.confirmationOnce,
-//               fontWeight: FontWeight.w400,
-//               fontSize: 14,
-//               color: AppColors.gray500,
-//               bottom: 16,
-//               maxLines: 10,
-//             ),
-//             SizedBox(
-//               height: 20.h,
-//             ),
-//             CustomButton(
-//               onTap: () {
-//                 Get.back();
-//                 whenShirtDialog(context);
-//               },
-//               title: AppStrings.continues,
-//               fillColor: AppColors.blue500,
-//             )
-//           ],
-//         )),
-//   );
-// }
-//
-// // void showVerify(BuildContext context) {
-// void whenShirtDialog(BuildContext context) {
-//   Get.dialog(
-//     AlertDialog(
-//         backgroundColor: AppColors.white50,
-//         content: Column(
-//           mainAxisSize: MainAxisSize.min,
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Row(
-//               children: [
-//                 const SizedBox(),
-//                 const Spacer(),
-//                 GestureDetector(
-//                     onTap: () {
-//                       Get.back();
-//                     },
-//                     child: Assets.icons.closeSmall.svg())
-//               ],
-//             ),
-//
-//             ///==========================Delete Account===============
-//             const CustomText(
-//               left: 20,
-//               fontSize: 16,
-//               maxLines: 2,
-//               text: "Verify Name and Mailing Address",
-//               fontWeight: FontWeight.w500,
-//               color: AppColors.gray500,
-//               bottom: 10,
-//             ),
-//             CustomFromCard(
-//                 hinText: AppStrings.enterYourFullName,
-//                 isBgColor: true,
-//                 title: AppStrings.fullName,
-//                 controller: TextEditingController(),
-//                 validator: (v) {}),
-//             const CustomText(
-//               textAlign: TextAlign.start,
-//               fontSize: 16,
-//               text: AppStrings.mailingAddress,
-//               fontWeight: FontWeight.w400,
-//               color: AppColors.gray500,
-//               bottom: 18,
-//               top: 18,
-//             ),
-//             CustomFromCard(
-//                 hinText: AppStrings.typeHere,
-//                 isBgColor: true,
-//                 title: AppStrings.streetAddress,
-//                 controller: TextEditingController(),
-//                 validator: (v) {}),
-//             CustomFromCard(
-//                 hinText: AppStrings.typeHere,
-//                 isBgColor: true,
-//                 title: AppStrings.city,
-//                 controller: TextEditingController(),
-//                 validator: (v) {}),
-//             CustomFromCard(
-//                 hinText: AppStrings.typeHere,
-//                 isBgColor: true,
-//                 title: AppStrings.state,
-//                 controller: TextEditingController(),
-//                 validator: (v) {}),
-//
-//             CustomFromCard(
-//                 hinText: AppStrings.typeHere,
-//                 isBgColor: true,
-//                 title: AppStrings.zipCode,
-//                 controller: TextEditingController(),
-//                 validator: (v) {}),
-//             SizedBox(
-//               height: 20.h,
-//             ),
-//
-//             CustomButton(
-//               onTap: () {
-//                 Get.back();
-//               },
-//               title: AppStrings.submit,
-//               fillColor: AppColors.blue500,
-//             )
-//           ],
-//         )),
-//   );
-// }
+  void showDialogBox(BuildContext context) {
+    Get.dialog(
+      AlertDialog(
+          backgroundColor: AppColors.white50,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const SizedBox(),
+                  const Spacer(),
+                  GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Assets.icons.closeSmall.svg())
+                ],
+              ),
+              const CustomText(
+                left: 50,
+                fontSize: 16,
+                text: AppStrings.howTOReceive,
+                fontWeight: FontWeight.w500,
+                color: AppColors.gray500,
+                bottom: 10,
+              ),
+              const CustomText(
+                textAlign: TextAlign.start,
+                text: AppStrings.veryFyYourEmailAddress,
+                fontWeight: FontWeight.w400,
+                color: AppColors.gray500,
+                fontSize: 14,
+                maxLines: 10,
+              ),
+              const CustomText(
+                textAlign: TextAlign.start,
+                top: 16,
+                text: AppStrings.veryFyYourNameAndMailing,
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                color: AppColors.gray500,
+                bottom: 16,
+                maxLines: 10,
+              ),
+              const CustomText(
+                textAlign: TextAlign.start,
+                top: 16,
+                text: AppStrings.confirmationOnce,
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
+                color: AppColors.gray500,
+                bottom: 16,
+                maxLines: 10,
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              CustomButton(
+                onTap: () {
+                  Get.back();
+                  whenShirtDialog(context);
+                },
+                title: AppStrings.continues,
+                fillColor: AppColors.blue500,
+              )
+            ],
+          )),
+    );
+  }
+
+// void showVerify(BuildContext context) {
+  void whenShirtDialog(BuildContext context) {
+    Get.dialog(
+      AlertDialog(
+          backgroundColor: AppColors.white50,
+          content: SingleChildScrollView(
+            child: Obx(() {
+              return Form(
+                key: formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const SizedBox(),
+                        const Spacer(),
+                        GestureDetector(
+                            onTap: () {
+                              Get.back();
+                            },
+                            child: Assets.icons.closeSmall.svg())
+                      ],
+                    ),
+
+                    ///==========================Delete Account===============
+                    const CustomText(
+                      left: 20,
+                      fontSize: 16,
+                      maxLines: 2,
+                      text: "Verify Name and Mailing Address",
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.gray500,
+                      bottom: 10,
+                    ),
+
+                    ///===========================Full Name Controller ===================
+                    CustomFromCard(
+                      hinText: AppStrings.enterYourFullName,
+                      isBgColor: true,
+                      title: AppStrings.fullName,
+                      controller: homeController.fullNameController,
+                      validator: (value) {
+                        if (value == null || value.toString().isEmpty) {
+                          return AppStrings.fieldCantBeEmpty;
+                        } else if (value.length < 4) {
+                          return AppStrings.enterAValidName;
+                        }
+                        return null;
+                      },
+                    ),
+                    const CustomText(
+                      textAlign: TextAlign.start,
+                      fontSize: 16,
+                      text: AppStrings.mailingAddress,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.gray500,
+                      bottom: 18,
+                      top: 18,
+                    ),
+
+                    ///==========================Street Address==================
+                    CustomFromCard(
+                      hinText: AppStrings.typeHere,
+                      isBgColor: true,
+                      title: AppStrings.streetAddress,
+                      controller: homeController.streetController,
+                      validator: (value) {
+                        if (value == null || value.toString().isEmpty) {
+                          return AppStrings.fieldCantBeEmpty;
+                        }
+                        return null;
+                      },
+                    ),
+                    Gap(10.h),
+
+                    ///==========================Phone Number==================
+                    CustomFromCard(
+                      hinText: AppStrings.typeHere,
+                      isBgColor: true,
+                      title: AppStrings.phoneNumber,
+                      controller: homeController.phoneController,
+                      validator: (value) {
+                        if (value == null || value.toString().isEmpty) {
+                          return AppStrings.fieldCantBeEmpty;
+                        }
+                        return null;
+                      },
+                    ),
+                    Gap(10.h),
+
+                    ///==================City Controller=====================
+                    CustomFromCard(
+                      hinText: AppStrings.typeHere,
+                      isBgColor: true,
+                      title: AppStrings.city,
+                      controller: homeController.cityController,
+                      validator: (value) {
+                        if (value == null || value.toString().isEmpty) {
+                          return AppStrings.fieldCantBeEmpty;
+                        }
+                        return null;
+                      },
+                    ),
+                    Gap(10.h),
+
+                    ///=========================State Controller=================
+                    CustomFromCard(
+                      hinText: AppStrings.typeHere,
+                      isBgColor: true,
+                      title: AppStrings.state,
+                      controller: homeController.stateController,
+                      validator: (value) {
+                        if (value == null || value.toString().isEmpty) {
+                          return AppStrings.fieldCantBeEmpty;
+                        }
+                        return null;
+                      },
+                    ),
+                    Gap(10.h),
+
+                    ///=========================ZipCode Controller====================
+                    CustomFromCard(
+                      hinText: AppStrings.typeHere,
+                      isBgColor: true,
+                      title: AppStrings.zipCode,
+                      controller: homeController.zipCodeController,
+                      validator: (value) {
+                        if (value == null || value.toString().isEmpty) {
+                          return AppStrings.fieldCantBeEmpty;
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    homeController.isSubmit.value
+                        ? const CustomLoader()
+                        : CustomButton(
+                            onTap: () {
+                              if (formKey.currentState!.validate()) {
+                                homeController.redeemCreate(
+                                    rewardId:
+                                        homeController.selectRewardList[0].id ??
+                                            "",
+                                    categoryId: homeController
+                                            .selectRewardList[0].category?.id ??
+                                        "");
+                              }
+                            },
+                            title: AppStrings.submit,
+                            fillColor: AppColors.blue500,
+                          )
+                  ],
+                ),
+              );
+            }),
+          )),
+    );
+  }
+}

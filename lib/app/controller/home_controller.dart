@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/data/models/league_model.dart';
@@ -6,6 +8,7 @@ import 'package:protippz/app/data/models/selected_reward_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';
 import 'package:protippz/app/data/services/api_client.dart';
 import 'package:protippz/app/data/services/app_url.dart';
+import 'package:protippz/app/global/widgets/toast_message/toast_message.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 
 class HomeController extends GetxController{
@@ -112,6 +115,56 @@ class HomeController extends GetxController{
     }
   }
 
+
+
+  ///===================================redeemCreate=======================
+ TextEditingController fullNameController = TextEditingController();
+ TextEditingController phoneController = TextEditingController();
+ TextEditingController streetController = TextEditingController();
+ TextEditingController cityController = TextEditingController();
+ TextEditingController stateController = TextEditingController();
+ TextEditingController zipCodeController = TextEditingController();
+  RxBool isSubmit = false.obs;
+
+  redeemCreate({required String rewardId,required String categoryId}) async {
+    isSubmit.value = true;
+    refresh();
+    Map<String, String> body = {
+      "reward": rewardId,
+      "category": categoryId,
+      "userName": fullNameController.text,
+      "phone": phoneController.text,
+      "streetAddress": streetController.text,
+      "city": cityController.text,
+      "state": stateController.text,
+      "zipCode": zipCodeController.text
+
+    };
+
+    var response = await ApiClient.postData(
+      ApiUrl.redeemCreate,
+      jsonEncode(body),
+    );
+    if (response.statusCode == 201) {
+      clearInputFields();
+      Get.back();
+      toastMessage(message: response.body["message"]);
+    } else {
+      ApiChecker.checkApi(response);
+    }
+    isSubmit.value = false;
+  }
+
+
+  ///============================= Clear input fields====================
+  void clearInputFields() {
+ fullNameController.clear();
+ streetController.clear();
+ cityController.clear();
+ stateController.clear();
+ phoneController.clear();
+ zipCodeController.clear();
+  }
   @override
   void onInit() {
     getReward();

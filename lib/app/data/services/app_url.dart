@@ -46,6 +46,7 @@ class ApiUrl {
     return "/reward/get-all?category=$id";
   }
   static const searchReward = "/reward/get-all?searchTerm";
+  static const redeemCreate = "/redeem-request/create";
 
 
 
