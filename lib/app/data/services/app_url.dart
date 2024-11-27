@@ -45,6 +45,10 @@ class ApiUrl {
   static String selectReward({required String id}) {
     return "/reward/get-all?category=$id";
   }
+
+  static String veryFyRedeemOtp({required String id}) {
+    return "/redeem-request/verify-redeem-email/$id";
+  }
   static const searchReward = "/reward/get-all?searchTerm";
   static const redeemCreate = "/redeem-request/create";
 

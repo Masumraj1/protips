@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:protippz/app/controller/home_controller.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/data/services/app_url.dart';
@@ -51,6 +52,7 @@ class _RewardzScreenState extends State<RewardzScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         child: Column(
           children: [
+
             /// ========================= Rewardz List =======================
             Obx(() {
               if (homeController.rewardList.isEmpty) {
@@ -65,7 +67,7 @@ class _RewardzScreenState extends State<RewardzScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children:
-                      List.generate(homeController.rewardList.length, (index) {
+                  List.generate(homeController.rewardList.length, (index) {
                     final item = homeController.rewardList[index];
                     final isSelected =
                         homeController.selectedIndex.value == index;
@@ -89,7 +91,7 @@ class _RewardzScreenState extends State<RewardzScreen> {
                             // Reward Image
                             CustomNetworkImage(
                               imageUrl:
-                                  "${ApiUrl.netWorkUrl}${item.image ?? ""}",
+                              "${ApiUrl.netWorkUrl}${item.image ?? ""}",
                               height: 72,
                               width: 73,
                               borderRadius: BorderRadius.circular(8),
@@ -185,7 +187,7 @@ class _RewardzScreenState extends State<RewardzScreen> {
                     crossAxisSpacing: 16.w,
                     mainAxisSpacing: 16.h,
                     childAspectRatio: 0.8,
-                    mainAxisExtent: 280,
+                    mainAxisExtent: 350,
                   ),
                   itemBuilder: (context, index) {
                     var data = homeController.selectRewardList[index];
@@ -213,87 +215,283 @@ class _RewardzScreenState extends State<RewardzScreen> {
       ),
     );
   }
-
+  ///===========================Info==========================
   void showDialogBox(BuildContext context) {
     Get.dialog(
       AlertDialog(
           backgroundColor: AppColors.white50,
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  const SizedBox(),
-                  const Spacer(),
-                  GestureDetector(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Assets.icons.closeSmall.svg())
-                ],
-              ),
-              const CustomText(
-                left: 50,
-                fontSize: 16,
-                text: AppStrings.howTOReceive,
-                fontWeight: FontWeight.w500,
-                color: AppColors.gray500,
-                bottom: 10,
-              ),
-              const CustomText(
-                textAlign: TextAlign.start,
-                text: AppStrings.veryFyYourEmailAddress,
-                fontWeight: FontWeight.w400,
-                color: AppColors.gray500,
-                fontSize: 14,
-                maxLines: 10,
-              ),
-              const CustomText(
-                textAlign: TextAlign.start,
-                top: 16,
-                text: AppStrings.veryFyYourNameAndMailing,
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: AppColors.gray500,
-                bottom: 16,
-                maxLines: 10,
-              ),
-              const CustomText(
-                textAlign: TextAlign.start,
-                top: 16,
-                text: AppStrings.confirmationOnce,
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: AppColors.gray500,
-                bottom: 16,
-                maxLines: 10,
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              CustomButton(
-                onTap: () {
-                  Get.back();
-                  whenShirtDialog(context);
-                },
-                title: AppStrings.continues,
-                fillColor: AppColors.blue500,
-              )
-            ],
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const SizedBox(),
+                    const Spacer(),
+                    GestureDetector(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Assets.icons.closeSmall.svg())
+                  ],
+                ),
+                const CustomText(
+                  left: 50,
+                  fontSize: 16,
+                  text: AppStrings.howTOReceive,
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.gray500,
+                  bottom: 10,
+                ),
+                const CustomText(
+                  textAlign: TextAlign.start,
+                  text: AppStrings.veryFyYourEmailAddress,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.gray500,
+                  fontSize: 14,
+                  maxLines: 10,
+                ),
+                const CustomText(
+                  textAlign: TextAlign.start,
+                  top: 16,
+                  text: AppStrings.veryFyYourNameAndMailing,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  color: AppColors.gray500,
+                  bottom: 16,
+                  maxLines: 10,
+                ),
+                const CustomText(
+                  textAlign: TextAlign.start,
+                  top: 16,
+                  text: AppStrings.confirmationOnce,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  color: AppColors.gray500,
+                  bottom: 16,
+                  maxLines: 10,
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                CustomButton(
+                  onTap: () {
+                    Get.back();
+
+                    veryFyEmailAddress(context);
+                  },
+                  title: AppStrings.continues,
+                  fillColor: AppColors.blue500,
+                )
+              ],
+            ),
           )),
     );
   }
 
-// void showVerify(BuildContext context) {
+  ///===========================Email=====================
+  void veryFyEmailAddress(BuildContext context) {
+    final fromEmail = GlobalKey<FormState>();
+
+    Get.dialog(
+      AlertDialog(
+          backgroundColor: AppColors.white50,
+          content: Form(
+            key: fromEmail,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const SizedBox(),
+                    const Spacer(),
+                    GestureDetector(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Assets.icons.closeSmall.svg())
+                  ],
+                ),
+                const CustomText(
+                  left: 50,
+                  fontSize: 16,
+                  text: "Verify Email Address",
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.gray500,
+                  bottom: 10,
+                ),
+                const CustomText(
+                  text: AppStrings.email,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 20,
+                  bottom: 10,
+                ),
+
+                ///============================VeryFy Email===================
+                CustomTextField(
+                  inputTextStyle: const TextStyle(color: AppColors.gray500),
+                  textEditingController: homeController.emailController,
+                  fillColor: AppColors.white600,
+                  hintText: AppStrings.enterYourEmail,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return AppStrings.enterValidEmail;
+                    } else if (!AppStrings.emailRegexp
+                        .hasMatch(homeController.emailController.text)) {
+                      return AppStrings.enterValidEmail;
+                    } else {
+                      return null;
+                    }
+                  },
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+
+                ///=========================Send Code======================
+                CustomButton(
+                  onTap: () {
+                    if (fromEmail.currentState!.validate()) {
+                      Get.back();
+
+                      homeController.veryFyEmail(
+                          rewardId: homeController.selectRewardList[0].id ?? "",
+                          categoryId:
+                          homeController.selectRewardList[0].category?.id ??
+                              "");
+
+                      veryFyOtp(context);
+
+                    }
+                  },
+                  title: AppStrings.sendCode,
+                  fillColor: AppColors.blue500,
+                )
+              ],
+            ),
+          )),
+    );
+  }
+
+
+
+  ///===================================Otp =======================
+  void veryFyOtp(BuildContext context) {
+    final formOtp = GlobalKey<FormState>();
+
+    Get.dialog(
+      AlertDialog(
+        backgroundColor: AppColors.white50,
+        content: Obx(
+           () {
+            return Form(
+              key: formOtp,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const SizedBox(),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Assets.icons.closeSmall.svg(),
+                      ),
+                    ],
+                  ),
+                  const CustomText(
+                    left: 50,
+                    fontSize: 16,
+                    text: "Enter Code",
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.gray500,
+                    bottom: 20,
+                  ),
+                  const CustomText(
+                    text: 'Please enter the 6 digit code',
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
+                    bottom: 10,
+                  ),
+                  // Wrap the PinCodeTextField with an Expanded widget to avoid overflow
+                  Expanded(
+                    child: PinCodeTextField(
+                      textStyle: const TextStyle(color: AppColors.gray500),
+                      keyboardType: TextInputType.phone,
+                      autoDisposeControllers: false,
+                      cursorColor: AppColors.gray500,
+                      appContext: context,
+                      controller: homeController.pinController,
+                      onCompleted: (value) {
+                        homeController.resetCodeInput = value;
+                      },
+                      validator: (value) {
+                        if (value != null && value.length == 5) {
+                          return null;
+                        } else {
+                          return "Please enter a valid 5-digit OTP code";
+                        }
+                      },
+                      autoFocus: true,
+                      pinTheme: PinTheme(
+                        disabledColor: Colors.transparent,
+                        shape: PinCodeFieldShape.box,
+                        borderRadius: BorderRadius.circular(12),
+                        fieldHeight: 49.h,
+                        fieldWidth: 47.w,
+                        activeFillColor: AppColors.white50,
+                        selectedFillColor: AppColors.white50,
+                        inactiveFillColor: AppColors.white50,
+                        borderWidth: 0.5,
+                        activeBorderWidth: 2.0, // Thicker border when active
+                        selectedColor: AppColors.blue500, // Border color when selected
+                        inactiveColor: AppColors.gray300, // Border color when inactive
+                        activeColor: AppColors.blue500, // Active border color
+                      ),
+                      length: 5, // Ensure length is 6 for OTP input
+                      enableActiveFill: true,
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  ///=========================verifyCode======================
+
+                  homeController.isVeryFyOtp.value?const CustomLoader():
+                  CustomButton(
+                    onTap: () {
+                      if (formOtp.currentState!.validate()) {
+                        Get.back();
+                        homeController.veryFyOtp();
+                      }
+                    },
+                    title: AppStrings.verifyCode,
+                    fillColor: AppColors.blue500,
+                  ),
+                ],
+              ),
+            );
+          }
+        ),
+      ),
+    );
+  }
+
+
+  /// ===========================Shirt==========================
   void whenShirtDialog(BuildContext context) {
+    final fromShirt = GlobalKey<FormState>();
+
     Get.dialog(
       AlertDialog(
           backgroundColor: AppColors.white50,
           content: SingleChildScrollView(
             child: Obx(() {
               return Form(
-                key: formKey,
+                key: fromShirt,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -328,7 +526,9 @@ class _RewardzScreenState extends State<RewardzScreen> {
                       title: AppStrings.fullName,
                       controller: homeController.fullNameController,
                       validator: (value) {
-                        if (value == null || value.toString().isEmpty) {
+                        if (value == null || value
+                            .toString()
+                            .isEmpty) {
                           return AppStrings.fieldCantBeEmpty;
                         } else if (value.length < 4) {
                           return AppStrings.enterAValidName;
@@ -353,7 +553,9 @@ class _RewardzScreenState extends State<RewardzScreen> {
                       title: AppStrings.streetAddress,
                       controller: homeController.streetController,
                       validator: (value) {
-                        if (value == null || value.toString().isEmpty) {
+                        if (value == null || value
+                            .toString()
+                            .isEmpty) {
                           return AppStrings.fieldCantBeEmpty;
                         }
                         return null;
@@ -368,7 +570,9 @@ class _RewardzScreenState extends State<RewardzScreen> {
                       title: AppStrings.phoneNumber,
                       controller: homeController.phoneController,
                       validator: (value) {
-                        if (value == null || value.toString().isEmpty) {
+                        if (value == null || value
+                            .toString()
+                            .isEmpty) {
                           return AppStrings.fieldCantBeEmpty;
                         }
                         return null;
@@ -383,7 +587,9 @@ class _RewardzScreenState extends State<RewardzScreen> {
                       title: AppStrings.city,
                       controller: homeController.cityController,
                       validator: (value) {
-                        if (value == null || value.toString().isEmpty) {
+                        if (value == null || value
+                            .toString()
+                            .isEmpty) {
                           return AppStrings.fieldCantBeEmpty;
                         }
                         return null;
@@ -398,7 +604,9 @@ class _RewardzScreenState extends State<RewardzScreen> {
                       title: AppStrings.state,
                       controller: homeController.stateController,
                       validator: (value) {
-                        if (value == null || value.toString().isEmpty) {
+                        if (value == null || value
+                            .toString()
+                            .isEmpty) {
                           return AppStrings.fieldCantBeEmpty;
                         }
                         return null;
@@ -413,7 +621,9 @@ class _RewardzScreenState extends State<RewardzScreen> {
                       title: AppStrings.zipCode,
                       controller: homeController.zipCodeController,
                       validator: (value) {
-                        if (value == null || value.toString().isEmpty) {
+                        if (value == null || value
+                            .toString()
+                            .isEmpty) {
                           return AppStrings.fieldCantBeEmpty;
                         }
                         return null;
@@ -425,20 +635,20 @@ class _RewardzScreenState extends State<RewardzScreen> {
                     homeController.isSubmit.value
                         ? const CustomLoader()
                         : CustomButton(
-                            onTap: () {
-                              if (formKey.currentState!.validate()) {
-                                homeController.redeemCreate(
-                                    rewardId:
-                                        homeController.selectRewardList[0].id ??
-                                            "",
-                                    categoryId: homeController
-                                            .selectRewardList[0].category?.id ??
-                                        "");
-                              }
-                            },
-                            title: AppStrings.submit,
-                            fillColor: AppColors.blue500,
-                          )
+                      onTap: () {
+                        if (fromShirt.currentState!.validate()) {
+                          homeController.redeemCreate(
+                              rewardId:
+                              homeController.selectRewardList[0].id ??
+                                  "",
+                              categoryId: homeController
+                                  .selectRewardList[0].category?.id ??
+                                  "");
+                        }
+                      },
+                      title: AppStrings.submit,
+                      fillColor: AppColors.blue500,
+                    )
                   ],
                 ),
               );

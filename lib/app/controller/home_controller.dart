@@ -11,8 +11,7 @@ import 'package:protippz/app/data/services/app_url.dart';
 import 'package:protippz/app/global/widgets/toast_message/toast_message.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 
-class HomeController extends GetxController{
-
+class HomeController extends GetxController {
   final rxRequestStatus = Status.loading.obs;
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
@@ -27,10 +26,10 @@ class HomeController extends GetxController{
 
     if (response.statusCode == 200) {
       rewardList.value = List<RewardList>.from(
-          response.body["data"]["result"].map((x) => RewardList.fromJson(x))
-      );
+          response.body["data"]["result"].map((x) => RewardList.fromJson(x)));
 
-      debugPrint('GetReward=======================${response.body["data"]["result"]}');
+      debugPrint(
+          'GetReward=======================${response.body["data"]["result"]}');
       setRxRequestStatus(Status.completed);
       refresh();
     } else {
@@ -42,7 +41,6 @@ class HomeController extends GetxController{
       ApiChecker.checkApi(response);
     }
   }
-
 
   ///==================================GetLeague======================
   RxList<LeagueList> leagueList = <LeagueList>[].obs;
@@ -54,10 +52,10 @@ class HomeController extends GetxController{
 
     if (response.statusCode == 200) {
       leagueList.value = List<LeagueList>.from(
-          response.body["data"]["result"].map((x) => LeagueList.fromJson(x))
-      );
+          response.body["data"]["result"].map((x) => LeagueList.fromJson(x)));
 
-      debugPrint('LeagueList=======================${response.body["data"]["result"]}');
+      debugPrint(
+          'LeagueList=======================${response.body["data"]["result"]}');
       setRxRequestStatus(Status.completed);
       refresh();
     } else {
@@ -69,7 +67,6 @@ class HomeController extends GetxController{
       ApiChecker.checkApi(response);
     }
   }
-
 
   ///<<<<<<<<<<======================================Search Method====================>>>>>>>
   TextEditingController searchController = TextEditingController();
@@ -80,8 +77,9 @@ class HomeController extends GetxController{
     var response = await ApiClient.getData("${ApiUrl.searchReward}=$search");
     selectRewardList.refresh();
     if (response.statusCode == 200) {
-      selectRewardList = RxList<SelectRewardList>.from(
-          response.body["data"]['result'].map((x) => SelectRewardList.fromJson(x)));
+      selectRewardList = RxList<SelectRewardList>.from(response.body["data"]
+              ['result']
+          .map((x) => SelectRewardList.fromJson(x)));
       setRxRequestStatus(Status.completed);
       selectRewardList.refresh();
     } else {
@@ -89,20 +87,22 @@ class HomeController extends GetxController{
     }
   }
 
-///========================selected Reward method===========================
+  ///========================selected Reward method===========================
   Rx<int?> selectedIndex = Rx<int?>(null); // Track selected index
 
   RxList<SelectRewardList> selectRewardList = <SelectRewardList>[].obs;
+
   selectedReward({required String id}) async {
     setRxRequestStatus(Status.loading);
     refresh();
-    var response = await ApiClient.getData(
-        ApiUrl.selectReward(id: id));
+    var response = await ApiClient.getData(ApiUrl.selectReward(id: id));
 
     if (response.statusCode == 200) {
-      selectRewardList.value = List<SelectRewardList>.from(
-          response.body["data"]['result'].map((x) => SelectRewardList.fromJson(x)));
-      print('SelectRewardList=========================="${selectRewardList.length}"');
+      selectRewardList.value = List<SelectRewardList>.from(response.body["data"]
+              ['result']
+          .map((x) => SelectRewardList.fromJson(x)));
+      print(
+          'SelectRewardList=========================="${selectRewardList.length}"');
       setRxRequestStatus(Status.completed);
       refresh();
     } else {
@@ -115,18 +115,16 @@ class HomeController extends GetxController{
     }
   }
 
-
-
   ///===================================redeemCreate=======================
- TextEditingController fullNameController = TextEditingController();
- TextEditingController phoneController = TextEditingController();
- TextEditingController streetController = TextEditingController();
- TextEditingController cityController = TextEditingController();
- TextEditingController stateController = TextEditingController();
- TextEditingController zipCodeController = TextEditingController();
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController streetController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController stateController = TextEditingController();
+  TextEditingController zipCodeController = TextEditingController();
   RxBool isSubmit = false.obs;
 
-  redeemCreate({required String rewardId,required String categoryId}) async {
+  redeemCreate({required String rewardId, required String categoryId}) async {
     isSubmit.value = true;
     refresh();
     Map<String, String> body = {
@@ -138,7 +136,6 @@ class HomeController extends GetxController{
       "city": cityController.text,
       "state": stateController.text,
       "zipCode": zipCodeController.text
-
     };
 
     var response = await ApiClient.postData(
@@ -155,16 +152,98 @@ class HomeController extends GetxController{
     isSubmit.value = false;
   }
 
-
   ///============================= Clear input fields====================
   void clearInputFields() {
- fullNameController.clear();
- streetController.clear();
- cityController.clear();
- stateController.clear();
- phoneController.clear();
- zipCodeController.clear();
+    fullNameController.clear();
+    streetController.clear();
+    cityController.clear();
+    stateController.clear();
+    phoneController.clear();
+    zipCodeController.clear();
   }
+
+  ///===========================Veryfy Email============================
+  // Global variables for managing rewardId and OTP
+  RxString rewardIdd = ''.obs;
+  TextEditingController emailController = TextEditingController();
+  RxBool isSendCode = false.obs;
+
+// Verify Email
+  veryFyEmail({required String rewardId, required String categoryId}) async {
+    isSendCode.value = true;
+    refresh();
+
+    Map<String, String> body = {
+      "reward": rewardId,
+      "category": categoryId,
+      "email": emailController.text
+    };
+
+    var response = await ApiClient.postData(
+      ApiUrl.redeemCreate,
+      jsonEncode(body),
+    );
+
+    if (response.statusCode == 201) {
+      emailController.clear();
+      // Save the rewardId globally (using RxString for reactive state)
+      this.rewardIdd.value = response.body['data']['_id'];
+      print("Id=================================$rewardIdd");
+
+      toastMessage(message: response.body["message"]);
+    } else {
+      ApiChecker.checkApi(response);
+    }
+
+    isSendCode.value = false;
+    refresh();
+  }
+
+// Verify OTP
+  TextEditingController pinController = TextEditingController();
+  String resetCodeInput = ""; // Example input for the reset code
+
+  RxBool isVeryFyOtp = false.obs;
+
+  veryFyOtp() async {
+    if (resetCodeInput.isEmpty) {
+      toastMessage(message: "Please enter the OTP.");
+      return;
+    }
+
+    isVeryFyOtp.value = true;
+    refresh();
+    int resetCode = int.tryParse(resetCodeInput) ?? 0;
+
+    Map<String, dynamic> body = {
+      "verifyCode": resetCode
+    };
+
+    var response = await ApiClient.postData(
+      ApiUrl.veryFyRedeemOtp(id: rewardIdd.value), // Access rewardId globally
+      jsonEncode(body),
+    );
+
+    isVeryFyOtp.value = false;
+    refresh();
+
+    if (response.statusCode == 201) {
+      Get.back();  // Close the dialog or navigate back
+      toastMessage(message: response.body["message"]);
+    } else {
+      ApiChecker.checkApi(response);
+    }
+
+    isVeryFyOtp.value = false;
+    refresh();
+  }
+
+
+
+
+
+
+
   @override
   void onInit() {
     getReward();
