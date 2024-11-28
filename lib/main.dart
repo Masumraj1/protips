@@ -1,4 +1,6 @@
 
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -13,7 +15,13 @@ void main() {
   DeviceUtils.lockDevicePortrait();
   DependencyInjection di = DependencyInjection();
   di.dependencies();
-  runApp(const MyApp());
+  runApp(
+      DevicePreview(
+        enabled: !kReleaseMode,
+        builder: (context) =>
+        const MyApp(), // Wrap your app
+      ));
+  const MyApp();
 }
 
 

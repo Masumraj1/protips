@@ -12,11 +12,13 @@ import 'package:protippz/app/global/widgets/toast_message/toast_message.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 
 class HomeController extends GetxController {
+
+  ///==============*********>>>>>>>>Other Element<<<<<<<********===
   final rxRequestStatus = Status.loading.obs;
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
-  ///==================================Get Reward======================
+  ///==============*********>>>>>>>>GetReward<<<<<<<********===
   RxList<RewardList> rewardList = <RewardList>[].obs;
 
   getReward() async {
@@ -42,7 +44,7 @@ class HomeController extends GetxController {
     }
   }
 
-  ///==================================GetLeague======================
+  ///==============*********>>>>>>>>GetLeague<<<<<<<********===
   RxList<LeagueList> leagueList = <LeagueList>[].obs;
 
   getLeague() async {
@@ -68,7 +70,7 @@ class HomeController extends GetxController {
     }
   }
 
-  ///<<<<<<<<<<======================================Search Method====================>>>>>>>
+  ///==============*********>>>>>>>>SearchMethod<<<<<<<********===
   TextEditingController searchController = TextEditingController();
 
   searchReward({required String search}) async {
@@ -87,7 +89,7 @@ class HomeController extends GetxController {
     }
   }
 
-  ///========================selected Reward method===========================
+  ///==============*********>>>>>>>>SelectReward<<<<<<<********===
   Rx<int?> selectedIndex = Rx<int?>(null); // Track selected index
 
   RxList<SelectRewardList> selectRewardList = <SelectRewardList>[].obs;
@@ -115,7 +117,7 @@ class HomeController extends GetxController {
     }
   }
 
-  ///===================================redeemCreate=======================
+  ///==============*********>>>>>>>>RedeemCreateShirt<<<<<<<********===
   TextEditingController fullNameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController streetController = TextEditingController();
@@ -151,8 +153,7 @@ class HomeController extends GetxController {
     }
     isSubmit.value = false;
   }
-
-  ///============================= Clear input fields====================
+  //===============Clear field=============================================
   void clearInputFields() {
     fullNameController.clear();
     streetController.clear();
@@ -162,13 +163,10 @@ class HomeController extends GetxController {
     zipCodeController.clear();
   }
 
-  ///===========================Veryfy Email============================
-  // Global variables for managing rewardId and OTP
+  ///==============*********>>>>>>>>VeryFy Email<<<<<<<********===
   RxString rewardIdd = ''.obs;
   TextEditingController emailController = TextEditingController();
   RxBool isSendCode = false.obs;
-
-// Verify Email
   veryFyEmail({required String rewardId, required String categoryId}) async {
     isSendCode.value = true;
     refresh();
@@ -199,7 +197,7 @@ class HomeController extends GetxController {
     refresh();
   }
 
-// Verify OTP
+  ///==============*********>>>>>>>>VeryFyOtp<<<<<<<********===
   TextEditingController pinController = TextEditingController();
   String resetCodeInput = ""; // Example input for the reset code
 
@@ -228,7 +226,7 @@ class HomeController extends GetxController {
     refresh();
 
     if (response.statusCode == 201) {
-      Get.back();  // Close the dialog or navigate back
+        pinController.clear();
       toastMessage(message: response.body["message"]);
     } else {
       ApiChecker.checkApi(response);

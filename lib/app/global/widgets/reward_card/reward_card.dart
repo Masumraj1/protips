@@ -116,7 +116,7 @@ class _CustomPlayerCardState extends State<RewardCard> {
               ],
             ),
           ),
-          Gap(16.h),
+          Gap(26.h),
 
           // Redeem Button
           Center(
