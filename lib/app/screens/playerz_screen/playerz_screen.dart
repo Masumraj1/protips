@@ -57,6 +57,7 @@ class _PlayerzScreenState extends State<PlayerzScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
+      ///==============*********>>>>>>>>Playerz<<<<<<<********===
       appBar: const CustomAppBar(
         appBarContent: AppStrings.playerz,
         iconData: Icons.arrow_back,
@@ -99,21 +100,18 @@ class _PlayerzScreenState extends State<PlayerzScreen> {
               child: GridView.builder(
                 itemCount: 5,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
+                  crossAxisCount:
+                  MediaQuery.of(context).size.width > 600 ? 3 : 2,
                   crossAxisSpacing: 16.w,
                   mainAxisSpacing: 16.h,
-                  childAspectRatio: 0.8,
+                  childAspectRatio: 1 /1.7,
                 ),
                 itemBuilder: (context, index) {
                   return CustomPlayerCard(
-                    isVisible: true,
                     imageUrl: AppConstants.player,
                     name: 'Robert Smith',
-                    team: 'Manchester City',
-                    position: 'Quarterback',
-                    isTeam: true,
-                    isPosition: true,
-                    buttonTitle: "Send Tippz",
+                    team: ' then man women Manchester City',
+                    position: 'QuarterbackQuarterbackQuarterback',
                     onTap: () {
                       showCustomDialog(context, 'Robert Smith',
                           'Manchester City', 'Forward');

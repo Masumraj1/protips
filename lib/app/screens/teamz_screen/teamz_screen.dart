@@ -92,30 +92,31 @@ class _TeamzScreenState extends State<TeamzScreen> {
             ),
             Gap(14.h),
 
-            Expanded(
-              child: GridView.builder(
-                itemCount: 5,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16.w,
-                  mainAxisSpacing: 16.h,
-                  childAspectRatio: 0.8,
-                ),
-                itemBuilder: (context, index) {
-                  return CustomPlayerCard(
-                    imageUrl: AppConstants.team,
-                    name: 'Indiana Fever' ,
-                    team:'Manchester City' ,
-                    position: 'Quarterback',
-                    isTeam: false,
-                    isPosition: false,
-                    buttonTitle: AppStrings.sendTippz, onTap: () {
-                    showCustomDialog(context, 'Robert Smith', 'Manchester City', 'Forward');
-                  },
-                  );
-                },
-              ),
-            ),
+            // Expanded(
+            //   child: GridView.builder(
+            //     itemCount: 5,
+            //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            //       crossAxisCount:
+            //       MediaQuery.of(context).size.width > 600 ? 3 : 2,
+            //       crossAxisSpacing: 16.w,
+            //       mainAxisSpacing: 16.h,
+            //       childAspectRatio: 1 / 2,
+            //     ),
+            //     itemBuilder: (context, index) {
+            //       return CustomPlayerCard(
+            //         imageUrl: AppConstants.team,
+            //         name: 'Indiana Fever' ,
+            //         team:'Manchester City' ,
+            //         position: 'Quarterback',
+            //         isTeam: false,
+            //         isPosition: false,
+            //         buttonTitle: AppStrings.sendTippz, onTap: () {
+            //         showCustomDialog(context, 'Robert Smith', 'Manchester City', 'Forward');
+            //       },
+            //       );
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),

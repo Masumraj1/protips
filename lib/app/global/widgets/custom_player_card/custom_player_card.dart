@@ -6,16 +6,13 @@ import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/utils/app_colors.dart';
+import 'package:protippz/app/utils/app_strings.dart';
 
-class CustomPlayerCard extends StatefulWidget {
+class CustomPlayerCard extends StatelessWidget {
   final String imageUrl;
   final String name;
   final String? team;
-  final String? buttonTitle;
   final String? position;
-  final bool isTeam;
-  final bool isPosition;
-  final bool isVisible;
   final VoidCallback onTap;
 
   const CustomPlayerCard({
@@ -24,19 +21,8 @@ class CustomPlayerCard extends StatefulWidget {
     required this.name,
     this.team,
     this.position,
-    required this.isTeam,
-    required this.isPosition,
-    this.buttonTitle,
     required this.onTap,
-    this.isVisible = false,
   });
-
-  @override
-  _CustomPlayerCardState createState() => _CustomPlayerCardState();
-}
-
-class _CustomPlayerCardState extends State<CustomPlayerCard> {
-  bool isStarred = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +33,7 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
         borderRadius: BorderRadius.circular(10.r),
         border: Border.all(color: AppColors.green500),
         image: DecorationImage(
-          image: AssetImage(Assets.images.bgImage.path),
+          image: AssetImage(Assets.images.playerz.path),
           fit: BoxFit.cover,
         ),
       ),
@@ -55,74 +41,44 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min, // Allow column to adjust to its content
         children: [
-          Expanded(
-            flex: 4,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomNetworkImage(
-                  borderRadius: BorderRadius.circular(5),
-                  backgroundColor: AppColors.green100,
-                  imageUrl: widget.imageUrl,
-                  width: MediaQuery.of(context).size.width / 4,
-                  height: 100,
-                ),
-                Gap(20.h),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isStarred = !isStarred;
-                    });
-                  },
-                  child: Container(
-                    height: 24.h,
-                    width: 24.h,
-                    decoration: BoxDecoration(
-                      color: isStarred ? AppColors.gray300 : AppColors.green500,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      isStarred ? Icons.star : Icons.star_border,
-                      color: Colors.white,
-                      size: 16.w,
-                    ),
-                  ),
-                ),
-              ],
+          Center(
+            child: CustomNetworkImage(
+              borderRadius: BorderRadius.circular(5),
+              backgroundColor: AppColors.green100,
+              imageUrl: imageUrl,
+              width: 95,
+              height: 100,
             ),
           ),
           Gap(8.h),
 
-          Expanded(
-            flex: 2,
-            child: Center(
-              child: CustomText(
-                text: widget.name,
-                fontWeight: FontWeight.w500,
-                fontSize: 16,
-                color: AppColors.blue500,
-              ),
+          Center(
+            child: CustomText(
+              text: name,
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+              color: AppColors.blue500,
             ),
           ),
           Gap(4.h),
 
-          if (widget.isVisible) // Show only if isVisible is true
-            Expanded(
-              flex: 1,
-              child: Row(
+            RichText(
+              textAlign: TextAlign.start,
+              text: TextSpan(
                 children: [
-                  CustomText(
-                    text: widget.isTeam ? 'Team: ' : "",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12,
-                    color: AppColors.green500,
+                  TextSpan(
+                    text: AppStrings.team,
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.green500,
+                    ),
                   ),
-                  Expanded(
-                    child: CustomText(
-                      text: widget.team ?? "",
-                      maxLines: 2,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12,
+                  TextSpan(
+                    text: team,
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
                       color: AppColors.blue500,
                     ),
                   ),
@@ -131,39 +87,36 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
             ),
           Gap(4.h),
 
-          Expanded(
-            flex: 1,
-            child: Row(
-              children: [
-                CustomText(
-                  text: widget.isPosition ? 'Position: ' : "Sports:",
-                  fontWeight: FontWeight.w500,
-                  fontSize: 12,
-                  color: AppColors.green500,
-                ),
-                Expanded(
-                  child: CustomText(
-                    text: widget.position ?? "",
-                    maxLines: 2,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12,
-                    color: AppColors.blue500,
+            RichText(
+              textAlign: TextAlign.start,
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: AppStrings.position,
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.green500,
+                    ),
                   ),
-                ),
-              ],
+                  TextSpan(
+                    text: position,
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.blue500,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Gap(8.h),
+          Gap(20.h),
 
-          Expanded(
-                 flex: 2,
-            child: CustomButton(
-
+            CustomButton(
               fillColor: AppColors.blue500,
-              onTap: widget.onTap,
-              title: widget.buttonTitle ?? "",
+              onTap: onTap,
+              title: AppStrings.sendTippz,
             ),
-          ),
         ],
       ),
     );

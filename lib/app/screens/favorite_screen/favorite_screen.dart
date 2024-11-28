@@ -107,35 +107,35 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               const SizedBox(height: 40),
 
               //============== Tab Content========================
-              Expanded(
-                child: GridView.builder(
-                  itemCount: 5,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    childAspectRatio: 0.8,
-
-                  ),
-                  itemBuilder: (context, index) {
-                    final bool isPlayerTab = favoriteController.selectedIndex.value == 0;
-                    return CustomPlayerCard(
-                      isVisible: isPlayerTab?true:false,
-                      imageUrl:isPlayerTab? AppConstants.player:AppConstants.leage,
-                      name: isPlayerTab ? 'Robert Smith' : 'Indiana Fever',
-                      team: isPlayerTab ? 'Manchester City' : null,
-                      position: isPlayerTab ? 'Quarterback' : 'Basketball',
-                      isTeam: isPlayerTab,
-                      buttonTitle: 'Send Tippz',
-                      isPosition: isPlayerTab,
-                      onTap: () {
-                        showCustomDialog(context, 'Robert Smith', 'Manchester City', 'Forward');
-                      },
-                    );
-                  },
-                ),
-              ),
+              // Expanded(
+              //   child: GridView.builder(
+              //     itemCount: 5,
+              //     padding: const EdgeInsets.symmetric(horizontal: 16),
+              //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              //       crossAxisCount: 2,
+              //       crossAxisSpacing: 16,
+              //       mainAxisSpacing: 16,
+              //       childAspectRatio: 0.8,
+              //
+              //     ),
+              //     itemBuilder: (context, index) {
+              //       final bool isPlayerTab = favoriteController.selectedIndex.value == 0;
+              //       return CustomPlayerCard(
+              //         isVisible: isPlayerTab?true:false,
+              //         imageUrl:isPlayerTab? AppConstants.player:AppConstants.leage,
+              //         name: isPlayerTab ? 'Robert Smith' : 'Indiana Fever',
+              //         team: isPlayerTab ? 'Manchester City' : null,
+              //         position: isPlayerTab ? 'Quarterback' : 'Basketball',
+              //         isTeam: isPlayerTab,
+              //         buttonTitle: 'Send Tippz',
+              //         isPosition: isPlayerTab,
+              //         onTap: () {
+              //           showCustomDialog(context, 'Robert Smith', 'Manchester City', 'Forward');
+              //         },
+              //       );
+              //     },
+              //   ),
+              // ),
             ],
           );
         },

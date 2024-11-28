@@ -35,7 +35,7 @@ class _CustomPlayerCardState extends State<RewardCard> {
         borderRadius: BorderRadius.circular(10.r),
         border: Border.all(color: AppColors.green500),
         image: DecorationImage(
-          image: AssetImage(Assets.images.bgImage.path),
+          image: AssetImage(Assets.images.reward.path),
           fit: BoxFit.cover,
           scale: 2,
         ),

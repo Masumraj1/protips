@@ -136,6 +136,14 @@ class ProfileScreen extends StatelessWidget {
                     label: AppStrings.address,
                     value: data.address??"",
                   ),
+
+                  Gap(20.h),
+                  ///===================Tip==============
+
+                   ProfileDetailRow(
+                    label: 'totalPoint',
+                    value: data.totalPoint.toString(),
+                  ),
                 ],
               ),
             ],

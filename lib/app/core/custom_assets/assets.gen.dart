@@ -213,6 +213,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/player.png
   AssetGenImage get player => const AssetGenImage('assets/images/player.png');
 
+  /// File path: assets/images/playerz.png
+  AssetGenImage get playerz => const AssetGenImage('assets/images/playerz.png');
+
   /// File path: assets/images/pt.png
   AssetGenImage get pt => const AssetGenImage('assets/images/pt.png');
 
@@ -242,6 +245,7 @@ class $AssetsImagesGen {
         noInternet,
         paypal,
         player,
+        playerz,
         pt,
         ptis,
         reward,
