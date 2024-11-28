@@ -73,10 +73,10 @@ class HomeController extends GetxController {
   ///==============*********>>>>>>>>SearchMethod<<<<<<<********===
   TextEditingController searchController = TextEditingController();
 
-  searchReward({required String search}) async {
+  searchReward({required String search,required String id}) async {
     setRxRequestStatus(Status.loading);
     selectRewardList.refresh();
-    var response = await ApiClient.getData("${ApiUrl.searchReward}=$search");
+    var response = await ApiClient.getData("${ApiUrl.searchReward}=$search${"&category=$id"}");
     selectRewardList.refresh();
     if (response.statusCode == 200) {
       selectRewardList = RxList<SelectRewardList>.from(response.body["data"]
@@ -93,6 +93,7 @@ class HomeController extends GetxController {
   Rx<int?> selectedIndex = Rx<int?>(null); // Track selected index
 
   RxList<SelectRewardList> selectRewardList = <SelectRewardList>[].obs;
+  var selectedRewardId = ''.obs; // Store the selected reward ID
 
   selectedReward({required String id}) async {
     setRxRequestStatus(Status.loading);
@@ -103,6 +104,7 @@ class HomeController extends GetxController {
       selectRewardList.value = List<SelectRewardList>.from(response.body["data"]
               ['result']
           .map((x) => SelectRewardList.fromJson(x)));
+      selectedRewardId.value = id;
       print(
           'SelectRewardList=========================="${selectRewardList.length}"');
       setRxRequestStatus(Status.completed);

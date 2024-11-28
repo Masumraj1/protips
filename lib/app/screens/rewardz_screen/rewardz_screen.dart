@@ -44,6 +44,7 @@ class _RewardScreenState extends State<RewardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
+
       ///==============*********>>>>>>>>Reward AppBar<<<<<<<********===
       appBar: const CustomAppBar(
         appBarContent: AppStrings.rewardz,
@@ -53,7 +54,6 @@ class _RewardScreenState extends State<RewardScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         child: Column(
           children: [
-
             /// ========================= Rewardz List =======================
             Obx(() {
               if (homeController.rewardList.isEmpty) {
@@ -68,7 +68,7 @@ class _RewardScreenState extends State<RewardScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children:
-                  List.generate(homeController.rewardList.length, (index) {
+                      List.generate(homeController.rewardList.length, (index) {
                     final item = homeController.rewardList[index];
                     final isSelected =
                         homeController.selectedIndex.value == index;
@@ -78,7 +78,8 @@ class _RewardScreenState extends State<RewardScreen> {
                         // Update selected index and fetch corresponding data
                         homeController.selectedIndex.value = index;
                         homeController.selectedReward(id: item.id ?? "");
-                        print("Selected Item ID:==================== ${item.id}");
+                        print(
+                            "Selected Item ID:==================== ${item.id}");
                       },
                       child: Container(
                         padding: const EdgeInsets.all(10),
@@ -92,7 +93,7 @@ class _RewardScreenState extends State<RewardScreen> {
                             // Reward Image
                             CustomNetworkImage(
                               imageUrl:
-                              "${ApiUrl.netWorkUrl}${item.image ?? ""}",
+                                  "${ApiUrl.netWorkUrl}${item.image ?? ""}",
                               height: 72,
                               width: 73,
                               borderRadius: BorderRadius.circular(8),
@@ -123,7 +124,16 @@ class _RewardScreenState extends State<RewardScreen> {
               isColor: false,
               inputTextStyle: const TextStyle(color: AppColors.gray500),
               onFieldSubmitted: (value) {
-                homeController.searchReward(search: value);
+                // Ensure that the search uses the selected reward's ID
+                String selectedRewardId = homeController.selectedRewardId.value;
+                if (selectedRewardId.isEmpty && homeController.rewardList.isNotEmpty) {
+                  selectedRewardId = homeController.rewardList[0].id ?? "";
+                }
+                homeController.searchReward(
+                  search: value,
+                  id: selectedRewardId,
+                );
+                print("Search with selected Reward ID: $selectedRewardId");
               },
               textEditingController: homeController.searchController,
               hintText: AppStrings.searchReward,
@@ -184,10 +194,11 @@ class _RewardScreenState extends State<RewardScreen> {
                 return GridView.builder(
                   itemCount: homeController.selectRewardList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2,
+                    crossAxisCount:
+                        MediaQuery.of(context).size.width > 600 ? 3 : 2,
                     crossAxisSpacing: 16.w,
                     mainAxisSpacing: 16.h,
-                    childAspectRatio: 1/2,
+                    childAspectRatio: 1 / 2,
                     // mainAxisExtent: 300,
                   ),
                   itemBuilder: (context, index) {
@@ -232,7 +243,7 @@ class _RewardScreenState extends State<RewardScreen> {
     );
   }
 
-///============================Email VeryFy =========================
+  ///============================Email VeryFy =========================
   void veryFyEmailAddress(BuildContext context) {
     final formKey = GlobalKey<FormState>();
 
@@ -268,17 +279,17 @@ class _RewardScreenState extends State<RewardScreen> {
         onSendCode: () {
           if (formKey.currentState!.validate()) {
             Get.back(); // Close the dialog
-           homeController.veryFyOtp();
+            homeController.veryFyOtp();
             // veryFyOtp(context);
           }
         },
         onClose: () {
           Get.back(); // Close the dialog
-        }, pinController: homeController.pinController,
+        },
+        pinController: homeController.pinController,
       ),
     );
   }
-
 
   /// ===========================Shirt==========================
   void whenShirtDialog(BuildContext context) {
