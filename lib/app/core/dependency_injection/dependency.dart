@@ -6,6 +6,7 @@ import 'package:protippz/app/controller/home_controller.dart';
 import 'package:protippz/app/controller/info_controller.dart';
 import 'package:protippz/app/controller/notification_controller.dart';
 import 'package:protippz/app/controller/payment_controller.dart';
+import 'package:protippz/app/controller/player_controller.dart';
 import 'package:protippz/app/controller/profile_controller.dart';
 import 'package:protippz/app/global/controllers/auth_controller/auth_controller.dart';
 import 'package:protippz/app/global/controllers/genarel_controller/genarel_controller.dart';
@@ -23,5 +24,6 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => PaymentController(), fenix: true);
     Get.lazyPut(() => InfoController(), fenix: true);
     Get.lazyPut(() => GeneralController(), fenix: true);
+    Get.lazyPut(() => PlayerController(), fenix: true);
   }
 }

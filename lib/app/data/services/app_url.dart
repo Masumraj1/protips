@@ -36,8 +36,27 @@ class ApiUrl {
   static const favoritePlayer = "/player/get-all";
   static const favoriteTeam = "/team/get-all";
 
-  ///=======================Leage==================
+  ///================*********League*************==================
   static const getAllLeague = "/league/get-all";
+
+
+
+
+  ///=========================Player====================
+  static const getAllPlayer = "/player/get-all";
+  static String selectPlayer({required String id}) {
+    return "/player/get-all?league=$id";
+  }
+  static const searchPlayer = "/player/get-all?searchTerm";
+
+
+  ///=========================Team==================
+  static const getAllTeam = "/team/get-all";
+  static String selectTeam({required String id}) {
+    return "/team/get-all?league=$id";
+  }
+  static const searchTeam = "/team/get-all?searchTerm";
+
 
 
   ///======================Reward====================
@@ -45,6 +64,7 @@ class ApiUrl {
   static String selectReward({required String id}) {
     return "/reward/get-all?category=$id";
   }
+
 
   static String veryFyRedeemOtp({required String id}) {
     return "/redeem-request/verify-redeem-email/$id";

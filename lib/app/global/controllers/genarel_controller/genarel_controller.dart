@@ -2,13 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:protippz/app/data/models/faq_model.dart';
-import 'package:protippz/app/data/models/privacy_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';
 import 'package:protippz/app/data/services/api_client.dart';
 import 'package:protippz/app/data/services/app_url.dart';
 import 'package:protippz/app/global/widgets/toast_message/toast_message.dart';
-import 'package:protippz/app/utils/app_constants.dart';
 
 class GeneralController extends GetxController {
   ///==============================ContactUs==========================

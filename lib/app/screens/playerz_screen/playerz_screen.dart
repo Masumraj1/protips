@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:protippz/app/controller/player_controller.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
+import 'package:protippz/app/data/services/app_url.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
 import 'package:protippz/app/global/widgets/custom_dialogbox/custom_dialogbox.dart';
 import 'package:protippz/app/global/widgets/custom_drop_down/custom_drop_down.dart';
 import 'package:protippz/app/global/widgets/custom_horizontal_card/custom_horizontal_card.dart';
+import 'package:protippz/app/global/widgets/custom_loader/custom_loader.dart';
+import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_player_card/custom_player_card.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/global/widgets/custom_text_field/custom_text_field.dart';
+import 'package:protippz/app/global/widgets/genarel_error/genarel_error.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 import 'package:protippz/app/utils/app_strings.dart';
@@ -53,6 +58,8 @@ class _PlayerzScreenState extends State<PlayerzScreen> {
     });
   }
 
+
+  final PlayerController _playerController = Get.find<PlayerController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,17 +73,67 @@ class _PlayerzScreenState extends State<PlayerzScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         child: Column(
           children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(4, (index) {
-                  return CustomHorizontalCard(
-                    image: AppConstants.nba,
-                    title: 'NBA',
-                  );
-                }),
-              ),
-            ),
+            Obx(() {
+              if (_playerController.leagueList.isEmpty) {
+                return const CustomText(
+                  text: "No Player Found",
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  color: AppColors.gray500,
+                );
+              }
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children:
+                  List.generate(_playerController.leagueList.length, (index) {
+                    final item = _playerController.leagueList[index];
+                    final isSelected =
+                        _playerController.selectedIndex.value == index;
+
+                    return GestureDetector(
+                      onTap: () {
+                        // Update selected index and fetch corresponding data
+                        _playerController.selectedIndex.value = index;
+                        _playerController.selectPlayer(id: item.id ?? "");
+                        print(
+                            "Selected League ID:==================== ${item.id}");
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: isSelected
+                              ? Border.all(color: AppColors.green500, width: 2)
+                              : null,
+                        ),
+                        child: Column(
+                          children: [
+                            // Reward Image
+                            CustomNetworkImage(
+                              imageUrl:
+                              "${ApiUrl.netWorkUrl}${item.leagueImage ?? ""}",
+                              height: 72,
+                              width: 73,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            SizedBox(height: 10.h),
+                            // Reward Name
+                            Text(
+                              item.name ?? "",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12.sp,
+                                color: AppColors.gray500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+              );
+            }),
             Gap(24.h),
             const CustomTextField(
               hintText: 'Search Players',
@@ -95,31 +152,85 @@ class _PlayerzScreenState extends State<PlayerzScreen> {
               toggleOrder: _toggleOrder,
               isName: true,
             ),
-            Gap(14.h),
+            Gap(24.h),
+
             Expanded(
-              child: GridView.builder(
-                itemCount: 5,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount:
-                  MediaQuery.of(context).size.width > 600 ? 3 : 2,
-                  crossAxisSpacing: 16.w,
-                  mainAxisSpacing: 16.h,
-                  childAspectRatio: 1 /1.7,
-                ),
-                itemBuilder: (context, index) {
-                  return CustomPlayerCard(
-                    imageUrl: AppConstants.player,
-                    name: 'Robert Smith',
-                    team: ' then man women Manchester City',
-                    position: 'QuarterbackQuarterbackQuarterback',
+              child: Obx(() {
+                if (_playerController.rxRequestStatus.value == Status.loading) {
+                  return const CustomLoader(); // Show loading indicator
+                }
+
+                if (_playerController.rxRequestStatus.value ==
+                    Status.internetError) {
+                  return const Center(
+                    child: CustomText(
+                      text: 'Please Connect Your Internet',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      color: AppColors.gray500,
+                    ),
+                  );
+                }
+
+                if (_playerController.rxRequestStatus.value == Status.error) {
+                  return GeneralErrorScreen(
                     onTap: () {
-                      showCustomDialog(context, 'Robert Smith',
-                          'Manchester City', 'Forward');
+                      if (_playerController.playerList.isNotEmpty) {
+                       _playerController.getPlayer();
+                      }
                     },
                   );
-                },
-              ),
+                }
+
+                if (_playerController.rxRequestStatus.value == Status.completed &&
+                    _playerController.selectPlayerList.isEmpty) {
+                  return const Center(
+                    child: CustomText(
+                      text: "No Player Available",
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      color: AppColors.gray500,
+                    ),
+                  );
+                }
+
+                return GridView.builder(
+                  itemCount: _playerController.playerList.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2,
+                    crossAxisSpacing: 16.w,
+                    mainAxisSpacing: 16.h,
+                    childAspectRatio: 1 / 1.7,
+                  ),
+                  itemBuilder: (context, index) {
+                    var data = _playerController.playerList[index];
+                    // Fix: Check if playerImage has a valid value
+                    String imageUrl = "${ApiUrl.netWorkUrl}${data.playerImage}";
+                    // If playerImage is empty or invalid, you might want to set a default image
+                    if (data.playerImage == null || data.playerImage!.isEmpty) {
+                      imageUrl = AppConstants.profileImage; // Replace with a default image URL
+                    }
+
+                    return CustomPlayerCard(
+                      imageUrl: imageUrl,  // Pass the constructed image URL to the card
+                      name: data.name ?? "",
+                      team: data.team?.name ?? "",
+                      position: data.position,
+                      onTap: () {
+                        showCustomDialog(
+                            context,
+                            data.name ?? "Unknown",
+                            data.team?.name ?? "Unknown",
+                            data.position ?? "Unknown"
+                        );
+                      },
+                    );
+                  },
+                );
+
+              }),
             ),
+
           ],
         ),
       ),

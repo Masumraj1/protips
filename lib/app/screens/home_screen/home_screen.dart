@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/controller/home_controller.dart';
+import 'package:protippz/app/controller/player_controller.dart';
 import 'package:protippz/app/core/app_routes.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/data/services/app_url.dart';
@@ -20,6 +21,7 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   final HomeController homeController = Get.find<HomeController>();
+  final PlayerController playerController = Get.find<PlayerController>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -94,7 +96,7 @@ class HomeScreen extends StatelessWidget {
                   ///=========================Top Sports League==================
                   _buildSectionTitle(AppStrings.topSportsLeague),
                   Obx(() {
-                    return homeController.leagueList.isEmpty
+                    return playerController.leagueList.isEmpty
                         ? const Center(
                           child: CustomText(
                               text: "No League Founded",
@@ -107,12 +109,12 @@ class HomeScreen extends StatelessWidget {
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: List.generate(
-                                  homeController.leagueList.length, (index) {
+                                  playerController.leagueList.length, (index) {
                                 return CustomImageCard(
                                     imageUrl:
-                                        "${ApiUrl.netWorkUrl}${homeController.leagueList[index].leagueImage ?? ""}",
+                                        "${ApiUrl.netWorkUrl}${playerController.leagueList[index].leagueImage ?? ""}",
                                     title:
-                                        homeController.leagueList[index].name ??
+                                    playerController.leagueList[index].name ??
                                             "");
                               }),
                             ),

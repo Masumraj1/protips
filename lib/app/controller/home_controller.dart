@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:protippz/app/data/models/league_model.dart';
 import 'package:protippz/app/data/models/rewadz_model.dart';
 import 'package:protippz/app/data/models/selected_reward_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';
@@ -44,31 +43,7 @@ class HomeController extends GetxController {
     }
   }
 
-  ///==============*********>>>>>>>>GetLeague<<<<<<<********===
-  RxList<LeagueList> leagueList = <LeagueList>[].obs;
 
-  getLeague() async {
-    setRxRequestStatus(Status.loading);
-    refresh();
-    var response = await ApiClient.getData(ApiUrl.getAllLeague);
-
-    if (response.statusCode == 200) {
-      leagueList.value = List<LeagueList>.from(
-          response.body["data"]["result"].map((x) => LeagueList.fromJson(x)));
-
-      debugPrint(
-          'LeagueList=======================${response.body["data"]["result"]}');
-      setRxRequestStatus(Status.completed);
-      refresh();
-    } else {
-      if (response.statusText == ApiClient.noInternetMessage) {
-        setRxRequestStatus(Status.internetError);
-      } else {
-        setRxRequestStatus(Status.error);
-      }
-      ApiChecker.checkApi(response);
-    }
-  }
 
   ///==============*********>>>>>>>>SearchMethod<<<<<<<********===
   TextEditingController searchController = TextEditingController();
@@ -247,7 +222,6 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     getReward();
-    getLeague();
     super.onInit();
   }
 }
