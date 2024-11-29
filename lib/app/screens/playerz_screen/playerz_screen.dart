@@ -9,7 +9,6 @@ import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
 import 'package:protippz/app/global/widgets/custom_dialogbox/custom_dialogbox.dart';
 import 'package:protippz/app/global/widgets/custom_drop_down/custom_drop_down.dart';
-import 'package:protippz/app/global/widgets/custom_horizontal_card/custom_horizontal_card.dart';
 import 'package:protippz/app/global/widgets/custom_loader/custom_loader.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_player_card/custom_player_card.dart';
@@ -20,14 +19,14 @@ import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
-class PlayerzScreen extends StatefulWidget {
-  const PlayerzScreen({super.key});
+class PlayerScreen extends StatefulWidget {
+  const PlayerScreen({super.key});
 
   @override
-  State<PlayerzScreen> createState() => _PlayerzScreenState();
+  State<PlayerScreen> createState() => _PlayerzScreenState();
 }
 
-class _PlayerzScreenState extends State<PlayerzScreen> {
+class _PlayerzScreenState extends State<PlayerScreen> {
   int? _selectedValue;
   final List<String> amountOptions = [
     "Send From Deposit Account",

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/data/models/league_model.dart';
-import 'package:protippz/app/data/models/player_model/player_model.dart';
-import 'package:protippz/app/data/models/player_model/select_player_model.dart';
+import 'package:protippz/app/data/models/team_model/select_team_model.dart';
+import 'package:protippz/app/data/models/team_model/team_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';
 import 'package:protippz/app/data/services/api_client.dart';
 import 'package:protippz/app/data/services/app_url.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 
-class PlayerController extends GetxController{
+class TeamController extends GetxController{
   ///==============*********>>>>>>>>Other Element<<<<<<<********===
   final rxRequestStatus = Status.loading.obs;
 
@@ -40,24 +40,24 @@ class PlayerController extends GetxController{
   }
 
 
-  ///==============*********>>>>>>>>selectPlayer<<<<<<<********===
+  ///==============*********>>>>>>>>selectTeam<<<<<<<********===
   Rx<int?> selectedIndex = Rx<int?>(null); // Track selected index
 
-  RxList<SelectPlayerList> selectPlayerList = <SelectPlayerList>[].obs;
-  var selectPlayerId = ''.obs; // Store the selected reward ID
+  RxList<SelectTeamList> selectTeamList = <SelectTeamList>[].obs;
+  var selectTeamId = ''.obs; // Store the selected reward ID
 
-  selectPlayer({required String id}) async {
+  selectTeam({required String id}) async {
     setRxRequestStatus(Status.loading);
     refresh();
-    var response = await ApiClient.getData(ApiUrl.selectPlayer(id: id));
+    var response = await ApiClient.getData(ApiUrl.selectTeam(id: id));
 
     if (response.statusCode == 200) {
-      selectPlayerList.value = List<SelectPlayerList>.from(response.body["data"]
+      selectTeamList.value = List<SelectTeamList>.from(response.body["data"]
       ['result']
-          .map((x) => SelectPlayerList.fromJson(x)));
-      selectPlayerId.value = id;
+          .map((x) => SelectTeamList.fromJson(x)));
+      selectTeamId.value = id;
       print(
-          'SelectPlayerList=========================="${selectPlayerList.length}"');
+          'selectTeamList=========================="${selectTeamList.length}"');
       setRxRequestStatus(Status.completed);
       refresh();
     } else {
@@ -71,20 +71,20 @@ class PlayerController extends GetxController{
   }
 
 
-  ///==============*********>>>>>>>>GetPlayer<<<<<<<********===
-  RxList<PlayerList> playerList = <PlayerList>[].obs;
+  ///==============*********>>>>>>>>getTeam<<<<<<<********===
+  RxList<TeamList> teamList = <TeamList>[].obs;
 
-  getPlayer() async {
+  getTeam() async {
     setRxRequestStatus(Status.loading);
     refresh();
-    var response = await ApiClient.getData(ApiUrl.getAllPlayer);
+    var response = await ApiClient.getData(ApiUrl.getAllTeam);
 
     if (response.statusCode == 200) {
-      playerList.value = List<PlayerList>.from(
-          response.body["data"]["result"].map((x) => PlayerList.fromJson(x)));
+      teamList.value = List<TeamList>.from(
+          response.body["data"]["result"].map((x) => TeamList.fromJson(x)));
 
       debugPrint(
-          'playerList=======================${response.body["data"]["result"]}');
+          'TeamList=======================${response.body["data"]["result"]}');
       setRxRequestStatus(Status.completed);
       refresh();
     } else {
@@ -101,17 +101,17 @@ class PlayerController extends GetxController{
   ///===============================Search Method=================
   TextEditingController searchController = TextEditingController();
 
-  searchPlayer({required String search,required String id}) async {
+  searchTeam({required String search,required String id}) async {
     setRxRequestStatus(Status.loading);
-    selectPlayerList.refresh();
-    var response = await ApiClient.getData("${ApiUrl.searchPlayer}=$search${"&league=$id"}");
-    selectPlayerList.refresh();
+    selectTeamList.refresh();
+    var response = await ApiClient.getData("${ApiUrl.searchTeam}=$search${"&league=$id"}");
+    selectTeamList.refresh();
     if (response.statusCode == 200) {
-      selectPlayerList = RxList<SelectPlayerList>.from(response.body["data"]
+      selectTeamList = RxList<SelectTeamList>.from(response.body["data"]
       ['result']
-          .map((x) => SelectPlayerList.fromJson(x)));
+          .map((x) => SelectTeamList.fromJson(x)));
       setRxRequestStatus(Status.completed);
-      selectPlayerList.refresh();
+      selectTeamList.refresh();
     } else {
       ApiChecker.checkApi(response);
     }
@@ -119,8 +119,8 @@ class PlayerController extends GetxController{
 
   @override
   void onInit() {
-   getLeague();
-   getPlayer();
+    getLeague();
+    getTeam();
     super.onInit();
   }
 }

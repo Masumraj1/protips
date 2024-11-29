@@ -2,34 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:protippz/app/controller/team_controller.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
+import 'package:protippz/app/data/services/app_url.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
 import 'package:protippz/app/global/widgets/custom_dialogbox/custom_dialogbox.dart';
 import 'package:protippz/app/global/widgets/custom_drop_down/custom_drop_down.dart';
-import 'package:protippz/app/global/widgets/custom_horizontal_card/custom_horizontal_card.dart';
+import 'package:protippz/app/global/widgets/custom_loader/custom_loader.dart';
+import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_player_card/custom_player_card.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/global/widgets/custom_text_field/custom_text_field.dart';
+import 'package:protippz/app/global/widgets/genarel_error/genarel_error.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
-class TeamzScreen extends StatefulWidget {
-  const TeamzScreen({super.key});
+class TeamScreen extends StatefulWidget {
+  const TeamScreen({super.key});
 
   @override
-  State<TeamzScreen> createState() => _TeamzScreenState();
+  State<TeamScreen> createState() => _PlayerScreenState();
 }
 
-class _TeamzScreenState extends State<TeamzScreen> {
+class _PlayerScreenState extends State<TeamScreen> {
   int? _selectedValue;
-  final List<String> amountOptions = ["Send From Deposit Account","Send From Credit Card/Paypal"];
+  final List<String> amountOptions = [
+    "Send From Deposit Account",
+    "Send From Credit Card/Paypal"
+  ];
   bool _isDropdownOpen = false;
   String _selectedSortBy = 'Name';
   String _selectedOrder = 'A to Z';
 
-  final List<String> _sortByOptions = ['Name', 'Sport', ];
+  final List<String> _sortByOptions = ['Name', 'Team', 'Position'];
 
   void _toggleDropdown() {
     setState(() {
@@ -49,11 +56,14 @@ class _TeamzScreenState extends State<TeamzScreen> {
       _selectedOrder = _selectedOrder == 'A to Z' ? 'Z to A' : 'A to Z';
     });
   }
+
+
+  final TeamController teamController = Get.find<TeamController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
-      //============================teamz=====================
+      ///==============*********>>>>>>>>Team<<<<<<<********===
       appBar: const CustomAppBar(
         appBarContent: AppStrings.teamz,
         iconData: Icons.arrow_back,
@@ -63,24 +73,95 @@ class _TeamzScreenState extends State<TeamzScreen> {
         child: Column(
           children: [
 
+            ///===============================Select League=====================
+            Obx(() {
+              if (teamController.leagueList.isEmpty) {
+                return const CustomText(
+                  text: "No Player Found",
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  color: AppColors.gray500,
+                );
+              }
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children:
+                  List.generate(teamController.leagueList.length, (index) {
+                    final item = teamController.leagueList[index];
+                    final isSelected =
+                        teamController.selectedIndex.value == index;
 
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(4, (index){
-                  return CustomHorizontalCard(image: AppConstants.nba, title: "NBA");
-                }),
-              ),
-            ),
+                    return GestureDetector(
+                      onTap: () {
+                        // Update selected index and fetch corresponding data
+                        teamController.selectedIndex.value = index;
+                        teamController.selectTeam(id: item.id ?? "");
+                        print(
+                            "Selected League ID:==================== ${item.id}");
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: isSelected
+                              ? Border.all(color: AppColors.green500, width: 2)
+                              : null,
+                        ),
+                        child: Column(
+                          children: [
+                            // Reward Image
+                            CustomNetworkImage(
+                              imageUrl:
+                              "${ApiUrl.netWorkUrl}${item.leagueImage ?? ""}",
+                              height: 72,
+                              width: 73,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            SizedBox(height: 10.h),
+                            // Reward Name
+                            Text(
+                              item.name ?? "",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12.sp,
+                                color: AppColors.gray500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+              );
+            }),
             Gap(24.h),
-
-            const CustomTextField(
-              hintText: 'Search Teamz',
-              prefixIcon: Icon(Icons.search,color: AppColors.gray500,),
+            CustomTextField(
+              isColor: false,
+              inputTextStyle: const TextStyle(color: AppColors.gray500),
+              onFieldSubmitted: (value) {
+                String selectedRewardId = teamController.selectTeamId.value;
+                if (selectedRewardId.isEmpty && teamController.teamList.isNotEmpty) {
+                  selectedRewardId = teamController.teamList[0].id ?? "";
+                }
+                teamController.searchTeam(
+                  search: value,
+                  id: selectedRewardId,
+                );
+                print("Search with selected League ID:====================== $selectedRewardId");
+              },
+              textEditingController: teamController.searchController,
+              hintText: AppStrings.searchPlayer,
+              prefixIcon: const Icon(
+                Icons.search,
+                color: AppColors.gray500,
+              ),
               fillColor: AppColors.white50,
               fieldBorderColor: AppColors.grey400,
             ),
             Gap(14.h),
+
+            ///========================Short by==========================
             SortOptions(
               selectedSortBy: _selectedSortBy,
               selectedOrder: _selectedOrder,
@@ -88,56 +169,113 @@ class _TeamzScreenState extends State<TeamzScreen> {
               sortByOptions: _sortByOptions,
               toggleDropdown: _toggleDropdown,
               selectSortBy: _selectSortBy,
-              toggleOrder: _toggleOrder, isName: true,
+              toggleOrder: _toggleOrder,
+              isName: true,
             ),
-            Gap(14.h),
+            Gap(24.h),
+            ///==================================Player============================
+            Expanded(
+              child: Obx(() {
+                if (teamController.rxRequestStatus.value == Status.loading) {
+                  return const CustomLoader(); // Show loading indicator
+                }
 
-            // Expanded(
-            //   child: GridView.builder(
-            //     itemCount: 5,
-            //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //       crossAxisCount:
-            //       MediaQuery.of(context).size.width > 600 ? 3 : 2,
-            //       crossAxisSpacing: 16.w,
-            //       mainAxisSpacing: 16.h,
-            //       childAspectRatio: 1 / 2,
-            //     ),
-            //     itemBuilder: (context, index) {
-            //       return CustomPlayerCard(
-            //         imageUrl: AppConstants.team,
-            //         name: 'Indiana Fever' ,
-            //         team:'Manchester City' ,
-            //         position: 'Quarterback',
-            //         isTeam: false,
-            //         isPosition: false,
-            //         buttonTitle: AppStrings.sendTippz, onTap: () {
-            //         showCustomDialog(context, 'Robert Smith', 'Manchester City', 'Forward');
-            //       },
-            //       );
-            //     },
-            //   ),
-            // ),
+                if (teamController.rxRequestStatus.value ==
+                    Status.internetError) {
+                  return const Center(
+                    child: CustomText(
+                      text: 'Please Connect Your Internet',
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      color: AppColors.gray500,
+                    ),
+                  );
+                }
+
+                if (teamController.rxRequestStatus.value == Status.error) {
+                  return GeneralErrorScreen(
+                    onTap: () {
+                      if (teamController.teamList.isNotEmpty) {
+                        teamController.getTeam();
+                      }
+                    },
+                  );
+                }
+
+                if (teamController.rxRequestStatus.value == Status.completed &&
+                    teamController.selectTeamList.isEmpty) {
+                  return const Center(
+                    child: CustomText(
+                      text: "No Player Available",
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      color: AppColors.gray500,
+                    ),
+                  );
+                }
+
+                return GridView.builder(
+                  itemCount: teamController.teamList.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2,
+                    crossAxisSpacing: 16.w,
+                    mainAxisSpacing: 16.h,
+                    childAspectRatio: 1 / 1.7,
+                  ),
+                  itemBuilder: (context, index) {
+                    var data = teamController.teamList[index];
+                    // Fix: Check if playerImage has a valid value
+                    String imageUrl = "${ApiUrl.netWorkUrl}${data.teamLogo}";
+                    // If playerImage is empty or invalid, you might want to set a default image
+                    if (data.teamLogo == null || data.teamLogo!.isEmpty) {
+                      imageUrl = AppConstants.profileImage; // Replace with a default image URL
+                    }
+
+                    return CustomPlayerCard(
+                      imageUrl: imageUrl,  // Pass the constructed image URL to the card
+                      name: data.name ?? "",
+                      team:' data.',
+                      position: 'data.position',
+                      onTap: () {
+                        // showCustomDialog(
+                        //     context,
+                        //     data.name ?? "Unknown",
+                        //     data.team?.name ?? "Unknown",
+                        //     data.position ?? "Unknown"
+                        // );
+                      },
+                    );
+                  },
+                );
+
+              }),
+            ),
+
           ],
         ),
       ),
     );
   }
 
-  void showCustomDialog(BuildContext context, String title, String team, String position) {
-    Get.dialog(
-      CustomDialogBox(
-        title: title,
-        team: team,
-        position: position,
-        onTap: () {
-          Get.back();
-          showDialogBox(context);
-        },
-      ),
+  void showCustomDialog(
+      BuildContext context, String title, String team, String position) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomDialogBox(
+          title: title,
+          team: team,
+          position: position,
+          onTap: () {
+            Get.back();
+            showDialogBox(context);
+          },
+        );
+      },
     );
   }
 
-  void showDialogBox(BuildContext context,) {
+  void showDialogBox(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -199,9 +337,5 @@ class _TeamzScreenState extends State<TeamzScreen> {
         );
       },
     );
-
   }
-
-
-
 }

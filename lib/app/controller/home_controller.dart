@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:protippz/app/data/models/rewadz_model.dart';
-import 'package:protippz/app/data/models/selected_reward_model.dart';
+import 'package:protippz/app/data/models/reward_model/rewadz_model.dart';
+import 'package:protippz/app/data/models/reward_model/selected_reward_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';
 import 'package:protippz/app/data/services/api_client.dart';
 import 'package:protippz/app/data/services/app_url.dart';
