@@ -29,7 +29,7 @@ class ApiUrl {
   static const myTransactionLog = "/transaction/my-transactions";
 
 
-  ///=======================Tipz History==================
+  ///=======================my Tips==================
   static const myTipHistory = "/tip/my-tips";
 
   ///======================Favorite===================
@@ -50,6 +50,9 @@ class ApiUrl {
   static const searchPlayer = "/player/get-all?searchTerm";
 
 
+
+
+
   ///=========================Team==================
   static const getAllTeam = "/team/get-all";
   static String selectTeam({required String id}) {
@@ -59,17 +62,17 @@ class ApiUrl {
 
 
 
+
+
+
   ///======================Reward====================
   static const getReward = "/reward-category/get-all";
   static String selectReward({required String id}) {
     return "/reward/get-all?category=$id";
   }
-
-
   static String veryFyRedeemOtp({required String id}) {
     return "/redeem-request/verify-redeem-email/$id";
   }
-
   static const searchReward = "/reward/get-all?searchTerm";
   static const redeemCreate = "/redeem-request/create";
 

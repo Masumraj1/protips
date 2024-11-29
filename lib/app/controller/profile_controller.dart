@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http_parser/http_parser.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mime/mime.dart';
 import 'package:protippz/app/data/models/profile_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';
@@ -20,19 +18,7 @@ class ProfileController extends GetxController{
   final rxRequestStatus = Status.loading.obs;
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
-  ///============================Image picker method================
-  // RxString image = "".obs;
-  //
-  // Rx<File> imageFile = File("").obs;
-  // selectImage() async {
-  //   final ImagePicker picker = ImagePicker();
-  //   final XFile? getImages =
-  //   await picker.pickImage(source: ImageSource.gallery, imageQuality: 15);
-  //   if (getImages != null) {
-  //     imageFile.value = File(getImages.path);
-  //     image.value = getImages.path;
-  //   }
-  // }
+
 
 
 
