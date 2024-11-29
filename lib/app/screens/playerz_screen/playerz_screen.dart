@@ -73,6 +73,8 @@ class _PlayerzScreenState extends State<PlayerzScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         child: Column(
           children: [
+
+            ///===============================Select Player=====================
             Obx(() {
               if (_playerController.leagueList.isEmpty) {
                 return const CustomText(
@@ -135,13 +137,32 @@ class _PlayerzScreenState extends State<PlayerzScreen> {
               );
             }),
             Gap(24.h),
-            const CustomTextField(
-              hintText: 'Search Players',
-              prefixIcon: Icon(Icons.search, color: AppColors.gray500),
+            CustomTextField(
+              isColor: false,
+              inputTextStyle: const TextStyle(color: AppColors.gray500),
+              onFieldSubmitted: (value) {
+                String selectedRewardId = _playerController.selectPlayerId.value;
+                if (selectedRewardId.isEmpty && _playerController.playerList.isNotEmpty) {
+                  selectedRewardId = _playerController.playerList[0].id ?? "";
+                }
+                _playerController.searchPlayer(
+                  search: value,
+                  id: selectedRewardId,
+                );
+                print("Search with selected Player ID:====================== $selectedRewardId");
+              },
+              textEditingController: _playerController.searchController,
+              hintText: AppStrings.searchPlayer,
+              prefixIcon: const Icon(
+                Icons.search,
+                color: AppColors.gray500,
+              ),
               fillColor: AppColors.white50,
               fieldBorderColor: AppColors.grey400,
             ),
             Gap(14.h),
+
+            ///========================Short by==========================
             SortOptions(
               selectedSortBy: _selectedSortBy,
               selectedOrder: _selectedOrder,
@@ -153,7 +174,7 @@ class _PlayerzScreenState extends State<PlayerzScreen> {
               isName: true,
             ),
             Gap(24.h),
-
+   ///==================================Player============================
             Expanded(
               child: Obx(() {
                 if (_playerController.rxRequestStatus.value == Status.loading) {

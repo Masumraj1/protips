@@ -151,6 +151,7 @@ class AppStrings {
   static const editProfile = "Edit Profile";
   static const save = "Save";
   static const searchReward = "Search Reward";
+  static const searchPlayer = "Search Player";
   static const changePassword = "Change Password";
   static const currentPassword = "Current Password";
   static const newPassword = "New Password";

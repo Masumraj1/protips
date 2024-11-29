@@ -44,7 +44,7 @@ class PlayerController extends GetxController{
   Rx<int?> selectedIndex = Rx<int?>(null); // Track selected index
 
   RxList<SelectPlayerList> selectPlayerList = <SelectPlayerList>[].obs;
-  var selectedRewardId = ''.obs; // Store the selected reward ID
+  var selectPlayerId = ''.obs; // Store the selected reward ID
 
   selectPlayer({required String id}) async {
     setRxRequestStatus(Status.loading);
@@ -55,7 +55,7 @@ class PlayerController extends GetxController{
       selectPlayerList.value = List<SelectPlayerList>.from(response.body["data"]
       ['result']
           .map((x) => SelectPlayerList.fromJson(x)));
-      // selectedRewardId.value = id;
+      selectPlayerId.value = id;
       print(
           'SelectPlayerList=========================="${selectPlayerList.length}"');
       setRxRequestStatus(Status.completed);
@@ -93,6 +93,26 @@ class PlayerController extends GetxController{
       } else {
         setRxRequestStatus(Status.error);
       }
+      ApiChecker.checkApi(response);
+    }
+  }
+
+
+  ///===============================Search Method=================
+  TextEditingController searchController = TextEditingController();
+
+  searchPlayer({required String search,required String id}) async {
+    setRxRequestStatus(Status.loading);
+    selectPlayerList.refresh();
+    var response = await ApiClient.getData("${ApiUrl.searchPlayer}=$search${"&league=$id"}");
+    selectPlayerList.refresh();
+    if (response.statusCode == 200) {
+      selectPlayerList = RxList<SelectPlayerList>.from(response.body["data"]
+      ['result']
+          .map((x) => SelectPlayerList.fromJson(x)));
+      setRxRequestStatus(Status.completed);
+      selectPlayerList.refresh();
+    } else {
       ApiChecker.checkApi(response);
     }
   }
