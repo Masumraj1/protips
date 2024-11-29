@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/controller/favorite_controller.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
@@ -106,36 +107,30 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               ),
               const SizedBox(height: 40),
 
-              //============== Tab Content========================
-              // Expanded(
-              //   child: GridView.builder(
-              //     itemCount: 5,
-              //     padding: const EdgeInsets.symmetric(horizontal: 16),
-              //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              //       crossAxisCount: 2,
-              //       crossAxisSpacing: 16,
-              //       mainAxisSpacing: 16,
-              //       childAspectRatio: 0.8,
-              //
-              //     ),
-              //     itemBuilder: (context, index) {
-              //       final bool isPlayerTab = favoriteController.selectedIndex.value == 0;
-              //       return CustomPlayerCard(
-              //         isVisible: isPlayerTab?true:false,
-              //         imageUrl:isPlayerTab? AppConstants.player:AppConstants.leage,
-              //         name: isPlayerTab ? 'Robert Smith' : 'Indiana Fever',
-              //         team: isPlayerTab ? 'Manchester City' : null,
-              //         position: isPlayerTab ? 'Quarterback' : 'Basketball',
-              //         isTeam: isPlayerTab,
-              //         buttonTitle: 'Send Tippz',
-              //         isPosition: isPlayerTab,
-              //         onTap: () {
-              //           showCustomDialog(context, 'Robert Smith', 'Manchester City', 'Forward');
-              //         },
-              //       );
-              //     },
-              //   ),
-              // ),
+              Expanded(
+                child: GridView.builder(
+                  itemCount: 5,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2,
+                    crossAxisSpacing: 16.w,
+                    mainAxisSpacing: 16.h,
+                    childAspectRatio: 1 / 1.7,
+
+                  ),
+                  itemBuilder: (context, index) {
+                    return CustomPlayerCard(
+                      imageUrl:AppConstants.leage,
+                      name:  'Indiana Fever',
+                      team: 'Manchester City',
+                      position:  'Basketball',
+                      onTap: () {
+                        showCustomDialog(context, 'Robert Smith', 'Manchester City', 'Forward');
+                      },
+                    );
+                  },
+                ),
+              ),
             ],
           );
         },

@@ -33,8 +33,8 @@ class ApiUrl {
   static const myTipHistory = "/tip/my-tips";
 
   ///======================Favorite===================
-  static const favoritePlayer = "/player/get-all";
-  static const favoriteTeam = "/team/get-all";
+  static const favoritePlayer = "/player-bookmark/my-bookmark";
+  static const favoriteTeam = "/team-bookmark/my-bookmark";
 
   ///================*********League*************==================
   static const getAllLeague = "/league/get-all";

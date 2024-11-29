@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:protippz/app/data/models/tips_history_model.dart';
+import 'package:protippz/app/data/models/history_model/tips_history_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';
 import 'package:protippz/app/data/services/api_client.dart';
 import 'package:protippz/app/data/services/app_url.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:protippz/app/data/models/league_model.dart';
+import 'package:protippz/app/data/models/league_model/league_model.dart';
 import 'package:protippz/app/data/models/player_model/player_model.dart';
 import 'package:protippz/app/data/models/player_model/select_player_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';

@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:protippz/app/data/models/faq_model.dart';
-import 'package:protippz/app/data/models/privacy_model.dart';
+import 'package:protippz/app/data/models/general_model/faq_model.dart';
+import 'package:protippz/app/data/models/general_model/privacy_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';
 import 'package:protippz/app/data/services/api_client.dart';
 import 'package:protippz/app/data/services/app_url.dart';
