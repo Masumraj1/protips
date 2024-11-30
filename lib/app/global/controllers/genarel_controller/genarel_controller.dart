@@ -97,6 +97,42 @@ class GeneralController extends GetxController {
   }
 
 
+  ///================================Send Tip=========================
+
+ TextEditingController sendAmountController = TextEditingController();
+  RxBool isSendTips = false.obs;
+
+  sendTips({required String entityId,required String entityType}) async {
+    // if (!isValidInput()) {
+    //   toastMessage(message: "Please fill in all the required fields");
+    //   return;
+    // }
+    isSendTips.value = true;
+    try {
+      Map<String, dynamic> body ={
+        "entityId": entityId,
+        "entityType": entityType,
+        "amount": sendAmountController,
+        "tipBy": "Profile balance"
+      };
+      var response = await ApiClient.postData(
+        ApiUrl.sendTip,
+        jsonEncode(body),
+      );
+      if (response.statusCode == 201) {
+        // clearInputFields();
+        // Get.back();
+        toastMessage(message: response.body["message"]);
+      } else {
+        ApiChecker.checkApi(response);
+      }
+    } catch (e) {
+      toastMessage(message: "Something went wrong: $e");
+    } finally {
+      isSendTips.value = false;
+    }
+  }
+
   @override
   void onInit() {
     getLeague();

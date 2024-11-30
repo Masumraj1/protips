@@ -243,6 +243,7 @@ class _PlayerzScreenState extends State<PlayerScreen> {
                             context,
                             data.name ?? "Unknown",
                             data.team?.name ?? "Unknown",
+                            data.playerImage ?? "Unknown",
                             data.position ?? "Unknown"
                         );
                       },
@@ -260,7 +261,7 @@ class _PlayerzScreenState extends State<PlayerScreen> {
   }
 
   void showCustomDialog(
-      BuildContext context, String title, String team, String position) {
+      BuildContext context, String title, String team, String position,String image) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -271,7 +272,7 @@ class _PlayerzScreenState extends State<PlayerScreen> {
           onTap: () {
             Get.back();
             showDialogBox(context);
-          },
+          }, image: image, controller: _generalController.sendAmountController,
         );
       },
     );

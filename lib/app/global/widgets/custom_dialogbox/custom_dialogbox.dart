@@ -11,7 +11,9 @@ import 'package:protippz/app/utils/app_strings.dart';
 class CustomDialogBox extends StatefulWidget {
   final String title;
   final String team;
+  final String image;
   final String position;
+  final TextEditingController controller;
   final VoidCallback onTap;
 
   const CustomDialogBox({
@@ -19,7 +21,7 @@ class CustomDialogBox extends StatefulWidget {
     required this.title,
     required this.team,
     required this.position,
-    required this.onTap,
+    required this.onTap, required this.image, required this.controller,
   });
 
   @override
@@ -54,10 +56,12 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             Center(
               child: Column(
                 children: [
+                  ///======================Image==================
                   CustomNetworkImage(
-                      imageUrl: AppConstants.profileImage,
+                      imageUrl:widget.image,
                       height: 120,
                       width: 116),
+                  ///=======================Title================
                   CustomText(
                     text: widget.title,
                     fontWeight: FontWeight.w600,
@@ -69,7 +73,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const CustomText(
-                        text: "Team:  ",
+                        text: AppStrings.team,
                         fontWeight: FontWeight.w500,
                         color: AppColors.green500,
                         fontSize: 14,
@@ -88,7 +92,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const CustomText(
-                        text: "Position:  ",
+                        text: AppStrings.position,
                         fontWeight: FontWeight.w500,
                         color: AppColors.green500,
                         fontSize: 14,
@@ -123,6 +127,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                       setState(() {
                         _selectedValue = value;
                       });
+                      print('===========${_selectedValue}');
                     },
                     activeColor: AppColors.green500,
 
@@ -142,7 +147,9 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               color: AppColors.gray500,
             ),
             const SizedBox(height: 16),
-            const CustomTextField(
+             CustomTextField(
+               inputTextStyle: const TextStyle(color: AppColors.gray500),
+              textEditingController: widget.controller,
               fieldBorderColor: AppColors.white50,
               fillColor: AppColors.bg500,
               hintText: AppStrings.enterAmount,

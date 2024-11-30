@@ -3,9 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/controller/team_controller.dart';
+import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/data/services/app_url.dart';
 import 'package:protippz/app/global/controllers/genarel_controller/genarel_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
+import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
+import 'package:protippz/app/global/widgets/custom_dialogbox/custom_dialogbox.dart';
 import 'package:protippz/app/global/widgets/custom_loader/custom_loader.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_player_card/custom_player_card.dart';
@@ -27,6 +30,11 @@ class TeamScreen extends StatefulWidget {
 class _TeamScreenState extends State<TeamScreen> {
   final TeamController teamController = Get.find<TeamController>();
   final GeneralController _generalController = Get.find<GeneralController>();
+  final List<String> amountOptions = [
+    "Send From Deposit Account",
+    "Send From Credit Card/Paypal"
+  ];
+  int? _selectedValue;
 
   @override
   void initState() {
@@ -65,9 +73,11 @@ class _TeamScreenState extends State<TeamScreen> {
               return SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: List.generate(_generalController.leagueList.length, (index) {
+                  children: List.generate(_generalController.leagueList.length,
+                      (index) {
                     final item = _generalController.leagueList[index];
-                    final isSelected = teamController.selectedIndex.value == index;
+                    final isSelected =
+                        teamController.selectedIndex.value == index;
 
                     return GestureDetector(
                       onTap: () {
@@ -87,7 +97,8 @@ class _TeamScreenState extends State<TeamScreen> {
                           children: [
                             // League Image
                             CustomNetworkImage(
-                              imageUrl: "${ApiUrl.netWorkUrl}${item.leagueImage ?? ""}",
+                              imageUrl:
+                                  "${ApiUrl.netWorkUrl}${item.leagueImage ?? ""}",
                               height: 72,
                               width: 73,
                               borderRadius: BorderRadius.circular(8),
@@ -117,7 +128,8 @@ class _TeamScreenState extends State<TeamScreen> {
               inputTextStyle: const TextStyle(color: AppColors.gray500),
               onFieldSubmitted: (value) {
                 String selectedRewardId = teamController.selectTeamId.value;
-                if (selectedRewardId.isEmpty && teamController.selectTeamList.isNotEmpty) {
+                if (selectedRewardId.isEmpty &&
+                    teamController.selectTeamList.isNotEmpty) {
                   selectedRewardId = teamController.selectTeamList[0].id ?? "";
                 }
                 teamController.searchTeam(
@@ -146,7 +158,8 @@ class _TeamScreenState extends State<TeamScreen> {
                   return const CustomLoader(); // Show loading indicator
                 }
 
-                if (teamController.rxRequestStatus.value == Status.internetError) {
+                if (teamController.rxRequestStatus.value ==
+                    Status.internetError) {
                   return const Center(
                     child: CustomText(
                       text: 'Please Connect Your Internet',
@@ -182,7 +195,8 @@ class _TeamScreenState extends State<TeamScreen> {
                 return GridView.builder(
                   itemCount: teamController.selectTeamList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2,
+                    crossAxisCount:
+                        MediaQuery.of(context).size.width > 600 ? 3 : 2,
                     crossAxisSpacing: 16.w,
                     mainAxisSpacing: 16.h,
                     childAspectRatio: 1 / 1.5,
@@ -199,7 +213,12 @@ class _TeamScreenState extends State<TeamScreen> {
                       name: data.name ?? "",
                       sport: '',
                       onTap: () {
-                        // Handle team tap action here
+                        showCustomDialog(
+                            context,
+                            data.name ?? "Unknown",
+                            data.league?.name ?? "Unknown",
+                            data.league?.sport ?? "Unknown",
+                            imageUrl);
                       },
                     );
                   },
@@ -211,4 +230,90 @@ class _TeamScreenState extends State<TeamScreen> {
       ),
     );
   }
+
+  void showCustomDialog(BuildContext context, String title, String team,
+      String position, String image) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CustomDialogBox(
+          title: title,
+          team: team,
+          position: position,
+          onTap: () {
+            _generalController.sendTips(
+                entityId: teamController.selectTeamList[0].id ?? "",
+                entityType: 'Team');
+            // Get.back();
+            // showDialogBox(context);
+          },
+          image: image, controller: _generalController.sendAmountController,
+        );
+      },
+    );
+  }
+
+// void showDialogBox(BuildContext context) {
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         backgroundColor: AppColors.white50,
+//         content: Column(
+//           mainAxisSize: MainAxisSize.min,
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Row(
+//               children: [
+//                 const SizedBox(),
+//                 const Spacer(),
+//                 GestureDetector(
+//                     onTap: () {
+//                       Navigator.of(context).pop(); // Close dialog
+//                     },
+//                     child: Assets.icons.closeSmall.svg())
+//               ],
+//             ),
+//             const CustomText(
+//               textAlign: TextAlign.start,
+//               maxLines: 2,
+//               fontSize: 20,
+//               text: "Select your payment method",
+//               fontWeight: FontWeight.w500,
+//               color: AppColors.gray500,
+//               bottom: 10,
+//             ),
+//             Column(
+//               children: amountOptions.asMap().entries.map((entry) {
+//                 int index = entry.key;
+//                 String amount = entry.value;
+//                 return RadioListTile<int>(
+//                   value: index,
+//                   groupValue: _selectedValue,
+//                   onChanged: (value) {
+//                     setState(() {
+//                       _selectedValue = value;
+//                     });
+//                   },
+//                   activeColor: Colors.teal,
+//                   title: Text(
+//                     amount,
+//                     style: const TextStyle(color: Colors.blue, fontSize: 18),
+//                   ),
+//                 );
+//               }).toList(),
+//             ),
+//             CustomButton(
+//               fillColor: AppColors.blue500,
+//               onTap: () {
+//                 Navigator.of(context).pop(); // Close dialog
+//               },
+//               title: AppStrings.continues,
+//             )
+//           ],
+//         ),
+//       );
+//     },
+//   );
+// }
 }
