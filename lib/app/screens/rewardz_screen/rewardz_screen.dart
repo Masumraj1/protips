@@ -30,15 +30,17 @@ class RewardScreen extends StatefulWidget {
 class _RewardScreenState extends State<RewardScreen> {
   final HomeController homeController = Get.find<HomeController>();
 
+  final formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
+    // Ensure that the first reward is selected when the screen is loaded
     if (homeController.rewardList.isNotEmpty) {
-      homeController.selectedReward(id: homeController.rewardList[0].id ?? "");
+      homeController.selectedIndex.value = 0; // Select the first reward
+      homeController.selectedReward(id: homeController.rewardList[0].id ?? ""); // Fetch the data for the selected reward
     }
   }
-
-  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -67,19 +69,16 @@ class _RewardScreenState extends State<RewardScreen> {
               return SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children:
-                      List.generate(homeController.rewardList.length, (index) {
+                  children: List.generate(homeController.rewardList.length, (index) {
                     final item = homeController.rewardList[index];
-                    final isSelected =
-                        homeController.selectedIndex.value == index;
+                    final isSelected = homeController.selectedIndex.value == index;
 
                     return GestureDetector(
                       onTap: () {
                         // Update selected index and fetch corresponding data
                         homeController.selectedIndex.value = index;
                         homeController.selectedReward(id: item.id ?? "");
-                        print(
-                            "Selected Item ID:==================== ${item.id}");
+                        print("Selected Item ID:==================== ${item.id}");
                       },
                       child: Container(
                         padding: const EdgeInsets.all(10),
@@ -92,8 +91,7 @@ class _RewardScreenState extends State<RewardScreen> {
                           children: [
                             // Reward Image
                             CustomNetworkImage(
-                              imageUrl:
-                                  "${ApiUrl.netWorkUrl}${item.image ?? ""}",
+                              imageUrl: "${ApiUrl.netWorkUrl}${item.image ?? ""}",
                               height: 72,
                               width: 73,
                               borderRadius: BorderRadius.circular(8),
@@ -148,15 +146,13 @@ class _RewardScreenState extends State<RewardScreen> {
             Gap(14.h),
 
             /// ======================== Reward Details ======================
-
             Expanded(
               child: Obx(() {
                 if (homeController.rxRequestStatus.value == Status.loading) {
                   return const CustomLoader(); // Show loading indicator
                 }
 
-                if (homeController.rxRequestStatus.value ==
-                    Status.internetError) {
+                if (homeController.rxRequestStatus.value == Status.internetError) {
                   return const Center(
                     child: CustomText(
                       text: 'Please Connect Your Internet',
@@ -179,8 +175,7 @@ class _RewardScreenState extends State<RewardScreen> {
                   );
                 }
 
-                if (homeController.rxRequestStatus.value == Status.completed &&
-                    homeController.selectRewardList.isEmpty) {
+                if (homeController.rxRequestStatus.value == Status.completed && homeController.selectRewardList.isEmpty) {
                   return const Center(
                     child: CustomText(
                       text: "No Rewards Available",
@@ -194,12 +189,10 @@ class _RewardScreenState extends State<RewardScreen> {
                 return GridView.builder(
                   itemCount: homeController.selectRewardList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount:
-                        MediaQuery.of(context).size.width > 600 ? 3 : 2,
+                    crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2,
                     crossAxisSpacing: 16.w,
                     mainAxisSpacing: 16.h,
                     childAspectRatio: 1 / 2,
-                    // mainAxisExtent: 300,
                   ),
                   itemBuilder: (context, index) {
                     var data = homeController.selectRewardList[index];
@@ -209,9 +202,7 @@ class _RewardScreenState extends State<RewardScreen> {
                       describe: data.description ?? "",
                       points: data.pointRequired.toString(),
                       onTap: () {
-                        // Fixed comparison using '==' instead of '='
-                        if (data.category?.deliveryOption ==
-                            "Shipping Address") {
+                        if (data.category?.deliveryOption == "Shipping Address") {
                           whenShirtDialog(context);
                         } else if (data.category?.deliveryOption == "Email") {
                           infoDialogue(context);
@@ -269,7 +260,6 @@ class _RewardScreenState extends State<RewardScreen> {
   }
 
   ///=======================VeryFy Otp=========================
-
   void veryFyOtp(BuildContext context) {
     final formKey = GlobalKey<FormState>();
 
@@ -280,7 +270,6 @@ class _RewardScreenState extends State<RewardScreen> {
           if (formKey.currentState!.validate()) {
             Get.back(); // Close the dialog
             homeController.veryFyOtp();
-            // veryFyOtp(context);
           }
         },
         onClose: () {
