@@ -9,6 +9,7 @@ import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_loader/custom_loader.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_player_card/custom_player_card.dart';
+import 'package:protippz/app/global/widgets/custom_team_card/custom_team_card.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/global/widgets/custom_text_field/custom_text_field.dart';
 import 'package:protippz/app/global/widgets/genarel_error/genarel_error.dart';
@@ -103,8 +104,8 @@ class TeamScreen extends StatelessWidget {
               inputTextStyle: const TextStyle(color: AppColors.gray500),
               onFieldSubmitted: (value) {
                 String selectedRewardId = teamController.selectTeamId.value;
-                if (selectedRewardId.isEmpty && teamController.teamList.isNotEmpty) {
-                  selectedRewardId = teamController.teamList[0].id ?? "";
+                if (selectedRewardId.isEmpty && teamController.selectTeamList.isNotEmpty) {
+                  selectedRewardId = teamController.selectTeamList[0].id ?? "";
                 }
                 teamController.searchTeam(
                   search: value,
@@ -147,8 +148,8 @@ class TeamScreen extends StatelessWidget {
                 if (teamController.rxRequestStatus.value == Status.error) {
                   return GeneralErrorScreen(
                     onTap: () {
-                      if (teamController.teamList.isNotEmpty) {
-                        teamController.getTeam();
+                      if (teamController.selectTeamList.isNotEmpty) {
+                        teamController.selectTeamList();
                       }
                     },
                   );
@@ -167,15 +168,15 @@ class TeamScreen extends StatelessWidget {
                 }
 
                 return GridView.builder(
-                  itemCount: teamController.teamList.length,
+                  itemCount: teamController.selectTeamList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2,
                     crossAxisSpacing: 16.w,
                     mainAxisSpacing: 16.h,
-                    childAspectRatio: 1 / 1.7,
+                    childAspectRatio: 1 / 1.5,
                   ),
                   itemBuilder: (context, index) {
-                    var data = teamController.teamList[index];
+                    var data = teamController.selectTeamList[index];
                     // Fix: Check if playerImage has a valid value
                     String imageUrl = "${ApiUrl.netWorkUrl}${data.teamLogo}";
                     // If playerImage is empty or invalid, you might want to set a default image
@@ -183,11 +184,10 @@ class TeamScreen extends StatelessWidget {
                       imageUrl = AppConstants.profileImage; // Replace with a default image URL
                     }
 
-                    return CustomPlayerCard(
+                    return CustomTeamCard(
                       imageUrl: imageUrl,  // Pass the constructed image URL to the card
                       name: data.name ?? "",
-                      team:' data.',
-                      position: 'data.position',
+                      sport: '',
                       onTap: () {
 
                       },

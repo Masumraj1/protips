@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:protippz/app/data/models/league_model/league_model.dart';
 import 'package:protippz/app/data/models/team_model/select_team_model.dart';
-import 'package:protippz/app/data/models/team_model/team_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';
 import 'package:protippz/app/data/services/api_client.dart';
 import 'package:protippz/app/data/services/app_url.dart';
@@ -47,31 +45,7 @@ class TeamController extends GetxController{
   }
 
 
-  ///==============*********>>>>>>>>getTeam<<<<<<<********===
-  RxList<TeamList> teamList = <TeamList>[].obs;
 
-  getTeam() async {
-    setRxRequestStatus(Status.loading);
-    refresh();
-    var response = await ApiClient.getData(ApiUrl.getAllTeam);
-
-    if (response.statusCode == 200) {
-      teamList.value = List<TeamList>.from(
-          response.body["data"]["result"].map((x) => TeamList.fromJson(x)));
-
-      debugPrint(
-          'TeamList=======================${response.body["data"]["result"]}');
-      setRxRequestStatus(Status.completed);
-      refresh();
-    } else {
-      if (response.statusText == ApiClient.noInternetMessage) {
-        setRxRequestStatus(Status.internetError);
-      } else {
-        setRxRequestStatus(Status.error);
-      }
-      ApiChecker.checkApi(response);
-    }
-  }
 
 
   ///===============================Search Method=================
@@ -95,7 +69,7 @@ class TeamController extends GetxController{
 
   @override
   void onInit() {
-    getTeam();
+    // getTeam();
     super.onInit();
   }
 }
