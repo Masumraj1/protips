@@ -54,7 +54,7 @@ class FavoriteController extends GetxController {
     refresh();
     var response = await ApiClient.getData(ApiUrl.favoriteTeam);
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       favoriteTeamList.value = List<FavoriteTeamList>.from(
           response.body["data"].map((x) => FavoriteTeamList.fromJson(x)));
 

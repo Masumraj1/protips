@@ -107,10 +107,12 @@ class Team {
 class League {
   String? id;
   String? name;
+  String? sport;
 
   League({
     this.id,
     this.name,
+    this.sport
   });
 
   factory League.fromRawJson(String str) => League.fromJson(json.decode(str));
@@ -120,10 +122,12 @@ class League {
   factory League.fromJson(Map<String, dynamic> json) => League(
     id: json["_id"],
     name: json["name"],
+    sport: json["sport"],
   );
 
   Map<String, dynamic> toJson() => {
     "_id": id,
     "name": name,
+    "sport": sport,
   };
 }
