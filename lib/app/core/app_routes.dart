@@ -114,7 +114,7 @@ class AppRoute {
     GetPage(name: depositeCardScreen, page: () =>  DepositeCardScreen(),),
     GetPage(name: tipzScreen, page: () =>  TipzScreen(),),
     GetPage(name: playerzScreen, page: () =>  const PlayerScreen(),),
-    GetPage(name: teamzScreen, page: () =>  const TeamScreen(),),
+    GetPage(name: teamzScreen, page: () =>   TeamScreen(),),
     GetPage(name: rewardzScreen, page: () =>   const RewardScreen(),),
 
 

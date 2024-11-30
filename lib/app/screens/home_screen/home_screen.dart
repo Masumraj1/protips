@@ -6,6 +6,7 @@ import 'package:protippz/app/controller/player_controller.dart';
 import 'package:protippz/app/core/app_routes.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/data/services/app_url.dart';
+import 'package:protippz/app/global/controllers/genarel_controller/genarel_controller.dart';
 import 'package:protippz/app/global/widgets/custom_image_card/custom_image_card.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/global/widgets/nav_bar/nav_bar.dart';
@@ -21,7 +22,7 @@ class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
   final HomeController homeController = Get.find<HomeController>();
-  final PlayerController playerController = Get.find<PlayerController>();
+  final GeneralController _generalController = Get.find<GeneralController>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -96,7 +97,7 @@ class HomeScreen extends StatelessWidget {
                   ///=========================Top Sports League==================
                   _buildSectionTitle(AppStrings.topSportsLeague),
                   Obx(() {
-                    return playerController.leagueList.isEmpty
+                    return _generalController.leagueList.isEmpty
                         ? const Center(
                           child: CustomText(
                               text: "No League Founded",
@@ -109,12 +110,12 @@ class HomeScreen extends StatelessWidget {
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: List.generate(
-                                  playerController.leagueList.length, (index) {
+                                  _generalController.leagueList.length, (index) {
                                 return CustomImageCard(
                                     imageUrl:
-                                        "${ApiUrl.netWorkUrl}${playerController.leagueList[index].leagueImage ?? ""}",
+                                        "${ApiUrl.netWorkUrl}${_generalController.leagueList[index].leagueImage ?? ""}",
                                     title:
-                                    playerController.leagueList[index].name ??
+                                    _generalController.leagueList[index].name ??
                                             "");
                               }),
                             ),

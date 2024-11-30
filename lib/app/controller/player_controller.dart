@@ -13,31 +13,7 @@ class PlayerController extends GetxController{
   final rxRequestStatus = Status.loading.obs;
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
-  ///==============*********>>>>>>>>GetLeague<<<<<<<********===
-  RxList<LeagueList> leagueList = <LeagueList>[].obs;
 
-  getLeague() async {
-    setRxRequestStatus(Status.loading);
-    refresh();
-    var response = await ApiClient.getData(ApiUrl.getAllLeague);
-
-    if (response.statusCode == 200) {
-      leagueList.value = List<LeagueList>.from(
-          response.body["data"]["result"].map((x) => LeagueList.fromJson(x)));
-
-      debugPrint(
-          'LeagueList=======================${response.body["data"]["result"]}');
-      setRxRequestStatus(Status.completed);
-      refresh();
-    } else {
-      if (response.statusText == ApiClient.noInternetMessage) {
-        setRxRequestStatus(Status.internetError);
-      } else {
-        setRxRequestStatus(Status.error);
-      }
-      ApiChecker.checkApi(response);
-    }
-  }
 
 
   ///==============*********>>>>>>>>selectPlayer<<<<<<<********===
@@ -119,7 +95,6 @@ class PlayerController extends GetxController{
 
   @override
   void onInit() {
-   getLeague();
    getPlayer();
     super.onInit();
   }

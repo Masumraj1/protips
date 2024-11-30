@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:protippz/app/controller/player_controller.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/data/services/app_url.dart';
+import 'package:protippz/app/global/controllers/genarel_controller/genarel_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
 import 'package:protippz/app/global/widgets/custom_dialogbox/custom_dialogbox.dart';
@@ -59,6 +60,7 @@ class _PlayerzScreenState extends State<PlayerScreen> {
 
 
   final PlayerController _playerController = Get.find<PlayerController>();
+  final GeneralController _generalController = Get.find<GeneralController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +77,7 @@ class _PlayerzScreenState extends State<PlayerScreen> {
 
             ///===============================Select Player=====================
             Obx(() {
-              if (_playerController.leagueList.isEmpty) {
+              if (_generalController.leagueList.isEmpty) {
                 return const CustomText(
                   text: "No Player Found",
                   fontWeight: FontWeight.w500,
@@ -87,8 +89,8 @@ class _PlayerzScreenState extends State<PlayerScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children:
-                  List.generate(_playerController.leagueList.length, (index) {
-                    final item = _playerController.leagueList[index];
+                  List.generate(_generalController.leagueList.length, (index) {
+                    final item = _generalController.leagueList[index];
                     final isSelected =
                         _playerController.selectedIndex.value == index;
 
