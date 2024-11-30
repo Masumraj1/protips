@@ -17,16 +17,33 @@ import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
-class TeamScreen extends StatelessWidget {
-   TeamScreen({super.key});
+class TeamScreen extends StatefulWidget {
+  const TeamScreen({super.key});
 
+  @override
+  State<TeamScreen> createState() => _TeamScreenState();
+}
+
+class _TeamScreenState extends State<TeamScreen> {
   final TeamController teamController = Get.find<TeamController>();
   final GeneralController _generalController = Get.find<GeneralController>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Ensure that the first league is selected by default and its teams are fetched
+    if (_generalController.leagueList.isNotEmpty) {
+      teamController.selectedIndex.value = 0; // Set default index to 0
+      // Fetch teams for the first league (index 0)
+      teamController.selectTeam(id: _generalController.leagueList[0].id ?? "");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
-      ///==============*********>>>>>>>>Team<<<<<<<********===
       appBar: const CustomAppBar(
         appBarContent: AppStrings.teamz,
         iconData: Icons.arrow_back,
@@ -35,7 +52,6 @@ class TeamScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         child: Column(
           children: [
-
             ///===============================Select League=====================
             Obx(() {
               if (_generalController.leagueList.isEmpty) {
@@ -49,19 +65,16 @@ class TeamScreen extends StatelessWidget {
               return SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children:
-                  List.generate(_generalController.leagueList.length, (index) {
+                  children: List.generate(_generalController.leagueList.length, (index) {
                     final item = _generalController.leagueList[index];
-                    final isSelected =
-                        teamController.selectedIndex.value == index;
+                    final isSelected = teamController.selectedIndex.value == index;
 
                     return GestureDetector(
                       onTap: () {
                         // Update selected index and fetch corresponding data
                         teamController.selectedIndex.value = index;
                         teamController.selectTeam(id: item.id ?? "");
-                        print(
-                            "Selected League ID:==================== ${item.id}");
+                        print("Selected League ID: ${item.id}");
                       },
                       child: Container(
                         padding: const EdgeInsets.all(10),
@@ -72,16 +85,15 @@ class TeamScreen extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-                            // Reward Image
+                            // League Image
                             CustomNetworkImage(
-                              imageUrl:
-                              "${ApiUrl.netWorkUrl}${item.leagueImage ?? ""}",
+                              imageUrl: "${ApiUrl.netWorkUrl}${item.leagueImage ?? ""}",
                               height: 72,
                               width: 73,
                               borderRadius: BorderRadius.circular(8),
                             ),
                             SizedBox(height: 10.h),
-                            // Reward Name
+                            // League Name
                             Text(
                               item.name ?? "",
                               style: TextStyle(
@@ -99,6 +111,7 @@ class TeamScreen extends StatelessWidget {
               );
             }),
             Gap(24.h),
+
             CustomTextField(
               isColor: false,
               inputTextStyle: const TextStyle(color: AppColors.gray500),
@@ -111,7 +124,7 @@ class TeamScreen extends StatelessWidget {
                   search: value,
                   id: selectedRewardId,
                 );
-                print("Search with selected League ID:====================== $selectedRewardId");
+                print("Search with selected League ID: $selectedRewardId");
               },
               textEditingController: teamController.searchController,
               hintText: AppStrings.searchPlayer,
@@ -124,8 +137,8 @@ class TeamScreen extends StatelessWidget {
             ),
             Gap(14.h),
 
-
             Gap(24.h),
+
             ///==================================Player============================
             Expanded(
               child: Obx(() {
@@ -133,8 +146,7 @@ class TeamScreen extends StatelessWidget {
                   return const CustomLoader(); // Show loading indicator
                 }
 
-                if (teamController.rxRequestStatus.value ==
-                    Status.internetError) {
+                if (teamController.rxRequestStatus.value == Status.internetError) {
                   return const Center(
                     child: CustomText(
                       text: 'Please Connect Your Internet',
@@ -177,27 +189,23 @@ class TeamScreen extends StatelessWidget {
                   ),
                   itemBuilder: (context, index) {
                     var data = teamController.selectTeamList[index];
-                    // Fix: Check if playerImage has a valid value
                     String imageUrl = "${ApiUrl.netWorkUrl}${data.teamLogo}";
-                    // If playerImage is empty or invalid, you might want to set a default image
                     if (data.teamLogo == null || data.teamLogo!.isEmpty) {
-                      imageUrl = AppConstants.profileImage; // Replace with a default image URL
+                      imageUrl = AppConstants.profileImage; // Default image
                     }
 
                     return CustomTeamCard(
-                      imageUrl: imageUrl,  // Pass the constructed image URL to the card
+                      imageUrl: imageUrl,
                       name: data.name ?? "",
                       sport: '',
                       onTap: () {
-
+                        // Handle team tap action here
                       },
                     );
                   },
                 );
-
               }),
             ),
-
           ],
         ),
       ),
