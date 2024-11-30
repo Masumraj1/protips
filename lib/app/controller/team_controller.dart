@@ -6,13 +6,11 @@ import 'package:protippz/app/data/services/api_client.dart';
 import 'package:protippz/app/data/services/app_url.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 
-class TeamController extends GetxController{
+class TeamController extends GetxController {
   ///==============*********>>>>>>>>Other Element<<<<<<<********===
   final rxRequestStatus = Status.loading.obs;
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
-
-
 
   ///==============*********>>>>>>>>selectTeam<<<<<<<********===
   Rx<int?> selectedIndex = Rx<int?>(null); // Track selected index
@@ -27,7 +25,7 @@ class TeamController extends GetxController{
 
     if (response.statusCode == 200) {
       selectTeamList.value = List<SelectTeamList>.from(response.body["data"]
-      ['result']
+              ['result']
           .map((x) => SelectTeamList.fromJson(x)));
       selectTeamId.value = id;
       print(
@@ -44,32 +42,23 @@ class TeamController extends GetxController{
     }
   }
 
-
-
-
-
   ///===============================Search Method=================
   TextEditingController searchController = TextEditingController();
 
-  searchTeam({required String search,required String id}) async {
+  searchTeam({required String search, required String id}) async {
     setRxRequestStatus(Status.loading);
     selectTeamList.refresh();
-    var response = await ApiClient.getData("${ApiUrl.searchTeam}=$search${"&league=$id"}");
+    var response =
+        await ApiClient.getData("${ApiUrl.searchTeam}=$search${"&league=$id"}");
     selectTeamList.refresh();
     if (response.statusCode == 200) {
       selectTeamList = RxList<SelectTeamList>.from(response.body["data"]
-      ['result']
+              ['result']
           .map((x) => SelectTeamList.fromJson(x)));
       setRxRequestStatus(Status.completed);
       selectTeamList.refresh();
     } else {
       ApiChecker.checkApi(response);
     }
-  }
-
-  @override
-  void onInit() {
-    // getTeam();
-    super.onInit();
   }
 }

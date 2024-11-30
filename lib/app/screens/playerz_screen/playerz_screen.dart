@@ -143,8 +143,8 @@ class _PlayerzScreenState extends State<PlayerScreen> {
               inputTextStyle: const TextStyle(color: AppColors.gray500),
               onFieldSubmitted: (value) {
                 String selectedRewardId = _playerController.selectPlayerId.value;
-                if (selectedRewardId.isEmpty && _playerController.playerList.isNotEmpty) {
-                  selectedRewardId = _playerController.playerList[0].id ?? "";
+                if (selectedRewardId.isEmpty && _playerController.selectPlayerList.isNotEmpty) {
+                  selectedRewardId = _playerController.selectPlayerList[0].id ?? "";
                 }
                 _playerController.searchPlayer(
                   search: value,
@@ -197,8 +197,8 @@ class _PlayerzScreenState extends State<PlayerScreen> {
                 if (_playerController.rxRequestStatus.value == Status.error) {
                   return GeneralErrorScreen(
                     onTap: () {
-                      if (_playerController.playerList.isNotEmpty) {
-                       _playerController.getPlayer();
+                      if (_playerController.selectPlayerList.isNotEmpty) {
+                       _playerController.selectPlayerList();
                       }
                     },
                   );
@@ -217,7 +217,7 @@ class _PlayerzScreenState extends State<PlayerScreen> {
                 }
 
                 return GridView.builder(
-                  itemCount: _playerController.playerList.length,
+                  itemCount: _playerController.selectPlayerList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2,
                     crossAxisSpacing: 16.w,
@@ -225,7 +225,7 @@ class _PlayerzScreenState extends State<PlayerScreen> {
                     childAspectRatio: 1 / 1.7,
                   ),
                   itemBuilder: (context, index) {
-                    var data = _playerController.playerList[index];
+                    var data = _playerController.selectPlayerList[index];
                     // Fix: Check if playerImage has a valid value
                     String imageUrl = "${ApiUrl.netWorkUrl}${data.playerImage}";
                     // If playerImage is empty or invalid, you might want to set a default image

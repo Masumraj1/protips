@@ -29,8 +29,8 @@ class SelectPlayerModel {
 }
 
 class Data {
-  SelectPlayerList? meta;
-  List<Result>? result;
+  SelectedPlayer? meta;
+  List<SelectedPlayerList>? result;
 
   Data({
     this.meta,
@@ -42,8 +42,8 @@ class Data {
   String toRawJson() => json.encode(toJson());
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    meta: json["meta"] == null ? null : SelectPlayerList.fromJson(json["meta"]),
-    result: json["result"] == null ? [] : List<Result>.from(json["result"]!.map((x) => Result.fromJson(x))),
+    meta: json["meta"] == null ? null : SelectedPlayer.fromJson(json["meta"]),
+    result: json["result"] == null ? [] : List<SelectedPlayerList>.from(json["result"]!.map((x) => SelectedPlayerList.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -52,24 +52,24 @@ class Data {
   };
 }
 
-class SelectPlayerList {
+class SelectedPlayer {
   int? page;
   int? limit;
   int? total;
   int? totalPage;
 
-  SelectPlayerList({
+  SelectedPlayer({
     this.page,
     this.limit,
     this.total,
     this.totalPage,
   });
 
-  factory SelectPlayerList.fromRawJson(String str) => SelectPlayerList.fromJson(json.decode(str));
+  factory SelectedPlayer.fromRawJson(String str) => SelectedPlayer.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory SelectPlayerList.fromJson(Map<String, dynamic> json) => SelectPlayerList(
+  factory SelectedPlayer.fromJson(Map<String, dynamic> json) => SelectedPlayer(
     page: json["page"],
     limit: json["limit"],
     total: json["total"],
@@ -84,7 +84,7 @@ class SelectPlayerList {
   };
 }
 
-class Result {
+class SelectedPlayerList {
   String? id;
   String? name;
   League? league;
@@ -100,7 +100,7 @@ class Result {
   int? v;
   bool? isBookmark;
 
-  Result({
+  SelectedPlayerList({
     this.id,
     this.name,
     this.league,
@@ -117,11 +117,11 @@ class Result {
     this.isBookmark,
   });
 
-  factory Result.fromRawJson(String str) => Result.fromJson(json.decode(str));
+  factory SelectedPlayerList.fromRawJson(String str) => SelectedPlayerList.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory SelectedPlayerList.fromJson(Map<String, dynamic> json) => SelectedPlayerList(
     id: json["_id"],
     name: json["name"],
     league: json["league"] == null ? null : League.fromJson(json["league"]),
