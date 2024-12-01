@@ -8,7 +8,7 @@ import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
 import 'package:protippz/app/global/widgets/custom_loader/custom_loader.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/utils/app_colors.dart';
-import 'package:protippz/app/utils/app_strings.dart';
+
 
 class OtpVeryEmail extends StatelessWidget {
   final GlobalKey<FormState> formKey;

@@ -4,7 +4,7 @@ import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/utils/app_colors.dart';
-import 'package:protippz/app/utils/app_constants.dart';
+
 import 'package:protippz/app/utils/app_strings.dart';
 
 class HomeAppBar extends StatelessWidget {

@@ -19,16 +19,16 @@ class ForgotPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return  Scaffold(
       backgroundColor: AppColors.bg500,
 
       ///========================Forgot Password  Appbar===================
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         iconData: Icons.arrow_back_outlined,
         appBarContent: AppStrings.forgotPassword,
       ),
       body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
           child: Obx(
             () {
               return Form(

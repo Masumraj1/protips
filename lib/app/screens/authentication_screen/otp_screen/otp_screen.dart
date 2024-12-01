@@ -65,7 +65,7 @@ class _OtpScreenState extends State<OtpScreen> {
       backgroundColor: AppColors.bg500,
 
       /// App Bar
-      appBar: const CustomAppBar(
+      appBar:  CustomAppBar(
         iconData: Icons.arrow_back_outlined,
         appBarContent: AppStrings.verifyCode,
       ),

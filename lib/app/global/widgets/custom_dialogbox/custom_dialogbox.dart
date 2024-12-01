@@ -5,7 +5,6 @@ import 'package:protippz/app/global/widgets/custom_network_image/custom_network_
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/global/widgets/custom_text_field/custom_text_field.dart';
 import 'package:protippz/app/utils/app_colors.dart';
-import 'package:protippz/app/utils/app_constants.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
 class CustomDialogBox extends StatefulWidget {

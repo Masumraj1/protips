@@ -9,8 +9,8 @@ import 'package:protippz/app/screens/notification_screen/notification_screen.dar
 import 'package:protippz/app/screens/profile_screen/profile_screen.dart';
 
 
-import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
+import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
 class NavBar extends StatefulWidget {
