@@ -86,10 +86,10 @@ class Meta {
 
 class NotificationList {
   String? id;
-  Title? title;
+  String? title;
   String? message;
   bool? seen;
-  Receiver? receiver;
+  String? receiver;
   DateTime? createdAt;
   DateTime? updatedAt;
   int? v;
@@ -111,10 +111,10 @@ class NotificationList {
 
   factory NotificationList.fromJson(Map<String, dynamic> json) => NotificationList(
     id: json["_id"],
-    title: titleValues.map[json["title"]]!,
+    title: json["title"],
     message: json["message"],
     seen: json["seen"],
-    receiver: receiverValues.map[json["receiver"]]!,
+    receiver: json["receiver"],
     createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
     updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
     v: json["__v"],
@@ -122,40 +122,12 @@ class NotificationList {
 
   Map<String, dynamic> toJson() => {
     "_id": id,
-    "title": titleValues.reverse[title],
+    "title": title,
     "message": message,
     "seen": seen,
-    "receiver": receiverValues.reverse[receiver],
+    "receiver": receiver,
     "createdAt": createdAt?.toIso8601String(),
     "updatedAt": updatedAt?.toIso8601String(),
     "__v": v,
   };
-}
-
-enum Receiver {
-  THE_67418_F4_CAF6_F94_D1_C2_EF4_A7_D
-}
-
-final receiverValues = EnumValues({
-  "67418f4caf6f94d1c2ef4a7d": Receiver.THE_67418_F4_CAF6_F94_D1_C2_EF4_A7_D
-});
-
-enum Title {
-  REDEEM_REQUEST_SENT_SUCCESSFULLY
-}
-
-final titleValues = EnumValues({
-  "Redeem request sent successfully": Title.REDEEM_REQUEST_SENT_SUCCESSFULLY
-});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
 }

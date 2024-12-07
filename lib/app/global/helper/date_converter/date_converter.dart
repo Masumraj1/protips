@@ -68,6 +68,16 @@ class DateConverter {
     }
   }
 
+  // Method to convert UTC time to Bangladesh Standard Time (BST, UTC+6)
+  static String convertToBDTime(String utcDate) {
+    // Parse the UTC DateTime string into a DateTime object
+    DateTime utcDateTime = DateTime.parse(utcDate);
 
+    // Convert to Bangladesh Standard Time (BST), which is UTC +6
+    DateTime bdDateTime = utcDateTime.add(Duration(hours: 6));
+
+    // Format the DateTime in your desired format
+    return DateFormat('yyyy-MM-dd HH:mm:ss').format(bdDateTime);
+  }
 
 }

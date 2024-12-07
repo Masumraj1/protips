@@ -54,6 +54,7 @@ dependencies:
   fluttertoast: ^8.2.8
   flutter_widget_from_html: ^0.15.3
   device_preview:
+  timeago: ^3.7.0
 
 dev_dependencies:
   build_runner: ^2.4.10
