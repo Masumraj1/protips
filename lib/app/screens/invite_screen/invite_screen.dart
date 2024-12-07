@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:protippz/app/controller/invite_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
+import 'package:protippz/app/global/widgets/custom_loader/custom_loader.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
 class InviteScreen extends StatelessWidget {
-  const InviteScreen({super.key});
+  InviteScreen({super.key});
+
+  final InviteController _generalController = Get.find<InviteController>();
 
   @override
   Widget build(BuildContext context) {
@@ -20,48 +25,39 @@ class InviteScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSectionTitle(AppStrings.howItWorks),
-            _buildStepSection(
-                AppStrings.invite1, AppStrings.useTheInviteFriend),
-            _buildStepSection(AppStrings.signUp2,
-                AppStrings.whenYourFriends),
-            _buildStepSection(AppStrings.earnRewards,
-                AppStrings.forEachFriend),
-            _buildSectionTitle(AppStrings.readyToGet),
-            _buildDescription(
-                AppStrings.clickBelow,
-                bottomPadding: 24),
+        child: Obx(
+         () {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildSectionTitle(AppStrings.howItWorks),
+                _buildStepSection(
+                    AppStrings.invite1, AppStrings.useTheInviteFriend),
+                _buildStepSection(AppStrings.signUp2, AppStrings.whenYourFriends),
+                _buildStepSection(AppStrings.earnRewards, AppStrings.forEachFriend),
+                _buildSectionTitle(AppStrings.readyToGet),
+                _buildDescription(AppStrings.clickBelow, bottomPadding: 24),
 
-            ///============================Invite Friends=====================
-            CustomButton(
-              borderColor: AppColors.green500,
-              fillColor: AppColors.white50,
-              textColor: AppColors.green500,
-              onTap: () {},
-              title: AppStrings.inviteFriends,
-            ),
-          ],
+                ///============================Invite Friends=====================
+
+                _generalController.isInvited.value
+                    ? CustomLoader()
+                    : CustomButton(
+                        borderColor: AppColors.green500,
+                        fillColor: AppColors.white50,
+                        textColor: AppColors.green500,
+                        onTap: () {
+                          _generalController.invited();
+                        },
+                        title: AppStrings.inviteFriends,
+                      ),
+              ],
+            );
+          }
         ),
       ),
     );
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   Widget _buildSectionTitle(String title) {
     return CustomText(

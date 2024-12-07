@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/data/models/league_model/league_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';
@@ -96,20 +96,19 @@ class GeneralController extends GetxController {
     }
   }
 
-
   ///================================Send Tip=========================
 
- TextEditingController sendAmountController = TextEditingController();
+  TextEditingController sendAmountController = TextEditingController();
   RxBool isSendTips = false.obs;
 
-  sendTips({required String entityId,required String entityType}) async {
+  sendTips({required String entityId, required String entityType}) async {
     // if (!isValidInput()) {
     //   toastMessage(message: "Please fill in all the required fields");
     //   return;
     // }
     isSendTips.value = true;
     try {
-      Map<String, dynamic> body ={
+      Map<String, dynamic> body = {
         "entityId": entityId,
         "entityType": entityType,
         "amount": sendAmountController,
@@ -133,10 +132,11 @@ class GeneralController extends GetxController {
     }
   }
 
+
+
   @override
   void onInit() {
     getLeague();
     super.onInit();
   }
-
 }

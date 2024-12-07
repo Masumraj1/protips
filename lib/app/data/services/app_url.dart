@@ -40,6 +40,9 @@ class ApiUrl {
   static const favoritePlayer = "/player-bookmark/my-bookmark";
   static const favoriteTeam = "/team-bookmark/my-bookmark";
 
+  ///=========================Invite=====================
+  static const invite = "/invite/invite-friend";
+
   ///================*********League*************==================
   static const getAllLeague = "/league/get-all";
 
