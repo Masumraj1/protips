@@ -104,6 +104,18 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   );
 
                 case Status.completed:
+                  // Show empty state if no notifications are found
+                  if (favoriteController.favoritePlayerList.isEmpty ||
+                      favoriteController.favoriteTeamList.isEmpty) {
+                    return const Center(
+                      child: CustomText(
+                        text: "No Data Found",
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        color: AppColors.gray500,
+                      ),
+                    );
+                  }
                   return Expanded(
                     child: GridView.builder(
                       itemCount: favoriteController.selectedIndex.value == 0
@@ -161,7 +173,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   );
                 default:
                   return const SizedBox
-                      .shrink(); // Return an empty box if no state is matched
+                      .shrink();
               }
             })
           ],

@@ -33,6 +33,9 @@ class ApiUrl {
   static const myTipHistory = "/tip/my-tips";
   static const sendTip = "/tip/create";
 
+  ///===========================Notification===========================
+  static const notification = "/notification/get-notifications";
+
   ///======================Favorite===================
   static const favoritePlayer = "/player-bookmark/my-bookmark";
   static const favoriteTeam = "/team-bookmark/my-bookmark";
