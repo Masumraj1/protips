@@ -115,7 +115,7 @@ class SettingScreen extends StatelessWidget {
                       hintStyle: const TextStyle(color: AppColors.gray500),
                       isPassword: true,
                       fillColor: AppColors.bg500,
-                      inputTextStyle: TextStyle(color: AppColors.gray500),
+                      inputTextStyle: const TextStyle(color: AppColors.gray500),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return AppStrings.fieldCantBeEmpty;
@@ -131,41 +131,19 @@ class SettingScreen extends StatelessWidget {
                       height: 20.h,
                     ),
 
-                    Row(
-                      children: [
-                        ///=================================Yes Button============================
-
-                        Expanded(
-                            flex: 5,
-                            child: _authController.isDeleteLoading.value
-                                ? const CustomLoader()
-                                : CustomButton(
-                                    fillColor: AppColors.blue500,
-                                    onTap: () {
-                                      if (formKey.currentState!.validate()) {
-                                        _authController.deleteAccount();
-                                      }
-                                    },
-                                    title: AppStrings.confirm,
-                                  )),
-                        SizedBox(
-                          width: 8.w,
-                        ),
-
-                        ///===================================Cancel Button=====================
-
-                        Expanded(
-                            flex: 5,
-                            child: CustomButton(
-                              borderColor: AppColors.blue500,
-                              textColor: AppColors.blue500,
-                              fillColor: AppColors.white50,
-                              onTap: () {
-                                Get.back();
-                              },
-                              title: AppStrings.cancel,
-                            )),
-                      ],
+                    _authController.isDeleteLoading.value
+                        ? const CustomLoader()
+                        : CustomButton(
+                            fillColor: AppColors.blue500,
+                            onTap: () {
+                              if (formKey.currentState!.validate()) {
+                                _authController.deleteAccount();
+                              }
+                            },
+                            title: AppStrings.confirm,
+                          ),
+                    SizedBox(
+                      width: 8.w,
                     )
                   ],
                 );

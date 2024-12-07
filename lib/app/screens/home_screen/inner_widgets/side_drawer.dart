@@ -5,9 +5,12 @@ import 'package:get/get.dart';
 import 'package:protippz/app/controller/home_controller.dart';
 import 'package:protippz/app/core/app_routes.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
+import 'package:protippz/app/global/helper/local_db/local_db.dart';
 import 'package:protippz/app/global/widgets/custom_menu_card/custom_menu_card.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
+import 'package:protippz/app/global/widgets/parmission_button/parmission_button.dart';
 import 'package:protippz/app/utils/app_colors.dart';
+import 'package:protippz/app/utils/app_constants.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
 class SideDrawer extends StatelessWidget {
@@ -114,7 +117,30 @@ class SideDrawer extends StatelessWidget {
 
                   ///=======================logout==================
                   CustomMenuCard(
-                    onTap: () => Get.offAllNamed(AppRoute.signInScreen),
+                   onTap: (){
+
+                     permissionPopUp(
+                         title: 'Are you sure you want to log out',
+                         context: context,
+                         ontapNo: () {
+                           Get.back();
+                         },
+                         ontapYes: () async {
+                           await SharePrefsHelper.remove(
+                               AppConstants.bearerToken);
+                           await SharePrefsHelper.remove(
+                               AppConstants.profileID);
+
+
+                           print(
+                               'remove token========================"${AppConstants.bearerToken}"');
+                           print(
+                               'remove profileId========================"${AppConstants.profileID}"');
+
+
+                           Get.offAllNamed(AppRoute.signInScreen);
+                         });
+                   },
                     title: AppStrings.logout,
                     icon: Assets.icons.logout.svg(), isDevider: false
                     ,
