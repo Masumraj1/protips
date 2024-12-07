@@ -29,6 +29,7 @@ class AuthController extends GetxController {
   TextEditingController passwordController =
       TextEditingController(text: kDebugMode ? "Masum017" : "");
   TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController referralController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController userNameController = TextEditingController();
@@ -51,7 +52,8 @@ class AuthController extends GetxController {
         "username": userNameController.text,
         "phone": phoneNumberController.text,
         "email": emailController.text,
-        "address": addressController.text
+        "address": addressController.text,
+        "inviteToken": referralController.text
       }
     };
     var response = await ApiClient.postData(
