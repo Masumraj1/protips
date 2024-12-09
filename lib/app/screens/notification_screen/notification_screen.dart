@@ -66,27 +66,27 @@ class NotificationScreen extends StatelessWidget {
             return Column(
               children: [
                 // Button to mark all notifications as read/unread
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: ElevatedButton(
-                      onPressed: _notificationController
-                          .toggleAllNotificationsReadStatus,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.green500,
-                      ),
-                      child: CustomText(
-                        text: _notificationController.isAllRead.value
-                            ? "Mark As Unread"
-                            : "Mark As Read",
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
+                // Align(
+                //   alignment: Alignment.bottomRight,
+                //   child: Padding(
+                //     padding: const EdgeInsets.symmetric(vertical: 10),
+                //     child: ElevatedButton(
+                //       onPressed: _notificationController
+                //           .toggleAllNotificationsReadStatus,
+                //       style: ElevatedButton.styleFrom(
+                //         backgroundColor: AppColors.green500,
+                //       ),
+                //       child: CustomText(
+                //         text: _notificationController.isAllRead.value
+                //             ? "Mark As Unread"
+                //             : "Mark As Read",
+                //         fontWeight: FontWeight.w500,
+                //         fontSize: 16,
+                //         color: Colors.white,
+                //       ),
+                //     ),
+                //   ),
+                // ),
 
                 // List of notifications
                 Expanded(
@@ -119,11 +119,11 @@ class NotificationScreen extends StatelessWidget {
                                         text: item.title.toString(),
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,
-                                        color: item.seen == false
-                                            ? AppColors
-                                                .blue500 // Blue for unseen
-                                            : AppColors
-                                                .gray300, // Gray for seen
+                                        // color: item.seen == false
+                                        //     ? AppColors
+                                        //         .blue500 // Blue for unseen
+                                        //     : AppColors
+                                        //         .gray300, // Gray for seen
                                       ),
                                       SizedBox(height: 8.h),
                                       CustomText(
@@ -132,11 +132,11 @@ class NotificationScreen extends StatelessWidget {
                                         fontSize: 14,
                                         maxLines: 10,
                                         fontWeight: FontWeight.w300,
-                                        color: item.seen == false
-                                            ? AppColors
-                                                .blue500 // Blue for unseen
-                                            : AppColors
-                                                .gray300, // Gray for seen
+                                        // color: item.seen == false
+                                        //     ? AppColors
+                                        //         .blue500 // Blue for unseen
+                                        //     : AppColors
+                                        //         .gray300, // Gray for seen
                                       ),
                                       SizedBox(height: 8.h),
                                       CustomText(
@@ -145,11 +145,11 @@ class NotificationScreen extends StatelessWidget {
                                         fontSize: 14,
                                         maxLines: 10,
                                         fontWeight: FontWeight.w300,
-                                        color: item.seen == false
-                                            ? AppColors
-                                            .blue500 // Blue for unseen
-                                            : AppColors
-                                            .gray300, // Gray for seen
+                                        // color: item.seen == false
+                                        //     ? AppColors
+                                        //     .blue500 // Blue for unseen
+                                        //     : AppColors
+                                        //     .gray300, // Gray for seen
                                       ),
                                     ],
                                   ),
