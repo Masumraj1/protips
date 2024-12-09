@@ -147,7 +147,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                             // Replace dynamically if possible
                             onTap: () {
                               // toastMessage(message: "Player tapped: ${playerData.player?.name}");
-                            },
+                            }, onBookMarkTab: () {  }, isBookmark: false.obs,
                           );
                         } else if (favoriteController.selectedIndex.value ==
                             1) {

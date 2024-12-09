@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -5,6 +7,7 @@ import 'package:protippz/app/data/models/player_model/select_player_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';
 import 'package:protippz/app/data/services/api_client.dart';
 import 'package:protippz/app/data/services/app_url.dart';
+import 'package:protippz/app/global/widgets/toast_message/toast_message.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 
 class PlayerController extends GetxController{
@@ -67,4 +70,32 @@ class PlayerController extends GetxController{
   }
 
 
+  ///=====================================Player Bookmark===========================
+  RxBool isBookmark = false.obs;
+
+  playerBookMark({required String playerId}) async {
+    isBookmark.value = true;
+    refresh();
+    Map<String, dynamic> body ={
+      "playerId":playerId
+    };
+    var response = await ApiClient.postData(
+      ApiUrl.bookMarkPlayer,
+      jsonEncode(body),
+    );
+    if (response.statusCode == 201) {
+
+      toastMessage(
+        message: response.body["message"],
+      );
+    } else if (response.status == 400) {
+      toastMessage(
+        message: response.body["message"],
+      );
+    } else {
+      ApiChecker.checkApi(response);
+    }
+    isBookmark.value = false;
+    refresh();
+  }
 }

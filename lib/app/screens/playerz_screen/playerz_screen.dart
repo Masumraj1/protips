@@ -241,6 +241,7 @@ class _PlayerzScreenState extends State<PlayerScreen> {
                       imageUrl = AppConstants
                           .profileImage; // Replace with a default image URL
                     }
+                    RxBool isBookmarked = (data.isBookmark ?? false).obs;
 
                     return CustomPlayerCard(
                       imageUrl: imageUrl,
@@ -255,6 +256,11 @@ class _PlayerzScreenState extends State<PlayerScreen> {
                             team: data.team?.name ?? "",
                             position: data.position ?? "");
                       },
+                      onBookMarkTab: () {
+                        _playerController.playerBookMark(playerId: data.id ?? "");
+                        isBookmarked.value = !isBookmarked.value;
+
+                      }, isBookmark:isBookmarked,
                     );
                   },
                 );
@@ -265,7 +271,6 @@ class _PlayerzScreenState extends State<PlayerScreen> {
       ),
     );
   }
-  final PlayerController playerController = Get.find<PlayerController>();
 
   void showCustomDialog(BuildContext context,
       {required String image,
@@ -275,33 +280,32 @@ class _PlayerzScreenState extends State<PlayerScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Obx(
-           () {
-            return CustomDialogBox(
-              title: title,
-              team: team,
-              position: position,
-              // onTap: () {
-              //   Get.back();
+        return Obx(() {
+          return CustomDialogBox(
+            title: title,
+            team: team,
+            position: position,
+            // onTap: () {
+            //   Get.back();
 
-              //   showDialogBox(context);
-              // },
-              controller: _generalController.sendAmountController,
-              image: image,
-              button: _generalController.isSendTips.value
-                  ? const CustomLoader()
-                  : CustomButton(
-                title: AppStrings.sendTippz,
-                onTap: () {
-                  _generalController.sendTips(
-                      entityId: playerController.selectPlayerList[0].id ?? "67556c5778fff26bb6d1bbd6",
-                      entityType: 'Player',
-                      tipBy: 'Profile balance');
-                },
-              ),
-            );
-          }
-        );
+            //   showDialogBox(context);
+            // },
+            controller: _generalController.sendAmountController,
+            image: image,
+            button: _generalController.isSendTips.value
+                ? const CustomLoader()
+                : CustomButton(
+                    title: AppStrings.sendTippz,
+                    onTap: () {
+                      _generalController.sendTips(
+                          entityId: _playerController.selectPlayerList[0].id ??
+                              "67556c5778fff26bb6d1bbd6",
+                          entityType: 'Player',
+                          tipBy: 'Profile balance');
+                    },
+                  ),
+          );
+        });
       },
     );
   }

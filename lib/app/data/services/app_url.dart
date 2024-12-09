@@ -40,7 +40,14 @@ class ApiUrl {
   ///======================Favorite===================
   static const favoritePlayer = "/player-bookmark/my-bookmark";
   static const favoriteTeam = "/team-bookmark/my-bookmark";
+  static const bookMarkPlayer = "/player-bookmark/create";
+  static String removePlayerBookmark({required String id}) {
+    return "/player-bookmark/delete/$id";
+  }
 
+  static String removeTeamBookmark({required String id}) {
+    return "/team-bookmark/delete/$id";
+  }
   ///=========================Invite=====================
   static const invite = "/invite/invite-friend";
 
