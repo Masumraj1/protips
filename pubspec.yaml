@@ -55,6 +55,7 @@ dependencies:
   flutter_widget_from_html: ^0.15.3
   device_preview:
   share_plus: ^10.1.2
+  google_sign_in: ^6.2.1
 
 
 dev_dependencies:

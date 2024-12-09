@@ -7,6 +7,7 @@ class ApiUrl {
   static const signupAuth = "/user/register-user";
   static const veryFyCode = "/user/verify-code";
   static const signIn = "/auth/login";
+
   static const forgotPassword = "/auth/forget-password";
   static const forgetOtp = "/auth/verify-reset-otp";
   static const resetPassword = "/auth/reset-password";
@@ -83,6 +84,7 @@ class ApiUrl {
   static const searchReward = "/reward/get-all?searchTerm";
   static const redeemCreate = "/redeem-request/create";
 
-
+  ///=======================Google Auth=========================
+  static const googleAuth = "/auth/google-login";
 
 }

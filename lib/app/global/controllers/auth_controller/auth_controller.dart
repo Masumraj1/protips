@@ -341,4 +341,7 @@ class AuthController extends GetxController {
       return false;
     }
   }
+
+  ///==========================================Google Auth=========================
+
 }

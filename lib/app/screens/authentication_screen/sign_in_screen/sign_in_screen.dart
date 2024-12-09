@@ -1,16 +1,22 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:protippz/app/controller/google_auth_controller.dart';
 import 'package:protippz/app/core/app_routes.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
+import 'package:protippz/app/data/services/google_sign_In_service.dart';
 import 'package:protippz/app/global/controllers/auth_controller/auth_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
 import 'package:protippz/app/global/widgets/custom_from_card/custom_from_card.dart';
 import 'package:protippz/app/global/widgets/custom_loader/custom_loader.dart';
+import 'package:protippz/app/global/widgets/custom_rich_text/custom_rich_text.dart';
+import 'package:protippz/app/global/widgets/custom_sign_in_button/custom_sign_in_button.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_strings.dart';
@@ -18,6 +24,8 @@ import 'package:protippz/app/utils/app_strings.dart';
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
 
+  final GoogleAuthController _googleAuthController =
+      Get.find<GoogleAuthController>();
   final AuthController authController = Get.find<AuthController>();
   final formKey = GlobalKey<FormState>();
 
@@ -63,14 +71,16 @@ class SignInScreen extends StatelessWidget {
                     controller: authController.emailController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return AppStrings.enterValidEmailOrUserName; // General error
+                        return AppStrings
+                            .enterValidEmailOrUserName; // General error
                       }
 
                       // Check if input contains "@" to identify email
                       if (value.contains('@')) {
                         // Email validation
                         if (!AppStrings.emailRegexp.hasMatch(value)) {
-                          return AppStrings.enterValidEmail; // Invalid email message
+                          return AppStrings
+                              .enterValidEmail; // Invalid email message
                         } else {
                           return null; // Valid email
                         }
@@ -164,65 +174,20 @@ class SignInScreen extends StatelessWidget {
                   ),
 
                   ///======================= Google Auth=====================
-                  GestureDetector(
-                    onTap: () {
-                      if (kDebugMode) {
-                        print('tap');
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                          color: AppColors.white50,
-                          border: Border.all(color: AppColors.grey400),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(30))),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Assets.icons.googleSignIn.svg(),
-                          const CustomText(
-                            left: 10,
-                            text: AppStrings.signInGoogle,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.gray500,
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+                  _googleAuthController.isGoogleLogin.value
+                      ? const CustomLoader()
+                      : CustomSocialSignInButton(
+                          iconPath: Assets.icons.googleSignIn.svg(),
+                          text: AppStrings.signInGoogle,
+                          onTap: () {
+                            _googleAuthController.googleSignIn();
+                          }),
                   Gap(15.h),
-                  Center(
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          const TextSpan(
-                            text: AppStrings.dontHaveAnAccount,
-                            style: TextStyle(
-                              color: AppColors.green500,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                            ),
-                          ),
-                          TextSpan(
-                            text: AppStrings.signUp,
-                            style: const TextStyle(
-                              color: AppColors.blue500,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                Get.toNamed(AppRoute.signUpScreen);
-                              },
-                          ),
-                        ],
-                      ),
-                    ),
+                  const CustomRichTextLink(
+                    firstText: AppStrings.dontHaveAnAccount,
+                    linkText: AppStrings.signUp,
+                    linkRoute: AppRoute
+                        .signUpScreen, // Route you want to navigate to on tap
                   ),
                 ],
               ),
