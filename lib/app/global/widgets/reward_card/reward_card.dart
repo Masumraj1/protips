@@ -71,16 +71,16 @@ class _CustomPlayerCardState extends State<RewardCard> {
             textAlign: TextAlign.start,
             text: TextSpan(
               children: [
-                TextSpan(
+                const TextSpan(
                   text: AppStrings.description,
                   style: TextStyle(
-                    fontSize: 12.sp,
+                    fontSize: 12,
                     fontWeight: FontWeight.w400,
                     color: AppColors.green500,
                   ),
                 ),
                 TextSpan(
-                  text:widget.describe,
+                  text: widget.describe,
                   style: TextStyle(
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w400,
@@ -89,7 +89,10 @@ class _CustomPlayerCardState extends State<RewardCard> {
                 ),
               ],
             ),
+            maxLines: 2,  // Set max lines here
+            overflow: TextOverflow.ellipsis,  // To handle text overflow if it exceeds maxLines
           ),
+
           Gap(8.h),
 
           // Points Required
