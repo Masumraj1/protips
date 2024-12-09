@@ -230,7 +230,7 @@ class _PlayerzScreenState extends State<PlayerScreen> {
                         MediaQuery.of(context).size.width > 600 ? 3 : 2,
                     crossAxisSpacing: 16.w,
                     mainAxisSpacing: 16.h,
-                    childAspectRatio: 1 / 1.7,
+                    childAspectRatio: MediaQuery.of(context).size.height,
                   ),
                   itemBuilder: (context, index) {
                     var data = _playerController.selectPlayerList[index];

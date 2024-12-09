@@ -44,6 +44,7 @@ class _RewardScreenState extends State<RewardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("=====================${MediaQuery.of(context).size.height}");
     return Scaffold(
       backgroundColor: AppColors.bg500,
 
@@ -192,7 +193,7 @@ class _RewardScreenState extends State<RewardScreen> {
                     crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2,
                     crossAxisSpacing: 16.w,
                     mainAxisSpacing: 16.h,
-                    mainAxisExtent: 280
+                    mainAxisExtent: MediaQuery.of(context).size.height >640 ?280:400
                     // childAspectRatio: 1 / 2.3,
                   ),
                   itemBuilder: (context, index) {
