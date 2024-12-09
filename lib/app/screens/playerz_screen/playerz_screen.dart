@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/controller/player_controller.dart';
+import 'package:protippz/app/controller/team_controller.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/data/services/app_url.dart';
 import 'package:protippz/app/global/controllers/genarel_controller/genarel_controller.dart';
@@ -58,13 +59,14 @@ class _PlayerzScreenState extends State<PlayerScreen> {
     });
   }
 
-
   final PlayerController _playerController = Get.find<PlayerController>();
   final GeneralController _generalController = Get.find<GeneralController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
+
       ///==============*********>>>>>>>>Playerz<<<<<<<********===
       appBar: const CustomAppBar(
         appBarContent: AppStrings.playerz,
@@ -74,7 +76,6 @@ class _PlayerzScreenState extends State<PlayerScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         child: Column(
           children: [
-
             ///===============================Select Player=====================
             Obx(() {
               if (_generalController.leagueList.isEmpty) {
@@ -88,8 +89,8 @@ class _PlayerzScreenState extends State<PlayerScreen> {
               return SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children:
-                  List.generate(_generalController.leagueList.length, (index) {
+                  children: List.generate(_generalController.leagueList.length,
+                      (index) {
                     final item = _generalController.leagueList[index];
                     final isSelected =
                         _playerController.selectedIndex.value == index;
@@ -114,7 +115,7 @@ class _PlayerzScreenState extends State<PlayerScreen> {
                             // Reward Image
                             CustomNetworkImage(
                               imageUrl:
-                              "${ApiUrl.netWorkUrl}${item.leagueImage ?? ""}",
+                                  "${ApiUrl.netWorkUrl}${item.leagueImage ?? ""}",
                               height: 72,
                               width: 73,
                               borderRadius: BorderRadius.circular(8),
@@ -142,15 +143,19 @@ class _PlayerzScreenState extends State<PlayerScreen> {
               isColor: false,
               inputTextStyle: const TextStyle(color: AppColors.gray500),
               onFieldSubmitted: (value) {
-                String selectedRewardId = _playerController.selectPlayerId.value;
-                if (selectedRewardId.isEmpty && _playerController.selectPlayerList.isNotEmpty) {
-                  selectedRewardId = _playerController.selectPlayerList[0].id ?? "";
+                String selectedRewardId =
+                    _playerController.selectPlayerId.value;
+                if (selectedRewardId.isEmpty &&
+                    _playerController.selectPlayerList.isNotEmpty) {
+                  selectedRewardId =
+                      _playerController.selectPlayerList[0].id ?? "";
                 }
                 _playerController.searchPlayer(
                   search: value,
                   id: selectedRewardId,
                 );
-                print("Search with selected Player ID:====================== $selectedRewardId");
+                print(
+                    "Search with selected Player ID:====================== $selectedRewardId");
               },
               textEditingController: _playerController.searchController,
               hintText: AppStrings.searchPlayer,
@@ -175,7 +180,8 @@ class _PlayerzScreenState extends State<PlayerScreen> {
               isName: true,
             ),
             Gap(24.h),
-   ///==================================Player============================
+
+            ///==================================Player============================
             Expanded(
               child: Obx(() {
                 if (_playerController.rxRequestStatus.value == Status.loading) {
@@ -198,13 +204,14 @@ class _PlayerzScreenState extends State<PlayerScreen> {
                   return GeneralErrorScreen(
                     onTap: () {
                       if (_playerController.selectPlayerList.isNotEmpty) {
-                       _playerController.selectPlayerList();
+                        _playerController.selectPlayerList();
                       }
                     },
                   );
                 }
 
-                if (_playerController.rxRequestStatus.value == Status.completed &&
+                if (_playerController.rxRequestStatus.value ==
+                        Status.completed &&
                     _playerController.selectPlayerList.isEmpty) {
                   return const Center(
                     child: CustomText(
@@ -219,7 +226,8 @@ class _PlayerzScreenState extends State<PlayerScreen> {
                 return GridView.builder(
                   itemCount: _playerController.selectPlayerList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2,
+                    crossAxisCount:
+                        MediaQuery.of(context).size.width > 600 ? 3 : 2,
                     crossAxisSpacing: 16.w,
                     mainAxisSpacing: 16.h,
                     childAspectRatio: 1 / 1.7,
@@ -230,49 +238,69 @@ class _PlayerzScreenState extends State<PlayerScreen> {
                     String imageUrl = "${ApiUrl.netWorkUrl}${data.playerImage}";
                     // If playerImage is empty or invalid, you might want to set a default image
                     if (data.playerImage == null || data.playerImage!.isEmpty) {
-                      imageUrl = AppConstants.profileImage; // Replace with a default image URL
+                      imageUrl = AppConstants
+                          .profileImage; // Replace with a default image URL
                     }
 
                     return CustomPlayerCard(
-                      imageUrl: imageUrl,  // Pass the constructed image URL to the card
+                      imageUrl: imageUrl,
+                      // Pass the constructed image URL to the card
                       name: data.name ?? "",
                       team: data.team?.name ?? "",
                       position: data.position,
                       onTap: () {
-                        showCustomDialog(
-                            context,
-                            data.name ?? "Unknown",
-                            data.team?.name ?? "Unknown",
-                            data.playerImage ?? "Unknown",
-                            data.position ?? "Unknown"
-                        );
+                        showCustomDialog(context,
+                            image: imageUrl,
+                            title: data.name ?? "",
+                            team: data.team?.name ?? "",
+                            position: data.position ?? "");
                       },
                     );
                   },
                 );
-
               }),
             ),
-
           ],
         ),
       ),
     );
   }
+  final PlayerController playerController = Get.find<PlayerController>();
 
-  void showCustomDialog(
-      BuildContext context, String title, String team, String position,String image) {
+  void showCustomDialog(BuildContext context,
+      {required String image,
+      required String title,
+      required String team,
+      required String position}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return CustomDialogBox(
-          title: title,
-          team: team,
-          position: position,
-          onTap: () {
-            Get.back();
-            showDialogBox(context);
-          }, image: image, controller: _generalController.sendAmountController,
+        return Obx(
+           () {
+            return CustomDialogBox(
+              title: title,
+              team: team,
+              position: position,
+              // onTap: () {
+              //   Get.back();
+
+              //   showDialogBox(context);
+              // },
+              controller: _generalController.sendAmountController,
+              image: image,
+              button: _generalController.isSendTips.value
+                  ? const CustomLoader()
+                  : CustomButton(
+                title: AppStrings.sendTippz,
+                onTap: () {
+                  _generalController.sendTips(
+                      entityId: playerController.selectPlayerList[0].id ?? "67556c5778fff26bb6d1bbd6",
+                      entityType: 'Player',
+                      tipBy: 'Profile balance');
+                },
+              ),
+            );
+          }
         );
       },
     );

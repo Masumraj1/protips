@@ -12,15 +12,15 @@ class CustomDialogBox extends StatefulWidget {
   final String team;
   final String image;
   final String position;
+  final Widget button;
   final TextEditingController controller;
-  final VoidCallback onTap;
 
   const CustomDialogBox({
     super.key,
     required this.title,
     required this.team,
     required this.position,
-    required this.onTap, required this.image, required this.controller,
+    required this.controller, required this.image, required this.button,
   });
 
   @override
@@ -30,6 +30,16 @@ class CustomDialogBox extends StatefulWidget {
 class _CustomDialogBoxState extends State<CustomDialogBox> {
   int? _selectedValue;
   final List<int> amountOptions = [5, 25, 100];
+
+  // Method to get the selected amount, from either the radio button or the text field
+  double getSelectedAmount() {
+    if (_selectedValue != null) {
+      return _selectedValue!.toDouble(); // Use the selected radio button amount
+    } else {
+      double? customAmount = double.tryParse(widget.controller.text);
+      return customAmount ?? 0.0; // If text field has a valid number, use it, else return 0.0
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +67,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                 children: [
                   ///======================Image==================
                   CustomNetworkImage(
-                      imageUrl:widget.image,
+                      imageUrl: widget.image,
                       height: 120,
                       width: 116),
                   ///=======================Title================
@@ -119,24 +129,23 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             Column(
               children: amountOptions.map((amount) {
                 return RadioListTile<int>(
-                    value: amount,
-
-                    groupValue: _selectedValue,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedValue = value;
-                      });
-                      print('===========${_selectedValue}');
-                    },
-                    activeColor: AppColors.green500,
-
-                    title: CustomText(
-                      textAlign: TextAlign.start,
-                      text: "\$$amount",
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      color: AppColors.blue500,
-                    ));
+                  value: amount,
+                  groupValue: _selectedValue,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedValue = value;
+                      widget.controller.text = value.toString(); // Update text field when radio is selected
+                    });
+                  },
+                  activeColor: AppColors.green500,
+                  title: CustomText(
+                    textAlign: TextAlign.start,
+                    text: "\$$amount",
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    color: AppColors.blue500,
+                  ),
+                );
               }).toList(),
             ),
             const CustomText(
@@ -146,19 +155,16 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
               color: AppColors.gray500,
             ),
             const SizedBox(height: 16),
-             CustomTextField(
-               inputTextStyle: const TextStyle(color: AppColors.gray500),
+            CustomTextField(
+              inputTextStyle: const TextStyle(color: AppColors.gray500),
               textEditingController: widget.controller,
               fieldBorderColor: AppColors.white50,
               fillColor: AppColors.bg500,
               hintText: AppStrings.enterAmount,
             ),
             const SizedBox(height: 20),
-            CustomButton(
-              onTap: widget.onTap,
-              title: AppStrings.sendTippz,
-              fillColor: AppColors.blue500,
-            ),
+            ///===========================Send tips Button===========================
+            widget.button
           ],
         ),
       ),

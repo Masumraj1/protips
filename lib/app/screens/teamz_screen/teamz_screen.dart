@@ -6,6 +6,7 @@ import 'package:protippz/app/controller/team_controller.dart';
 import 'package:protippz/app/data/services/app_url.dart';
 import 'package:protippz/app/global/controllers/genarel_controller/genarel_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
+import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
 import 'package:protippz/app/global/widgets/custom_dialogbox/custom_dialogbox.dart';
 import 'package:protippz/app/global/widgets/custom_loader/custom_loader.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
@@ -16,7 +17,6 @@ import 'package:protippz/app/global/widgets/genarel_error/genarel_error.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 import 'package:protippz/app/utils/app_colors.dart';
-
 
 class TeamScreen extends StatefulWidget {
   const TeamScreen({super.key});
@@ -209,14 +209,13 @@ class _TeamScreenState extends State<TeamScreen> {
                     return CustomTeamCard(
                       imageUrl: imageUrl,
                       name: data.name ?? "",
-                      sport: '',
+                      sport: data.league?.sport??"",
                       onTap: () {
-                        showCustomDialog(
-                            context,
-                            data.name ?? "Unknown",
-                            data.league?.name ?? "Unknown",
-                            data.league?.sport ?? "Unknown",
-                            imageUrl);
+                        showCustomDialog(context,
+                            title: data.name ?? "",
+                            team: '',
+                            position: '',
+                            image: imageUrl);
                       },
                     );
                   },
@@ -229,23 +228,35 @@ class _TeamScreenState extends State<TeamScreen> {
     );
   }
 
-  void showCustomDialog(BuildContext context, String title, String team,
-      String position, String image) {
+  void showCustomDialog(BuildContext context,
+      {required String title,
+      required String team,
+      required String position,
+      required String image}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return CustomDialogBox(
-          title: title,
-          team: team,
-          position: position,
-          onTap: () {
-            _generalController.sendTips(
-                entityId: teamController.selectTeamList[0].id ?? "",
-                entityType: 'Team');
-            // Get.back();
-            // showDialogBox(context);
-          },
-          image: image, controller: _generalController.sendAmountController,
+        return Obx(
+           () {
+            return CustomDialogBox(
+              title: title,
+              team: team,
+              position: position,
+              controller: _generalController.sendAmountController,
+              image: image,
+              button: _generalController.isSendTips.value
+                  ? const CustomLoader()
+                  : CustomButton(
+                title: AppStrings.sendTippz,
+                      onTap: () {
+                        _generalController.sendTips(
+                            entityId: teamController.selectTeamList[0].id ?? "",
+                            entityType: 'Team',
+                            tipBy: 'Profile balance');
+                      },
+                    ),
+            );
+          }
         );
       },
     );
