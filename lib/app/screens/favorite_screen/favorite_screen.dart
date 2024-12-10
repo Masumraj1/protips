@@ -18,32 +18,20 @@ import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
-class FavoriteScreen extends StatefulWidget {
+class FavoriteScreen extends StatelessWidget {
   const FavoriteScreen({super.key});
 
   @override
-  State<FavoriteScreen> createState() => _FavoriteScreenState();
-}
-
-class _FavoriteScreenState extends State<FavoriteScreen> {
-  final FavoriteController favoriteController = Get.find<FavoriteController>();
-  final PlayerController playerController = Get.find<PlayerController>();
-  final TeamController teamController = Get.find<TeamController>();
-
-  @override
-  void initState() {
-    super.initState();
-    favoriteController.getFavoritePlayer();
-    favoriteController.getFavoriteTeam();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final FavoriteController favoriteController = Get.find<FavoriteController>();
+    final PlayerController playerController = Get.find<PlayerController>();
+    final TeamController teamController = Get.find<TeamController>();
+
     return Scaffold(
       backgroundColor: AppColors.bg500,
       bottomNavigationBar: const NavBar(currentIndex: 2),
 
-      ///========================Favorites AppBar===================
+      ///========================Favorites===================
       appBar: const CustomAppBar(
         appBarContent: AppStrings.favorites,
         iconData: Icons.arrow_back,
@@ -154,7 +142,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                     if (favoriteController.selectedIndex.value == 0) {
                       var playerData = favoriteController.favoritePlayerList[index];
                       RxBool isBookmarked = true.obs;
-                       ///<<<<<<<<<<<<<<=========================Player=============>>>>>>>>>>>>>>>>>>>>
+
                       return CustomPlayerCard(
                         imageUrl: "${ApiUrl.netWorkUrl}${playerData.player?.playerImage ?? ""}",
                         name: playerData.player?.name ?? "",
@@ -162,37 +150,35 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                         position: playerData.player?.position ?? "",
                         onTap: () {},
                         onBookMarkTab: () async {
-                          setState(() {
-                            favoriteController.rxRequestStatus.value = Status.loading;
-                          });
+                          favoriteController.rxRequestStatus.value = Status.loading;
+
                           await playerController.playerBookmarkDelete(id: playerData.player?.id ?? "");
-                          // Remove the player from the list instantly
+
+                          // Immediately remove player from the list in GetX
                           favoriteController.favoritePlayerList.removeAt(index);
-                          setState(() {
-                            favoriteController.rxRequestStatus.value = Status.completed;
-                          });
+
+                          favoriteController.rxRequestStatus.value = Status.completed;
                         },
                         isBookmark: isBookmarked,
                       );
                     } else if (favoriteController.selectedIndex.value == 1) {
                       var teamData = favoriteController.favoriteTeamList[index];
                       RxBool isBookmarkTeam = true.obs;
-                      ///<<<<<<<<<<<<<<=========================Team=============>>>>>>>>>>>>>>>>>>>>
+
                       return CustomTeamCard(
                         imageUrl: "${ApiUrl.netWorkUrl}${teamData.team?.teamLogo ?? ""}",
                         name: teamData.team?.name ?? "",
                         sport: teamData.team?.league?.sport ?? "",
                         onTap: () {},
                         onBookMarkTab: () async {
-                          setState(() {
-                            favoriteController.rxRequestStatus.value = Status.loading;
-                          });
+                          favoriteController.rxRequestStatus.value = Status.loading;
+
                           await teamController.teamBookmarkDelete(id: teamData.team?.id ?? "");
-                          // Remove the team from the list instantly
+
+                          // Immediately remove team from the list in GetX
                           favoriteController.favoriteTeamList.removeAt(index);
-                          setState(() {
-                            favoriteController.rxRequestStatus.value = Status.completed;
-                          });
+
+                          favoriteController.rxRequestStatus.value = Status.completed;
                         },
                         isBookmark: isBookmarkTeam,
                       );
