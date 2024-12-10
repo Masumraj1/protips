@@ -3,8 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/controller/player_controller.dart';
-import 'package:protippz/app/controller/team_controller.dart';
-import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/data/services/app_url.dart';
 import 'package:protippz/app/global/controllers/genarel_controller/genarel_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
@@ -25,10 +23,10 @@ class PlayerScreen extends StatefulWidget {
   const PlayerScreen({super.key});
 
   @override
-  State<PlayerScreen> createState() => _PlayerzScreenState();
+  State<PlayerScreen> createState() => _PlayerScreenState();
 }
 
-class _PlayerzScreenState extends State<PlayerScreen> {
+class _PlayerScreenState extends State<PlayerScreen> {
   int? _selectedValue;
   final List<String> amountOptions = [
     "Send From Deposit Account",
@@ -39,6 +37,9 @@ class _PlayerzScreenState extends State<PlayerScreen> {
   String _selectedOrder = 'A to Z';
 
   final List<String> _sortByOptions = ['Name', 'Team', 'Position'];
+
+  final PlayerController _playerController = Get.find<PlayerController>();
+  final GeneralController _generalController = Get.find<GeneralController>();
 
   void _toggleDropdown() {
     setState(() {
@@ -59,15 +60,10 @@ class _PlayerzScreenState extends State<PlayerScreen> {
     });
   }
 
-  final PlayerController _playerController = Get.find<PlayerController>();
-  final GeneralController _generalController = Get.find<GeneralController>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bg500,
-
-      ///==============*********>>>>>>>>Playerz<<<<<<<********===
       appBar: const CustomAppBar(
         appBarContent: AppStrings.playerz,
         iconData: Icons.arrow_back,
@@ -76,7 +72,7 @@ class _PlayerzScreenState extends State<PlayerScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         child: Column(
           children: [
-            ///===============================Select Player=====================
+            // League List (Horizontal Scroll)
             Obx(() {
               if (_generalController.leagueList.isEmpty) {
                 return const CustomText(
@@ -90,55 +86,54 @@ class _PlayerzScreenState extends State<PlayerScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: List.generate(_generalController.leagueList.length,
-                      (index) {
-                    final item = _generalController.leagueList[index];
-                    final isSelected =
-                        _playerController.selectedIndex.value == index;
+                          (index) {
+                        final item = _generalController.leagueList[index];
+                        final isSelected =
+                            _playerController.selectedIndex.value == index;
 
-                    return GestureDetector(
-                      onTap: () {
-                        // Update selected index and fetch corresponding data
-                        _playerController.selectedIndex.value = index;
-                        _playerController.selectPlayer(id: item.id ?? "");
-                        print(
-                            "Selected League ID:==================== ${item.id}");
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          border: isSelected
-                              ? Border.all(color: AppColors.green500, width: 2)
-                              : null,
-                        ),
-                        child: Column(
-                          children: [
-                            // Reward Image
-                            CustomNetworkImage(
-                              imageUrl:
+                        return GestureDetector(
+                          onTap: () {
+                            _playerController.selectedIndex.value = index;
+                            _playerController.selectPlayer(id: item.id ?? "");
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              border: isSelected
+                                  ? Border.all(color: AppColors.green500, width: 2)
+                                  : null,
+                            ),
+                            child: Column(
+                              children: [
+                                // League Image
+                                CustomNetworkImage(
+                                  imageUrl:
                                   "${ApiUrl.netWorkUrl}${item.leagueImage ?? ""}",
-                              height: 72,
-                              width: 73,
-                              borderRadius: BorderRadius.circular(8),
+                                  height: 72,
+                                  width: 73,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                SizedBox(height: 10.h),
+                                // League Name
+                                Text(
+                                  item.name ?? "",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12.sp,
+                                    color: AppColors.gray500,
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(height: 10.h),
-                            // Reward Name
-                            Text(
-                              item.name ?? "",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12.sp,
-                                color: AppColors.gray500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }),
+                          ),
+                        );
+                      }),
                 ),
               );
             }),
             Gap(24.h),
+
+            // Search Field
             CustomTextField(
               isColor: false,
               inputTextStyle: const TextStyle(color: AppColors.gray500),
@@ -154,8 +149,6 @@ class _PlayerzScreenState extends State<PlayerScreen> {
                   search: value,
                   id: selectedRewardId,
                 );
-                print(
-                    "Search with selected Player ID:====================== $selectedRewardId");
               },
               textEditingController: _playerController.searchController,
               hintText: AppStrings.searchPlayer,
@@ -168,7 +161,7 @@ class _PlayerzScreenState extends State<PlayerScreen> {
             ),
             Gap(14.h),
 
-            ///========================Short by==========================
+            // Sort Options
             SortOptions(
               selectedSortBy: _selectedSortBy,
               selectedOrder: _selectedOrder,
@@ -181,89 +174,102 @@ class _PlayerzScreenState extends State<PlayerScreen> {
             ),
             Gap(24.h),
 
-            ///==================================Player============================
+            // Player Grid
             Expanded(
               child: Obx(() {
-                if (_playerController.rxRequestStatus.value == Status.loading) {
-                  return const CustomLoader(); // Show loading indicator
-                }
-
-                if (_playerController.rxRequestStatus.value ==
-                    Status.internetError) {
-                  return const Center(
-                    child: CustomText(
-                      text: 'Please Connect Your Internet',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      color: AppColors.gray500,
-                    ),
-                  );
-                }
-
-                if (_playerController.rxRequestStatus.value == Status.error) {
-                  return GeneralErrorScreen(
-                    onTap: () {
-                      if (_playerController.selectPlayerList.isNotEmpty) {
-                        _playerController.selectPlayerList();
-                      }
-                    },
-                  );
-                }
-
-                if (_playerController.rxRequestStatus.value ==
-                        Status.completed &&
-                    _playerController.selectPlayerList.isEmpty) {
-                  return const Center(
-                    child: CustomText(
-                      text: "No Player Available",
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      color: AppColors.gray500,
-                    ),
-                  );
-                }
-
-                return GridView.builder(
-                  itemCount: _playerController.selectPlayerList.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount:
-                        MediaQuery.of(context).size.width > 600 ? 3 : 2,
-                    crossAxisSpacing: 16.w,
-                    mainAxisSpacing: 16.h,
-                    childAspectRatio: MediaQuery.of(context).size.height,
-                  ),
-                  itemBuilder: (context, index) {
-                    var data = _playerController.selectPlayerList[index];
-                    // Fix: Check if playerImage has a valid value
-                    String imageUrl = "${ApiUrl.netWorkUrl}${data.playerImage}";
-                    // If playerImage is empty or invalid, you might want to set a default image
-                    if (data.playerImage == null || data.playerImage!.isEmpty) {
-                      imageUrl = AppConstants
-                          .profileImage; // Replace with a default image URL
-                    }
-                    RxBool isBookmarked = (data.isBookmark ?? false).obs;
-
-                    return CustomPlayerCard(
-                      imageUrl: imageUrl,
-                      // Pass the constructed image URL to the card
-                      name: data.name ?? "",
-                      team: data.team?.name ?? "",
-                      position: data.position,
-                      onTap: () {
-                        showCustomDialog(context,
-                            image: imageUrl,
-                            title: data.name ?? "",
-                            team: data.team?.name ?? "",
-                            position: data.position ?? "");
-                      },
-                      onBookMarkTab: () {
-                        _playerController.playerBookMark(playerId: data.id ?? "");
-                        isBookmarked.value = !isBookmarked.value;
-
-                      }, isBookmark:isBookmarked,
+                switch (_playerController.rxRequestStatus.value) {
+                  case Status.loading:
+                    return const CustomLoader();
+                  case Status.internetError:
+                    return const Center(
+                      child: CustomText(
+                        text: 'Please Connect Your Internet',
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        color: AppColors.gray500,
+                      ),
                     );
-                  },
-                );
+                  case Status.error:
+                    return GeneralErrorScreen(
+                      onTap: () {
+                        if (_playerController.selectPlayerList.isNotEmpty) {
+                          _playerController.selectPlayerList();
+                        }
+                      },
+                    );
+                  case Status.completed:
+                    if (_playerController.selectPlayerList.isEmpty) {
+                      return const Center(
+                        child: CustomText(
+                          text: "No Player Available",
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          color: AppColors.gray500,
+                        ),
+                      );
+                    }
+
+                    // Responsive GridView
+                    return LayoutBuilder(
+                      builder: (context, constraints) {
+                        int crossAxisCount =
+                        constraints.maxWidth > 640 ? 3 : 2;
+                        return GridView.builder(
+                          itemCount: _playerController.selectPlayerList.length,
+                          gridDelegate:
+                          SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: crossAxisCount,
+                            crossAxisSpacing: 16.w,
+                            mainAxisSpacing: 16.h,
+                            childAspectRatio: 1 / 2.2,
+                          ),
+                          itemBuilder: (context, index) {
+                            final data =
+                            _playerController.selectPlayerList[index];
+                            String imageUrl =
+                                "${ApiUrl.netWorkUrl}${data.playerImage}";
+
+                            if (data.playerImage == null ||
+                                data.playerImage!.isEmpty) {
+                              imageUrl = AppConstants.profileImage;
+                            }
+
+                            RxBool isBookmarked =
+                                (data.isBookmark ?? false).obs;
+
+                            return CustomPlayerCard(
+                              imageUrl: imageUrl,
+                              name: data.name ?? "",
+                              team: data.team?.name ?? "",
+                              position: data.position,
+                              onTap: () {
+                                showCustomDialog(
+                                  context,
+                                  image: imageUrl,
+                                  title: data.name ?? "",
+                                  team: data.team?.name ?? "",
+                                  position: data.position ?? "",
+                                );
+                              },
+                              onBookMarkTab: () {
+                                if (isBookmarked.value) {
+                                  _playerController.playerBookmarkDelete(
+                                      id: data.id ?? "");
+                                } else {
+                                  _playerController.playerBookMark(
+                                      playerId: data.id ?? "");
+                                }
+                                isBookmarked.value = !isBookmarked.value;
+                              },
+                              isBookmark: isBookmarked,
+                            );
+                          },
+                        );
+                      },
+                    );
+                  default:
+                    return const SizedBox.shrink();
+                }
               }),
             ),
           ],
@@ -274,9 +280,9 @@ class _PlayerzScreenState extends State<PlayerScreen> {
 
   void showCustomDialog(BuildContext context,
       {required String image,
-      required String title,
-      required String team,
-      required String position}) {
+        required String title,
+        required String team,
+        required String position}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -285,91 +291,23 @@ class _PlayerzScreenState extends State<PlayerScreen> {
             title: title,
             team: team,
             position: position,
-            // onTap: () {
-            //   Get.back();
-
-            //   showDialogBox(context);
-            // },
             controller: _generalController.sendAmountController,
             image: image,
             button: _generalController.isSendTips.value
                 ? const CustomLoader()
                 : CustomButton(
-                    title: AppStrings.sendTippz,
-                    onTap: () {
-                      _generalController.sendTips(
-                          entityId: _playerController.selectPlayerList[0].id ??
-                              "67556c5778fff26bb6d1bbd6",
-                          entityType: 'Player',
-                          tipBy: 'Profile balance');
-                    },
-                  ),
+              title: AppStrings.sendTippz,
+              onTap: () {
+                _generalController.sendTips(
+                  entityId: _playerController.selectPlayerList[0].id ??
+                      "67556c5778fff26bb6d1bbd6",
+                  entityType: 'Player',
+                  tipBy: 'Profile balance',
+                );
+              },
+            ),
           );
         });
-      },
-    );
-  }
-
-  void showDialogBox(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: AppColors.white50,
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  const SizedBox(),
-                  const Spacer(),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop(); // Close dialog
-                      },
-                      child: Assets.icons.closeSmall.svg())
-                ],
-              ),
-              const CustomText(
-                textAlign: TextAlign.start,
-                maxLines: 2,
-                fontSize: 20,
-                text: "Select your payment method",
-                fontWeight: FontWeight.w500,
-                color: AppColors.gray500,
-                bottom: 10,
-              ),
-              Column(
-                children: amountOptions.asMap().entries.map((entry) {
-                  int index = entry.key;
-                  String amount = entry.value;
-                  return RadioListTile<int>(
-                    value: index,
-                    groupValue: _selectedValue,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedValue = value;
-                      });
-                    },
-                    activeColor: Colors.teal,
-                    title: Text(
-                      amount,
-                      style: const TextStyle(color: Colors.blue, fontSize: 18),
-                    ),
-                  );
-                }).toList(),
-              ),
-              CustomButton(
-                fillColor: AppColors.blue500,
-                onTap: () {
-                  Navigator.of(context).pop(); // Close dialog
-                },
-                title: AppStrings.continues,
-              )
-            ],
-          ),
-        );
       },
     );
   }

@@ -1,9 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
-import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
 import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_strings.dart';
@@ -52,16 +52,26 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
         children: [
           Stack(
             children: [
-              CustomNetworkImage(
-                borderRadius: BorderRadius.circular(5),
-                backgroundColor: AppColors.green100,
-                imageUrl: widget.imageUrl,
-                width: MediaQuery.of(context).size.width,
-                height: 120,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 20),
+                child: CachedNetworkImage(
+                  imageUrl: widget.imageUrl,
+                  fit: BoxFit.cover,
+                  height: MediaQuery.of(context).size.height/7,
+                  width: 95,
+                ),
               ),
+              // CustomNetworkImage(
+              //
+              //   borderRadius: BorderRadius.circular(5),
+              //   backgroundColor: AppColors.green100,
+              //   imageUrl: widget.imageUrl,
+              //   width: MediaQuery.of(context).size.width,
+              //   height: 110,
+              // ),
               Positioned(
-                top: 10.h,  // Adjust this to position the icon above the card
-                right: 1.w,  // Adjust for right positioning
+                top: 10, // Adjust this to position the icon above the card
+                right: -1.w, // Adjust for right positioning
                 child: GestureDetector(
                   onTap: widget.onBookMarkTab, // Trigger bookmark action
                   child: Obx(() {
@@ -78,7 +88,7 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
                         color: widget.isBookmark.value
                             ? AppColors.white50
                             : Colors.black,
-                        size: 24.sp,  // Adjust the size of the icon
+                        size: 24.sp, // Adjust the size of the icon
                       ),
                     );
                   }),

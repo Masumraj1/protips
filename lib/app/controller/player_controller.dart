@@ -10,13 +10,11 @@ import 'package:protippz/app/data/services/app_url.dart';
 import 'package:protippz/app/global/widgets/toast_message/toast_message.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 
-class PlayerController extends GetxController{
+class PlayerController extends GetxController {
   ///==============*********>>>>>>>>Other Element<<<<<<<********===
   final rxRequestStatus = Status.loading.obs;
 
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
-
-
 
   ///==============*********>>>>>>>>selectPlayer<<<<<<<********===
   Rx<int?> selectedIndex = Rx<int?>(null); // Track selected index
@@ -30,8 +28,8 @@ class PlayerController extends GetxController{
     var response = await ApiClient.getData(ApiUrl.selectPlayer(id: id));
 
     if (response.statusCode == 200) {
-      selectPlayerList.value = List<SelectedPlayerList>.from(response.body["data"]
-      ['result']
+      selectPlayerList.value = List<SelectedPlayerList>.from(response
+          .body["data"]['result']
           .map((x) => SelectedPlayerList.fromJson(x)));
       selectPlayerId.value = id;
       print(
@@ -48,19 +46,18 @@ class PlayerController extends GetxController{
     }
   }
 
-
-
   ///===============================Search Method=================
   TextEditingController searchController = TextEditingController();
 
-  searchPlayer({required String search,required String id}) async {
+  searchPlayer({required String search, required String id}) async {
     setRxRequestStatus(Status.loading);
     selectPlayerList.refresh();
-    var response = await ApiClient.getData("${ApiUrl.searchPlayer}=$search${"&league=$id"}");
+    var response = await ApiClient.getData(
+        "${ApiUrl.searchPlayer}=$search${"&league=$id"}");
     selectPlayerList.refresh();
     if (response.statusCode == 200) {
       selectPlayerList = RxList<SelectedPlayerList>.from(response.body["data"]
-      ['result']
+              ['result']
           .map((x) => SelectedPlayerList.fromJson(x)));
       setRxRequestStatus(Status.completed);
       selectPlayerList.refresh();
@@ -69,22 +66,18 @@ class PlayerController extends GetxController{
     }
   }
 
-
   ///=====================================Player Bookmark===========================
   RxBool isBookmark = false.obs;
 
   playerBookMark({required String playerId}) async {
     isBookmark.value = true;
     refresh();
-    Map<String, dynamic> body ={
-      "playerId":playerId
-    };
+    Map<String, dynamic> body = {"playerId": playerId};
     var response = await ApiClient.postData(
       ApiUrl.bookMarkPlayer,
       jsonEncode(body),
     );
     if (response.statusCode == 201) {
-
       toastMessage(
         message: response.body["message"],
       );
@@ -96,6 +89,30 @@ class PlayerController extends GetxController{
       ApiChecker.checkApi(response);
     }
     isBookmark.value = false;
+    refresh();
+  }
+
+  ///==================================Player Bookmark Delete=======================
+  RxBool isPlayerRemove = false.obs;
+
+  playerBookmarkDelete({required String id}) async {
+    isPlayerRemove.value = true;
+    refresh();
+    Map<dynamic, String> body = {};
+    var response = await ApiClient.deleteData(
+        ApiUrl.removePlayerBookmark(id: id),
+        body: jsonEncode(body));
+
+    isPlayerRemove.value = false;
+    refresh();
+    if (response.statusCode == 200) {
+      // await SharePrefsHelper.remove(AppConstants.bearerToken);
+      toastMessage(message: response.body["message"]);
+      // Get.offAllNamed(AppRoute.signInScreen);
+    } else {
+      ApiChecker.checkApi(response);
+    }
+    isPlayerRemove.value = false;
     refresh();
   }
 }

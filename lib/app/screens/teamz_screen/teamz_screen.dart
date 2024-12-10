@@ -197,7 +197,7 @@ class _TeamScreenState extends State<TeamScreen> {
                         MediaQuery.of(context).size.width > 600 ? 3 : 2,
                     crossAxisSpacing: 16.w,
                     mainAxisSpacing: 16.h,
-                    childAspectRatio: 1 / 1.5,
+                    childAspectRatio: 1 / 2,
                   ),
                   itemBuilder: (context, index) {
                     var data = teamController.selectTeamList[index];
@@ -205,7 +205,8 @@ class _TeamScreenState extends State<TeamScreen> {
                     if (data.teamLogo == null || data.teamLogo!.isEmpty) {
                       imageUrl = AppConstants.profileImage; // Default image
                     }
-
+                    RxBool isBookmarked =
+                        (data.isBookmark ?? false).obs;
                     return CustomTeamCard(
                       imageUrl: imageUrl,
                       name: data.name ?? "",
@@ -216,7 +217,16 @@ class _TeamScreenState extends State<TeamScreen> {
                             team: '',
                             position: '',
                             image: imageUrl);
-                      },
+                      },   onBookMarkTab: () {
+                      if (isBookmarked.value) {
+                        teamController.teamBookmarkDelete(
+                            id: data.id ?? "");
+                      } else {
+                        teamController.teamBookmark(
+                            teamId: data.id ?? "");
+                      }
+                      isBookmarked.value = !isBookmarked.value;
+                    }, isBookmark: isBookmarked,
                     );
                   },
                 );

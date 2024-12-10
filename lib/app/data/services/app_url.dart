@@ -41,6 +41,7 @@ class ApiUrl {
   static const favoritePlayer = "/player-bookmark/my-bookmark";
   static const favoriteTeam = "/team-bookmark/my-bookmark";
   static const bookMarkPlayer = "/player-bookmark/create";
+  static const bookMarkTeam = "/team-bookmark/create";
   static String removePlayerBookmark({required String id}) {
     return "/player-bookmark/delete/$id";
   }

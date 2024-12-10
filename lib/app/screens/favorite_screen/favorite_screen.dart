@@ -161,7 +161,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                             sport: teamData.team?.league?.sport ?? "",
                             onTap: () {
                               // toastMessage(message: "Team tapped: ${teamData.team?.name}");
-                            },
+                            }, onBookMarkTab: () {  }, isBookmark: false.obs,
                           );
                         } else {
                           toastMessage(message: "Invalid selection");
