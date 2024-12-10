@@ -18,13 +18,14 @@ class CustomTeamCard extends StatelessWidget {
   final VoidCallback onBookMarkTab; // Callback for bookmark action
   final RxBool isBookmark; // Pass the bookmark state
 
-
   const CustomTeamCard({
     super.key,
     required this.imageUrl,
     required this.name,
     this.sport,
-    required this.onTap, required this.onBookMarkTab, required this.isBookmark,
+    required this.onTap,
+    required this.onBookMarkTab,
+    required this.isBookmark,
   });
 
   @override
@@ -46,46 +47,35 @@ class CustomTeamCard extends StatelessWidget {
         children: [
           ///=========================Image=====================
 
-        Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 35,vertical: 20),
-              child: CachedNetworkImage(
-                imageUrl: imageUrl,
-                fit: BoxFit.cover,
-                // height: MediaQuery.of(context).size.height/7,
-                // width: 95,
+          Stack(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
+                child: CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  fit: BoxFit.cover,
+                  // height: MediaQuery.of(context).size.height/7,
+                  // width: 95,
+                ),
               ),
-            ),
-            Positioned(
-              top: 5, // Adjust this to position the icon above the card
-              right: -2.w, // Adjust for right positioning
-              child: GestureDetector(
-                onTap: onBookMarkTab, // Trigger bookmark action
-                child: Obx(() {
-                  return Container(
-                    padding: EdgeInsets.all(8.w),
-                    decoration: BoxDecoration(
-                      color: isBookmark.value
-                          ? AppColors.green500
-                          : AppColors.gray300,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Icons.star,
-                      color: isBookmark.value
-                          ? AppColors.white50
-                          : Colors.black,
-                      size: 24.sp, // Adjust the size of the icon
-                    ),
-                  );
-                }),
+              Positioned(
+                top: 5, // Adjust this to position the icon above the card
+                right: -2.w, // Adjust for right positioning
+                child: GestureDetector(
+                  onTap: onBookMarkTab, // Trigger bookmark action
+                  child: Obx(() {
+                    return isBookmark.value
+                        ? Assets.images.starSelected.image()
+                        : Assets.images.startUnselected.image();
+                  }),
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
           Gap(8.h),
-            ///=========================Team Name=====================
+
+          ///=========================Team Name=====================
           Center(
             child: CustomText(
               text: name,
@@ -95,6 +85,7 @@ class CustomTeamCard extends StatelessWidget {
             ),
           ),
           Gap(10.h),
+
           ///=========================Sport=====================
 
           Center(

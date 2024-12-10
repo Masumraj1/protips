@@ -75,22 +75,9 @@ class _CustomPlayerCardState extends State<CustomPlayerCard> {
                 child: GestureDetector(
                   onTap: widget.onBookMarkTab, // Trigger bookmark action
                   child: Obx(() {
-                    return Container(
-                      padding: EdgeInsets.all(8.w),
-                      decoration: BoxDecoration(
-                        color: widget.isBookmark.value
-                            ? AppColors.green500
-                            : AppColors.gray300,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.star,
-                        color: widget.isBookmark.value
-                            ? AppColors.white50
-                            : Colors.black,
-                        size: 24.sp, // Adjust the size of the icon
-                      ),
-                    );
+                    return widget.isBookmark.value
+                        ? Assets.images.starSelected.image()
+                        : Assets.images.startUnselected.image();
                   }),
                 ),
               ),

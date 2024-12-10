@@ -225,6 +225,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/reward.png
   AssetGenImage get reward => const AssetGenImage('assets/images/reward.png');
 
+  /// File path: assets/images/star_selected.png
+  AssetGenImage get starSelected =>
+      const AssetGenImage('assets/images/star_selected.png');
+
+  /// File path: assets/images/start_unselected.png
+  AssetGenImage get startUnselected =>
+      const AssetGenImage('assets/images/start_unselected.png');
+
   /// File path: assets/images/team.png
   AssetGenImage get team => const AssetGenImage('assets/images/team.png');
 
@@ -249,6 +257,8 @@ class $AssetsImagesGen {
         pt,
         ptis,
         reward,
+        starSelected,
+        startUnselected,
         team,
         tips,
         visa
