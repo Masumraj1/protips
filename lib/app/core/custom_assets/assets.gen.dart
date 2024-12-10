@@ -233,6 +233,12 @@ class $AssetsImagesGen {
   AssetGenImage get startUnselected =>
       const AssetGenImage('assets/images/start_unselected.png');
 
+  /// File path: assets/images/stripe.png
+  AssetGenImage get stripe => const AssetGenImage('assets/images/stripe.png');
+
+  /// File path: assets/images/stripee.png
+  AssetGenImage get stripee => const AssetGenImage('assets/images/stripee.png');
+
   /// File path: assets/images/team.png
   AssetGenImage get team => const AssetGenImage('assets/images/team.png');
 
@@ -259,6 +265,8 @@ class $AssetsImagesGen {
         reward,
         starSelected,
         startUnselected,
+        stripe,
+        stripee,
         team,
         tips,
         visa

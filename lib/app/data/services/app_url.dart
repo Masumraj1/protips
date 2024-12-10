@@ -28,6 +28,8 @@ class ApiUrl {
 
   ///=========================payment=========================
   static const myTransactionLog = "/transaction/my-transactions";
+  static const createDepositIntend = "/deposit/create-deposit-intent";
+  static const stripeDeposit = "/deposit/execute-stripe-deposit";
 
 
   ///=======================my Tips==================

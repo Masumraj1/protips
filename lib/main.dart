@@ -3,10 +3,12 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/core/app_routes.dart';
 import 'package:protippz/app/core/dependency_injection/dependency.dart';
 import 'package:protippz/app/global/helper/device_utils/device_utils.dart';
+import 'package:protippz/app/utils/app_constants.dart';
 
 
 
@@ -15,6 +17,7 @@ void main() {
   DeviceUtils.lockDevicePortrait();
   DependencyInjection di = DependencyInjection();
   di.dependencies();
+  Stripe.publishableKey = AppConstants.stripePublishableKey;
   runApp(
       DevicePreview(
         enabled: !kReleaseMode,

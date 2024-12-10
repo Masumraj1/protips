@@ -7,13 +7,11 @@ import 'package:protippz/app/screens/authentication_screen/sign_in_screen/sign_i
 import 'package:protippz/app/screens/authentication_screen/sign_up_screen/sign_up_screen.dart';
 import 'package:protippz/app/screens/contact_screen/contact_screen.dart';
 import 'package:protippz/app/screens/deposite_screen/deposite_screen.dart';
-import 'package:protippz/app/screens/deposite_screen/inner_screen/deposite_card_screen.dart';
 import 'package:protippz/app/screens/faq_screen/faq_screen.dart';
 import 'package:protippz/app/screens/favorite_screen/favorite_screen.dart';
 import 'package:protippz/app/screens/history_screen/history_screen.dart';
 import 'package:protippz/app/screens/home_screen/home_screen.dart';
 import 'package:protippz/app/screens/invite_screen/invite_screen.dart';
-import 'package:protippz/app/screens/no_internet_screen/no_internet_screen.dart';
 import 'package:protippz/app/screens/notification_screen/notification_screen.dart';
 import 'package:protippz/app/screens/playerz_screen/playerz_screen.dart';
 import 'package:protippz/app/screens/privacy_policy_screen/privacy_policy_screen.dart';
@@ -38,8 +36,7 @@ class AppRoute {
   static const String splashScreen = "/splash_screen";
 
 
-  //=================== General screens ===================
-  // static const String noInternetScreen = '/NoInternetScreen';
+
 
   //=========================Auth Screen ===================
   static const String signInScreen = '/SignInScreen';
@@ -67,7 +64,6 @@ class AppRoute {
   static const String withdrawScreen = '/WithdrawScreen';
   static const String withdrawCardScreen = '/WithdrawCardScreen';
   static const String depositeScreen = '/DepositeScreen';
-  static const String depositeCardScreen = '/DepositeCardScreen';
   static const String tipzScreen = '/TipzScreen';
   static const String withdrawAch = '/WithdrawAch';
   static const String withdrawCheck = '/WithdrawCheck';
@@ -111,7 +107,6 @@ class AppRoute {
     GetPage(name: withdrawCheck, page: () =>  WithdrawCheck(),),
     GetPage(name: withdrawAch, page: () =>  WithdrawAch(),),
     GetPage(name: depositeScreen, page: () =>  DepositeScreen(),),
-    GetPage(name: depositeCardScreen, page: () =>  DepositeCardScreen(),),
     GetPage(name: tipzScreen, page: () =>  TipzScreen(),),
     GetPage(name: playerzScreen, page: () =>  const PlayerScreen(),),
     GetPage(name: teamzScreen, page: () =>   TeamScreen(),),

@@ -44,52 +44,52 @@ class WithdrawScreen extends StatelessWidget {
             fontWeight: FontWeight.w500,
             color: AppColors.gray500,
           ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: ValueListenableBuilder<String?>(
-              valueListenable: _selectedPaymentMethod,
-              builder: (context, selectedMethod, _) {
-                return Column(
-                  children: paymentController.withdrawMethod.map((method) {
-                    final isSelected = selectedMethod == method["value"];
-                    return CustomPaymentCard(
-                      title: method["title"],
-                      icon: method["icon"],
-                      isSelected: isSelected,
-                      onTap: () => _onPaymentMethodSelected(method["value"]),
-                    );
-                  }).toList(),
-                );
-              },
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(16),
+          //   child: ValueListenableBuilder<String?>(
+          //     valueListenable: _selectedPaymentMethod,
+          //     builder: (context, selectedMethod, _) {
+          //       return Column(
+          //         children: paymentController.withdrawMethod.map((method) {
+          //           final isSelected = selectedMethod == method["value"];
+          //           return CustomPaymentCard(
+          //             title: method["title"],
+          //             icon: method["icon"],
+          //             isSelected: isSelected,
+          //             onTap: () => _onPaymentMethodSelected(method["value"]),
+          //           );
+          //         }).toList(),
+          //       );
+          //     },
+          //   ),
+          // ),
           const Spacer(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: ValueListenableBuilder<String?>(
-              valueListenable: _selectedPaymentMethod,
-              builder: (context, selectedMethod, _) {
-                return CustomButton(
-                  onTap: () {
-                    if (selectedMethod == "credit_card") {
-                      Get.toNamed(AppRoute.depositeCardScreen);
-                    } else if (selectedMethod == "ach"){
-                      Get.toNamed(AppRoute.withdrawAch);
-                    }else if(selectedMethod == "check"){
-                      Get.toNamed(AppRoute.withdrawCheck);
-
-                    }else{
-                      print('allow');
-                    }
-                  },
-                  title: AppStrings.continues,
-                  fillColor: (selectedMethod == "credit_card" || selectedMethod == "ach" || selectedMethod == "check")
-                      ? AppColors.green500
-                      : AppColors.gray300,
-                );
-              },
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 20),
+          //   child: ValueListenableBuilder<String?>(
+          //     valueListenable: _selectedPaymentMethod,
+          //     builder: (context, selectedMethod, _) {
+          //       return CustomButton(
+          //         onTap: () {
+          //           if (selectedMethod == "credit_card") {
+          //             Get.toNamed(AppRoute.depositeCardScreen);
+          //           } else if (selectedMethod == "ach"){
+          //             Get.toNamed(AppRoute.withdrawAch);
+          //           }else if(selectedMethod == "check"){
+          //             Get.toNamed(AppRoute.withdrawCheck);
+          //
+          //           }else{
+          //             print('allow');
+          //           }
+          //         },
+          //         title: AppStrings.continues,
+          //         fillColor: (selectedMethod == "credit_card" || selectedMethod == "ach" || selectedMethod == "check")
+          //             ? AppColors.green500
+          //             : AppColors.gray300,
+          //       );
+          //     },
+          //   ),
+          // ),
           Gap(20.h),
         ],
       ),

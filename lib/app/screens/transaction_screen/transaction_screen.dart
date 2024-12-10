@@ -19,18 +19,18 @@ class TransactionScreen extends StatelessWidget {
         appBarContent: AppStrings.transactionLog,
         iconData: Icons.arrow_back,
       ),
-      body: ListView.builder(
-        itemCount: paymentController.transactionList.length,
-        itemBuilder: (context, index) {
-          final item = paymentController.transactionList[index];
-          return HistoryCard(
-            isImage: false,
-            title: item['title'],
-            date: item['date'],
-            time: item['time'],
-          );
-        },
-      ),
+      // body: ListView.builder(
+      //   itemCount: paymentController.transactionList.length,
+      //   itemBuilder: (context, index) {
+      //     final item = paymentController.transactionList[index];
+      //     return HistoryCard(
+      //       isImage: false,
+      //       title: item['title'],
+      //       date: item['date'],
+      //       time: item['time'],
+      //     );
+      //   },
+      // ),
     );
   }
 }
