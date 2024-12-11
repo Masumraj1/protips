@@ -32,7 +32,9 @@ class HistoryScreen extends StatelessWidget {
           appBarContent: AppStrings.tippzHistory,
           iconData: Icons.arrow_back,
         ),
-        body: Obx(() {
+        body:
+
+        Obx(() {
           switch (historyController.rxRequestStatus.value) {
             case Status.loading:
               return const CustomLoader(); // Show loading indicator

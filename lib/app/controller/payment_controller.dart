@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
+import 'package:protippz/app/data/models/transaction_model/transaction_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';
 import 'package:protippz/app/data/services/api_client.dart';
 import 'package:protippz/app/data/services/app_url.dart';
@@ -153,5 +154,39 @@ class PaymentController extends GetxController {
       debugPrint("=======================Error sending payment data to server: $error");
       Get.snackbar("Error", "Unable to complete order: $error");
     }
+  }
+
+
+  ///==================================My Transaction History ================================
+  final rxRequestStatus = Status.loading.obs;
+
+  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
+  RxList<TransactionList> transactionList = <TransactionList>[].obs;
+  transaction() async {
+    setRxRequestStatus(Status.loading);
+    refresh();
+    var response = await ApiClient.getData(ApiUrl.myTransactionLog);
+
+    if (response.statusCode == 200) {
+      transactionList.value = List<TransactionList>.from(
+          response.body["data"]["result"].map((x) => TransactionList.fromJson(x)));
+
+      setRxRequestStatus(Status.completed);
+      refresh();
+    } else {
+      if (response.statusText == ApiClient.noInternetMessage) {
+        setRxRequestStatus(Status.internetError);
+      } else {
+        setRxRequestStatus(Status.error);
+      }
+      ApiChecker.checkApi(response);
+    }
+  }
+
+
+  @override
+  void onInit() {
+    transaction();
+    super.onInit();
   }
 }

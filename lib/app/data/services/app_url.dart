@@ -97,4 +97,7 @@ class ApiUrl {
   ///=======================Google Auth=========================
   static const googleAuth = "/auth/google-login";
 
+  ///======================Paypal =============================
+  static const paypalIntend = "/deposit/execute-paypal-deposit-app";
+
 }

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/controller/payment_controller.dart';
+import 'package:protippz/app/controller/paypal_controller.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
@@ -15,6 +16,7 @@ class DepositeScreen extends StatelessWidget {
   DepositeScreen({super.key});
 
   final PaymentController paymentController = Get.find<PaymentController>();
+  final PaypalController paypalController = Get.find<PaypalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,28 +42,38 @@ class DepositeScreen extends StatelessWidget {
               bottom: 20,
             ),
 
+
+
+                
             ///==============================Stripe=====================
             CustomPaymentCard(
                 title: "Card",
                 icon: Assets.images.stripee.image(),
                 isSelected: true,
                 onTap: () {
-
+                  paymentController.makePayment(amount: 5);
                 }),
 
-            // ///===========================Paypal=======================
-            // CustomPaymentCard(
-            //     title: "Paypal",
-            //     icon: Assets.images.paypal.image(),
-            //     isSelected: true,
-            //     onTap: () {}),
+            ///===========================Paypal=======================
+            CustomPaymentCard(
+                title: "Paypal",
+                icon: Assets.images.paypal.image(),
+                isSelected: true,
+                onTap: () {
+                  paypalController.paymentPaypal(
+                    amount: 200.0, // Amount for payment
+                    // driverId: 'driver123', // Driver ID (pass as needed)
+                    // tripId: 'trip123', // Trip ID (pass as needed)
+                  );
+
+                }),
             Gap(20.h),
 
             ///=============================Continue Button======================
             CustomButton(
               isRadius: true,
               onTap: () {
-                paymentController.makePayment(amount: 5);
+
               },
               title: AppStrings.continues,
               fillColor: AppColors.green500,
