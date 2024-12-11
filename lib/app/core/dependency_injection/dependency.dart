@@ -8,7 +8,6 @@ import 'package:protippz/app/controller/info_controller.dart';
 import 'package:protippz/app/controller/invite_controller.dart';
 import 'package:protippz/app/controller/notification_controller.dart';
 import 'package:protippz/app/controller/payment_controller.dart';
-import 'package:protippz/app/controller/paypal_controller.dart';
 import 'package:protippz/app/controller/player_controller.dart';
 import 'package:protippz/app/controller/profile_controller.dart';
 import 'package:protippz/app/controller/team_controller.dart';
@@ -32,6 +31,5 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => TeamController(), fenix: true);
     Get.lazyPut(() => InviteController(), fenix: true);
     Get.lazyPut(() => GoogleAuthController(), fenix: true);
-    Get.lazyPut(() => PaypalController(), fenix: true);
   }
 }
