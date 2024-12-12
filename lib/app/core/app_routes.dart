@@ -6,6 +6,7 @@ import 'package:protippz/app/screens/authentication_screen/reset_password_screen
 import 'package:protippz/app/screens/authentication_screen/sign_in_screen/sign_in_screen.dart';
 import 'package:protippz/app/screens/authentication_screen/sign_up_screen/sign_up_screen.dart';
 import 'package:protippz/app/screens/contact_screen/contact_screen.dart';
+import 'package:protippz/app/screens/deposite_screen/dairek_pay_screen.dart';
 import 'package:protippz/app/screens/deposite_screen/deposite_screen.dart';
 import 'package:protippz/app/screens/faq_screen/faq_screen.dart';
 import 'package:protippz/app/screens/favorite_screen/favorite_screen.dart';
@@ -70,6 +71,7 @@ class AppRoute {
   static const String playerzScreen = '/PlayerzScreen';
   static const String teamzScreen = '/TeamzScreen';
   static const String rewardzScreen = '/rewardzScreen';
+  static const String dairekPayScreen = '/DairekPayScreen';
 
 
 
@@ -83,7 +85,7 @@ class AppRoute {
     // GetPage(name: noInternetScreen, page: () =>  const NoInternetScreen(),),
     GetPage(name: signInScreen, page: () =>  SignInScreen(),),
     GetPage(name: signUpScreen, page: () =>  SignUpScreen(),),
-    GetPage(name: otpScreen, page: () =>  OtpScreen(),),
+    GetPage(name: otpScreen, page: () =>  const OtpScreen(),),
     GetPage(name: forgotPasswordScreen, page: () =>  ForgotPasswordScreen(),),
     GetPage(name: resetPasswordScreen, page: () =>  ResetPasswordScreen(),),
 
@@ -91,7 +93,7 @@ class AppRoute {
 
     GetPage(name: homeScreen, page: () =>  HomeScreen(),),
     GetPage(name: notificationScreen, page: () =>  NotificationScreen(),),
-    GetPage(name: favoriteScreen, page: () =>  FavoriteScreen(),),
+    GetPage(name: favoriteScreen, page: () =>  const FavoriteScreen(),),
     GetPage(name: historyScreen, page: () => HistoryScreen(),),
     GetPage(name: profileScreen, page: () =>   ProfileScreen(),),
     GetPage(name: editProfileScreen, page: () =>  EditProfileScreen(),),
@@ -100,17 +102,18 @@ class AppRoute {
     GetPage(name: privacyPolicyScreen, page: () =>  PrivacyPolicyScreen(),),
     GetPage(name: termsConditionScreen, page: () =>  TermsConditionScreen(),),
     GetPage(name: contactScreen, page: () =>  ContactScreen(),),
-    GetPage(name: faqScreen, page: () =>  FaqScreen(),),
+    GetPage(name: faqScreen, page: () =>  const FaqScreen(),),
     GetPage(name: inviteScreen, page: () =>  InviteScreen(),),
     GetPage(name: transactionScreen, page: () =>  TransactionScreen(),),
     GetPage(name: withdrawScreen, page: () =>  WithdrawScreen(),),
-    GetPage(name: withdrawCheck, page: () =>  WithdrawCheck(),),
-    GetPage(name: withdrawAch, page: () =>  WithdrawAch(),),
+    GetPage(name: withdrawCheck, page: () =>  const WithdrawCheck(),),
+    GetPage(name: withdrawAch, page: () =>  const WithdrawAch(),),
     GetPage(name: depositeScreen, page: () =>  DepositeScreen(),),
-    GetPage(name: tipzScreen, page: () =>  TipzScreen(),),
+    GetPage(name: tipzScreen, page: () =>  const TipzScreen(),),
     GetPage(name: playerzScreen, page: () =>  const PlayerScreen(),),
-    GetPage(name: teamzScreen, page: () =>   TeamScreen(),),
+    GetPage(name: teamzScreen, page: () =>   const TeamScreen(),),
     GetPage(name: rewardzScreen, page: () =>   const RewardScreen(),),
+    GetPage(name: dairekPayScreen, page: () =>    DairekPayScreen(),),
 
 
   ];

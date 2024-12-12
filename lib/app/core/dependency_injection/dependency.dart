@@ -1,5 +1,6 @@
 
 import 'package:get/get.dart';
+import 'package:protippz/app/controller/dairek_pay_controller.dart';
 import 'package:protippz/app/controller/favorite_controller.dart';
 import 'package:protippz/app/controller/google_auth_controller.dart';
 import 'package:protippz/app/controller/history_controller.dart';
@@ -31,5 +32,6 @@ class DependencyInjection extends Bindings {
     Get.lazyPut(() => TeamController(), fenix: true);
     Get.lazyPut(() => InviteController(), fenix: true);
     Get.lazyPut(() => GoogleAuthController(), fenix: true);
+    Get.lazyPut(() => DairekPayController(), fenix: true);
   }
 }

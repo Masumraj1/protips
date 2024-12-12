@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_paypal_payment/flutter_paypal_payment.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
-import 'package:protippz/app/data/models/transaction_model/transaction_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';
 import 'package:protippz/app/data/services/api_client.dart';
 import 'package:protippz/app/data/services/app_url.dart';
@@ -13,8 +12,8 @@ import 'package:protippz/app/global/helper/local_db/local_db.dart';
 import 'package:protippz/app/global/widgets/toast_message/toast_message.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 
-class PaymentController extends GetxController {
-  //Stripe
+class DairekPayController extends GetxController{
+
   ///========================= Create Payment Intent =========================
   Map<String, dynamic> value = {};
 
@@ -26,23 +25,23 @@ class PaymentController extends GetxController {
       'Authorization': '$bearerToken'
     };
     var body = {
+      "entityId": "6757c2257394f1a0eb1175ab",
+      "entityType": "Player",
       "amount": amount,
-      "paymentBy": "Credit Card"
-      // You can also switch between "Credit Card" or "Paypal" as required
-    };
+      "tipBy": "Credit card"
+    }
+    ;
 
     try {
       var response = await ApiClient.postData(
-          ApiUrl.createDepositIntend, jsonEncode(body),
+          ApiUrl.sendTip, jsonEncode(body),
           headers: mainHeaders);
 
       debugPrint("==============Payment Intent Response ===========${response.body}");
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         var data = response.body["data"];
         value = data; // Save response data for later usage
-
-        // Ensure paymentIntentId is available
         String paymentIntentId = data["paymentIntentId"] ?? '';
         if (paymentIntentId.isNotEmpty) {
           debugPrint("Payment Intent ID: $paymentIntentId");
@@ -66,11 +65,9 @@ class PaymentController extends GetxController {
 
   Future<void> makePayment({required int amount}) async {
     try {
-      // Step 1: Create payment intent and retrieve clientSecret
       Map<String, dynamic> paymentIntentData = await createPaymentIntent(amount: amount);
 
       if (paymentIntentData.isNotEmpty) {
-        // Step 2: Initialize the Stripe Payment Sheet
         await Stripe.instance.initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
             merchantDisplayName: 'Masum', // Replace with your merchant name
@@ -82,30 +79,22 @@ class PaymentController extends GetxController {
 
         debugPrint("========================Payment Sheet Initialized=========================");
 
-        // Step 3: Present the Stripe Payment Sheet to the user
         await Stripe.instance.presentPaymentSheet();
 
         debugPrint("=========================Payment Sheet Presented===================");
 
-        // Step 4: Fetch the completed PaymentIntent for transaction details
         final paymentIntent = await Stripe.instance.retrievePaymentIntent(paymentIntentData['clientSecret']);
 
         debugPrint("=========================Fetched PaymentIntent===========================");
         debugPrint("PaymentIntent Data: $paymentIntent");
-
-        // Extract the necessary fields from PaymentIntent
         String transactionId = paymentIntent.id; // Stripe's PaymentIntent ID
         String status = paymentIntent.status.name; // Payment status (e.g., "succeeded")
 
         debugPrint("=================================Transaction ID: $transactionId");
         debugPrint("=================================Payment Status: $status");
-
-        // Step 5: Check payment status and process accordingly
         if (status.toLowerCase() == "succeeded") {
-          // Send payment info to the server
           await makeOrder(
             transactionId: transactionId,
-            clientSecret: paymentIntentData['clientSecret'],
           );
 
           toastMessage(message: "Payment Successful");
@@ -127,25 +116,15 @@ class PaymentController extends GetxController {
 
   Future<void> makeOrder({
     required String transactionId,
-    required String clientSecret,
   }) async {
-    var bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
-
-    var mainHeaders = {
-      'Content-Type': 'application/json',
-      'Authorization': '$bearerToken'
-    };
-
-    // Prepare body with transactionId and clientSecret to send to server
     Map<String, dynamic> body = {
       "transactionId": transactionId,
-      "clientSecret": clientSecret,
     };
 
     try {
-      var response = await ApiClient.postData(
+      var response = await ApiClient.patchData(
           ApiUrl.stripeDeposit, jsonEncode(body),
-          headers: mainHeaders);
+         );
 
       if (response.statusCode == 200) {
         print("============================${response.body}");
@@ -159,7 +138,20 @@ class PaymentController extends GetxController {
     }
   }
 
-///===================================Paypal=================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ///===================================Paypal=================================
   ///=============================== PayPal Payment Method ======================
   void paymentPaypal({
     required double amount,
@@ -241,14 +233,14 @@ class PaymentController extends GetxController {
   }) async {
     isPayment.value = true;
     refresh();
-
     Map<String, dynamic> body = {
       "paymentId": paymentId,
       "payerId": payerId,
+      "entityId": "6757c2257394f1a0eb1175ab",
+      "entityType": "Player"
     };
 
-    var response = await ApiClient.postData(ApiUrl.paypalIntend, jsonEncode(body));
-
+    var response = await ApiClient.patchData(ApiUrl.paypalSend, jsonEncode(body));
     if (response.statusCode == 200) {
       isPayment.value = false;
       refresh();
@@ -256,43 +248,12 @@ class PaymentController extends GetxController {
     } else {
       ApiChecker.checkApi(response);
     }
-
     isPayment.value = false;
     refresh();
   }
 
 
 
-  ///==================================My Transaction History ================================
-  final rxRequestStatus = Status.loading.obs;
-
-  void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
-  RxList<TransactionList> transactionList = <TransactionList>[].obs;
-  transaction() async {
-    setRxRequestStatus(Status.loading);
-    refresh();
-    var response = await ApiClient.getData(ApiUrl.myTransactionLog);
-
-    if (response.statusCode == 200) {
-      transactionList.value = List<TransactionList>.from(
-          response.body["data"]["result"].map((x) => TransactionList.fromJson(x)));
-
-      setRxRequestStatus(Status.completed);
-      refresh();
-    } else {
-      if (response.statusText == ApiClient.noInternetMessage) {
-        setRxRequestStatus(Status.internetError);
-      } else {
-        setRxRequestStatus(Status.error);
-      }
-      ApiChecker.checkApi(response);
-    }
-  }
 
 
-  @override
-  void onInit() {
-    transaction();
-    super.onInit();
-  }
 }

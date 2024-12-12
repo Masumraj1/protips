@@ -29,12 +29,14 @@ class ApiUrl {
   ///=========================payment=========================
   static const myTransactionLog = "/transaction/my-transactions";
   static const createDepositIntend = "/deposit/create-deposit-intent";
-  static const stripeDeposit = "/deposit/execute-stripe-deposit";
+  static const stripeDeposit = "/tip/execute-stipe-payment";
 
 
   ///=======================my Tips==================
   static const myTipHistory = "/tip/my-tips";
   static const sendTip = "/tip/create";
+  static const stripeSendTip = "/tip/execute-stipe-payment";
+  static const paypalSend = "/tip/execute-paypal-payment-app";
 
   ///===========================Notification===========================
   static const notification = "/notification/get-notifications";
