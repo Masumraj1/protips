@@ -41,7 +41,7 @@ class AppStrings {
   static const enterYourEmailAndWe =
       "Enter your email and we will send you a verification code";
   static const sendCode = "Send Code";
-  static const check = "Check your email";
+  static const check = "Check";
   static const dontHaveAnAccount = "Don’t have an account? ";
   static const resendOtp = "Resend OTP";
   static const verifyCode = "Verify Code";

@@ -21,6 +21,7 @@ class WithdrawController extends GetxController {
            TextEditingController cityController = TextEditingController();
            TextEditingController stateController = TextEditingController();
            TextEditingController zipCodeController = TextEditingController();
+           TextEditingController emailController = TextEditingController();
   ///================================Withdraw Ach===============================
   RxBool isAchLoading = false.obs;
 
@@ -28,10 +29,10 @@ class WithdrawController extends GetxController {
     isAchLoading.value = true;
     refresh();
     Map<String, dynamic> body = {
-      "amount": amountController.text,
+      "amount": int.tryParse(amountController.text),
       "withdrawOption": "ACH",
-      "bankAccountNumber": bankAccountNumberController.text,
-      "routingNumber": routingNumberController.text,
+      "bankAccountNumber":  int.tryParse(bankAccountNumberController.text),
+      "routingNumber": int.tryParse(routingNumberController.text),
       "accountType": accountTypeController.text,
       "bankName": bankNameController.text,
       "accountHolderName": accountHolderNameController.text
@@ -65,14 +66,14 @@ class WithdrawController extends GetxController {
     isCheckLoading.value = true;
     refresh();
     Map<String, dynamic> body = {
-      "amount": amountController.text,
+      "amount": int.tryParse(amountController.text),
       "withdrawOption": "Check",
       "fullName":fullNameController.text,
       "streetAddress": addressController.text,
       "city": cityController.text,
       "state": stateController.text,
-      "zipCode": zipCodeController.text,
-      "email": "johndoe@example.com"
+      "zipCode": int.tryParse(zipCodeController.text),
+      "email": emailController.text
     };
     var response = await ApiClient.postData(
       ApiUrl.withdrawFunds,

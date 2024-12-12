@@ -18,7 +18,7 @@ class DepositeScreen extends StatelessWidget {
 
   final PaymentController paymentController = Get.find<PaymentController>();
   final TextEditingController amountController = TextEditingController();
-  RxString selectedPaymentMethod = "Stripe".obs; // To track the selected payment method
+ final RxString selectedPaymentMethod = "Stripe".obs; // To track the selected payment method
 
   @override
   Widget build(BuildContext context) {

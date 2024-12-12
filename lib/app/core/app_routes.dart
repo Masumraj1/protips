@@ -63,7 +63,6 @@ class AppRoute {
   static const String inviteScreen = '/InviteScreen';
   static const String transactionScreen = '/TransactionScreen';
   static const String withdrawScreen = '/WithdrawScreen';
-  static const String withdrawCardScreen = '/WithdrawCardScreen';
   static const String depositeScreen = '/DepositeScreen';
   static const String tipzScreen = '/TipzScreen';
   static const String withdrawAch = '/WithdrawAch';
@@ -106,8 +105,8 @@ class AppRoute {
     GetPage(name: inviteScreen, page: () =>  InviteScreen(),),
     GetPage(name: transactionScreen, page: () =>  TransactionScreen(),),
     GetPage(name: withdrawScreen, page: () =>  WithdrawScreen(),),
-    GetPage(name: withdrawCheck, page: () =>  const WithdrawCheck(),),
-    GetPage(name: withdrawAch, page: () =>  const WithdrawAch(),),
+    GetPage(name: withdrawCheck, page: () =>   WithdrawCheck(),),
+    GetPage(name: withdrawAch, page: () =>   WithdrawAch(),),
     GetPage(name: depositeScreen, page: () =>  DepositeScreen(),),
     GetPage(name: tipzScreen, page: () =>  const TipzScreen(),),
     GetPage(name: playerzScreen, page: () =>  const PlayerScreen(),),

@@ -62,7 +62,7 @@ class SideDrawer extends StatelessWidget {
                   ),
                   ///=======================Withdraw==================
                   CustomMenuCard(
-                    onTap: () => Get.toNamed(AppRoute.dairekPayScreen),
+                    onTap: () => Get.toNamed(AppRoute.withdrawScreen),
                     title: AppStrings.withdrawFunds,
                     icon: Assets.icons.withdraw.svg(), isDevider: true,
                   ),
