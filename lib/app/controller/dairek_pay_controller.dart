@@ -17,7 +17,7 @@ class DairekPayController extends GetxController{
   ///========================= Create Payment Intent =========================
   Map<String, dynamic> value = {};
 
-  Future<Map<String, dynamic>> createPaymentIntent({required int amount}) async {
+  Future<Map<String, dynamic>> createPaymentIntent({required int amount,required String id}) async {
     var bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
 
     var mainHeaders = {
@@ -25,7 +25,7 @@ class DairekPayController extends GetxController{
       'Authorization': '$bearerToken'
     };
     var body = {
-      "entityId": "6757c2257394f1a0eb1175ab",
+      "entityId": id,
       "entityType": "Player",
       "amount": amount,
       "tipBy": "Credit card"
@@ -63,9 +63,9 @@ class DairekPayController extends GetxController{
 
   ///========================= Make Payment =========================
 
-  Future<void> makePayment({required int amount}) async {
+  Future<void> makePayment({required int amount , required String id}) async {
     try {
-      Map<String, dynamic> paymentIntentData = await createPaymentIntent(amount: amount);
+      Map<String, dynamic> paymentIntentData = await createPaymentIntent(amount: amount, id: id);
 
       if (paymentIntentData.isNotEmpty) {
         await Stripe.instance.initPaymentSheet(
@@ -122,7 +122,7 @@ class DairekPayController extends GetxController{
     };
 
     try {
-      var response = await ApiClient.patchData(
+      var response = await ApiClient.postData(
           ApiUrl.stripeDeposit, jsonEncode(body),
          );
 

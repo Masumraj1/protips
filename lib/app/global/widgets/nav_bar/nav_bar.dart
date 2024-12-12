@@ -100,7 +100,7 @@ class _NavBarState extends State<NavBar> {
   void onTap(int index) {
     if (index == 0) {
       if (!(widget.currentIndex == 0)) {
-        Get.to(() => HomeScreen());
+        Get.to(() => const HomeScreen());
       }
     } else if (index == 1) {
       if (!(widget.currentIndex == 1)) {
@@ -108,7 +108,7 @@ class _NavBarState extends State<NavBar> {
       }
     } else if (index == 2) {
       if (!(widget.currentIndex == 2)) {
-        Get.to(() =>   FavoriteScreen());
+        Get.to(() =>   const FavoriteScreen());
       }
     }
     //

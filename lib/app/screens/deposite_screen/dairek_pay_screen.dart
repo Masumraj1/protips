@@ -79,7 +79,8 @@ final GeneralController generalController = Get.find<GeneralController>();
                       double amount = double.tryParse(amountText) ?? 0.0;
                       if (selectedPaymentMethod.value == "Stripe") {
                           // Call Stripe payment method
-                          _controller.makePayment(amount:int.parse(amountText) );  // Convert to cents for Stripe
+                          // _controller.makePayment(amount:int.parse(amountText), id: '6757c2257394f1a0eb1175ab' );  // Convert to cents for Stripe
+                          _controller.makePayment(amount:int.parse(amountText), id: '6757c2257394f1a0eb1175ab' );  // Convert to cents for Stripe
                         } else if (selectedPaymentMethod.value == "Paypal") {
                           // Call PayPal payment method
                           _controller.paymentPaypal(amount: amount);
