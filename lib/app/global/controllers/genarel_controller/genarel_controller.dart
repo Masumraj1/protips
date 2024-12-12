@@ -101,29 +101,35 @@ class GeneralController extends GetxController {
   TextEditingController sendAmountController = TextEditingController();
   RxBool isSendTips = false.obs;
 
-  sendTips(
-      {required String entityId,
-        required String entityType,
-        required String tipBy}) async {
-    // // Validate if the amount is a valid number
-    // if (sendAmountController.text.isEmpty || double.tryParse(sendAmountController.text) == null) {
-    //   toastMessage(message: "Amount must be a valid number.");
-    //   return; // Exit early if validation fails
-    // }
+  sendTips({
+    required String entityId,
+    required String entityType,
+    required String tipBy
+  }) async {
+    // Validate if the amount is a valid number
+    if (sendAmountController.text.isEmpty || int.tryParse(sendAmountController.text) == null) {
+      toastMessage(message: "Amount must be a valid number.");
+      return; // Exit early if validation fails
+    }
 
     isSendTips.value = true;
 
     try {
+      // Parse the amount text to double
+      double amount = double.parse(sendAmountController.text);
+
       Map<String, dynamic> body = {
         "entityId": entityId,
         "entityType": entityType,
-        "amount": double.tryParse(sendAmountController.text),
+        "amount": amount,  // Use the parsed amount (double)
         "tipBy": tipBy
       };
+
       var response = await ApiClient.postData(
         ApiUrl.sendTip,
         jsonEncode(body),
       );
+
       if (response.statusCode == 201) {
         sendAmountController.clear();
         print("===Data================================${response.body["data"]}");

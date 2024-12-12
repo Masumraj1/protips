@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/controller/team_controller.dart';
+import 'package:protippz/app/core/app_routes.dart';
+import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/data/services/app_url.dart';
 import 'package:protippz/app/global/controllers/genarel_controller/genarel_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
@@ -28,11 +30,7 @@ class TeamScreen extends StatefulWidget {
 class _TeamScreenState extends State<TeamScreen> {
   final TeamController teamController = Get.find<TeamController>();
   final GeneralController _generalController = Get.find<GeneralController>();
-  final List<String> amountOptions = [
-    "Send From Deposit Account",
-    "Send From Credit Card/Paypal"
-  ];
-  int? _selectedValue;
+
 
   @override
   void initState() {
@@ -259,10 +257,8 @@ class _TeamScreenState extends State<TeamScreen> {
                   : CustomButton(
                 title: AppStrings.sendTippz,
                       onTap: () {
-                        _generalController.sendTips(
-                            entityId: teamController.selectTeamList[0].id ?? "",
-                            entityType: 'Team',
-                            tipBy: 'Profile balance');
+                  Get.back();
+                        showDialogBox(context);
                       },
                     ),
             );
@@ -272,67 +268,78 @@ class _TeamScreenState extends State<TeamScreen> {
     );
   }
 
-// void showDialogBox(BuildContext context) {
-//   showDialog(
-//     context: context,
-//     builder: (BuildContext context) {
-//       return AlertDialog(
-//         backgroundColor: AppColors.white50,
-//         content: Column(
-//           mainAxisSize: MainAxisSize.min,
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Row(
-//               children: [
-//                 const SizedBox(),
-//                 const Spacer(),
-//                 GestureDetector(
-//                     onTap: () {
-//                       Navigator.of(context).pop(); // Close dialog
-//                     },
-//                     child: Assets.icons.closeSmall.svg())
-//               ],
-//             ),
-//             const CustomText(
-//               textAlign: TextAlign.start,
-//               maxLines: 2,
-//               fontSize: 20,
-//               text: "Select your payment method",
-//               fontWeight: FontWeight.w500,
-//               color: AppColors.gray500,
-//               bottom: 10,
-//             ),
-//             Column(
-//               children: amountOptions.asMap().entries.map((entry) {
-//                 int index = entry.key;
-//                 String amount = entry.value;
-//                 return RadioListTile<int>(
-//                   value: index,
-//                   groupValue: _selectedValue,
-//                   onChanged: (value) {
-//                     setState(() {
-//                       _selectedValue = value;
-//                     });
-//                   },
-//                   activeColor: Colors.teal,
-//                   title: Text(
-//                     amount,
-//                     style: const TextStyle(color: Colors.blue, fontSize: 18),
-//                   ),
-//                 );
-//               }).toList(),
-//             ),
-//             CustomButton(
-//               fillColor: AppColors.blue500,
-//               onTap: () {
-//                 Navigator.of(context).pop(); // Close dialog
-//               },
-//               title: AppStrings.continues,
-//             )
-//           ],
-//         ),
-//       );
-//     },
-//   );
-// }
+  void showDialogBox(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: AppColors.white50,
+          content: Obx(() {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const SizedBox(),
+                    const Spacer(),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop(); // Close dialog
+                        },
+                        child: Assets.icons.closeSmall.svg())
+                  ],
+                ),
+                const CustomText(
+                  textAlign: TextAlign.start,
+                  maxLines: 2,
+                  fontSize: 20,
+                  text: "Select your payment method",
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.gray500,
+                  bottom: 10,
+                ),
+                Column(
+                  children: _generalController.amountOptions.asMap().entries.map((entry) {
+                    int index = entry.key;
+                    String amount = entry.value;
+                    return RadioListTile<int>(
+                      value: index,
+                      groupValue: _generalController.selectedValue, // Get the value from controller
+                      onChanged: (int? value) {
+                        if (value != null) {
+                          _generalController.selectedValue = value; // Update via controller
+                        }
+                      },
+                      activeColor: Colors.teal,
+                      title: Text(
+                        amount,
+                        style: const TextStyle(color: Colors.blue, fontSize: 18),
+                      ),
+                    );
+                  }).toList(),
+                ),
+                _generalController.isSendTips.value
+                    ? const CustomLoader()
+                    : CustomButton(
+                  fillColor: AppColors.blue500,
+                  onTap: () {
+                    if (_generalController.selectedValue == 0) {
+                      _generalController.sendTips(
+                          entityId: teamController.selectTeamList[0].id ?? "",
+                          entityType: 'Team',
+                          tipBy: 'Profile balance');
+                    } else if (_generalController.selectedValue == 1) {
+                      Get.toNamed(AppRoute.dairekPayScreen);
+                    }
+                  },
+                  title: AppStrings.continues,
+                ),
+              ],
+            );
+          }),
+        );
+      },
+    );
+  }
 }
