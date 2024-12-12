@@ -140,6 +140,28 @@ class GeneralController extends GetxController {
     }
   }
 
+
+
+  // Reactive variable for selected value
+  RxInt _selectedValue = (-1).obs; // Default to -1 (nothing selected)
+
+  // Getter for selected value
+  int get selectedValue => _selectedValue.value;
+
+  // Setter for selected value
+  set selectedValue(int value) {
+    _selectedValue.value = value;
+  }
+
+  // Function to clear the selected value (if necessary)
+  void clearSelection() {
+    _selectedValue.value = -1;
+  }
+
+  final List<String> amountOptions = [
+    "Profile Balance",
+    "Send From Credit Card/Paypal"
+  ];
   @override
   void onInit() {
     getLeague();

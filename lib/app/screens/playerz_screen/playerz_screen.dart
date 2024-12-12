@@ -29,11 +29,13 @@ class PlayerScreen extends StatefulWidget {
 }
 
 class _PlayerScreenState extends State<PlayerScreen> {
-  int? _selectedValue;
-  final List<String> amountOptions = [
-    "Profile Balance",
-    "Send From Credit Card/Paypal"
-  ];
+  // int? _selectedValue;
+  // final List<String> amountOptions = [
+  //   "Profile Balance",
+  //   "Send From Credit Card/Paypal"
+  // ];
+
+
   bool _isDropdownOpen = false;
   String _selectedSortBy = 'Name';
   String _selectedOrder = 'A to Z';
@@ -337,22 +339,21 @@ class _PlayerScreenState extends State<PlayerScreen> {
                   bottom: 10,
                 ),
                 Column(
-                  children: amountOptions.asMap().entries.map((entry) {
+                  children: _generalController.amountOptions.asMap().entries.map((entry) {
                     int index = entry.key;
                     String amount = entry.value;
                     return RadioListTile<int>(
                       value: index,
-                      groupValue: _selectedValue,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedValue = value;
-                        });
+                      groupValue: _generalController.selectedValue, // Get the value from controller
+                      onChanged: (int? value) {
+                        if (value != null) {
+                          _generalController.selectedValue = value; // Update via controller
+                        }
                       },
                       activeColor: Colors.teal,
                       title: Text(
                         amount,
-                        style:
-                            const TextStyle(color: Colors.blue, fontSize: 18),
+                        style: const TextStyle(color: Colors.blue, fontSize: 18),
                       ),
                     );
                   }).toList(),
@@ -360,23 +361,22 @@ class _PlayerScreenState extends State<PlayerScreen> {
                 _generalController.isSendTips.value
                     ? const CustomLoader()
                     : CustomButton(
-                        fillColor: AppColors.blue500,
-                        onTap: () {
-                          if (_selectedValue==0){
-                            _generalController.sendTips(
-                              entityId:
-                              _playerController.selectPlayerList[0].id ??
-                                  "67556c5778fff26bb6d1bbd6",
-                              entityType: 'Player',
-                              tipBy: 'Profile balance',
-                            );
-                          }else if (_selectedValue ==1){
-                            Get.toNamed(AppRoute.dairekPayScreen);
-                          }
-
-                        },
-                        title: AppStrings.continues,
-                      )
+                  fillColor: AppColors.blue500,
+                  onTap: () {
+                    if (_generalController.selectedValue == 0) {
+                      _generalController.sendTips(
+                        entityId:
+                        _playerController.selectPlayerList[0].id ??
+                            "67556c5778fff26bb6d1bbd6",
+                        entityType: 'Player',
+                        tipBy: 'Profile balance',
+                      );
+                    } else if (_generalController.selectedValue == 1) {
+                      Get.toNamed(AppRoute.dairekPayScreen);
+                    }
+                  },
+                  title: AppStrings.continues,
+                ),
               ],
             );
           }),
