@@ -29,11 +29,7 @@ class PlayerScreen extends StatefulWidget {
 }
 
 class _PlayerScreenState extends State<PlayerScreen> {
-  // int? _selectedValue;
-  // final List<String> amountOptions = [
-  //   "Profile Balance",
-  //   "Send From Credit Card/Paypal"
-  // ];
+
 
 
   bool _isDropdownOpen = false;
@@ -64,6 +60,17 @@ class _PlayerScreenState extends State<PlayerScreen> {
     });
   }
 
+  @override
+  void initState() {
+    super.initState();
+
+    // Ensure that the first league is selected by default and its teams are fetched
+    if (_generalController.leagueList.isNotEmpty) {
+      _playerController.selectedIndex.value = 0; // Set default index to 0
+      // Fetch teams for the first league (index 0)
+      _playerController.selectPlayer(id: _generalController.leagueList[0].id ?? "");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
