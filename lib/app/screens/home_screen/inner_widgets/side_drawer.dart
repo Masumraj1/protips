@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/controller/home_controller.dart';
+import 'package:protippz/app/controller/profile_controller.dart';
 import 'package:protippz/app/core/app_routes.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/global/helper/local_db/local_db.dart';
@@ -13,10 +14,24 @@ import 'package:protippz/app/utils/app_colors.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 import 'package:protippz/app/utils/app_strings.dart';
 
-class SideDrawer extends StatelessWidget {
-  SideDrawer({super.key});
+class SideDrawer extends StatefulWidget {
+  const SideDrawer({super.key});
 
+  @override
+  State<SideDrawer> createState() => _SideDrawerState();
+}
+
+class _SideDrawerState extends State<SideDrawer> {
   final HomeController homeController = Get.find<HomeController>();
+  final ProfileController _profileController = Get.find<ProfileController>();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _profileController.getProfile();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +41,10 @@ class SideDrawer extends StatelessWidget {
         children: [
           // Header Container
           Container(
-            padding: const EdgeInsets.only(right: 10,top: 30,),
+            padding: const EdgeInsets.only(
+              right: 10,
+              top: 30,
+            ),
             color: AppColors.white50,
             // height: 180.h,
 
@@ -38,8 +56,15 @@ class SideDrawer extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      _buildStatCard(icon: Assets.icons.dolar, text: '1500'),
-                      _buildStatCard(icon: Assets.icons.star, text: '1200'),
+                      _buildStatCard(
+                          icon: Assets.icons.dolar,
+                          text: _profileController
+                              .profileModel.value.totalAmount
+                              .toString()),
+                      _buildStatCard(
+                          icon: Assets.icons.star,
+                          text: _profileController.profileModel.value.totalPoint
+                              .toString()),
                     ],
                   ),
                 ),
@@ -58,92 +83,101 @@ class SideDrawer extends StatelessWidget {
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.depositeScreen),
                     title: AppStrings.depositeFund,
-                    icon: Assets.icons.deposite.svg(), isDevider: true,
+                    icon: Assets.icons.deposite.svg(),
+                    isDevider: true,
                   ),
+
                   ///=======================Withdraw==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.withdrawScreen),
                     title: AppStrings.withdrawFunds,
-                    icon: Assets.icons.withdraw.svg(), isDevider: true,
+                    icon: Assets.icons.withdraw.svg(),
+                    isDevider: true,
                   ),
 
                   ///=======================Transaction==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.transactionScreen),
                     title: AppStrings.transactionLog,
-                    icon: Assets.icons.transactionLog.svg(), isDevider: true,
+                    icon: Assets.icons.transactionLog.svg(),
+                    isDevider: true,
                   ),
 
                   ///=======================Invite==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.inviteScreen),
                     title: AppStrings.inviteFriends,
-                    icon: Assets.icons.inviteFriends.svg(), isDevider: true,
+                    icon: Assets.icons.inviteFriends.svg(),
+                    isDevider: true,
                   ),
+
                   ///=======================Faq==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.faqScreen),
                     title: AppStrings.faqs,
-                    icon: Assets.icons.faqs.svg(), isDevider: true,
+                    icon: Assets.icons.faqs.svg(),
+                    isDevider: true,
                   ),
+
                   ///=======================Contact==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.contactScreen),
                     title: AppStrings.contactUs,
-                    icon: Assets.icons.contacts.svg(), isDevider: true,
+                    icon: Assets.icons.contacts.svg(),
+                    isDevider: true,
                   ),
 
                   ///=======================Terms==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.termsConditionScreen),
                     title: AppStrings.termsAndCondition,
-                    icon: Assets.icons.terms.svg(), isDevider: true,
+                    icon: Assets.icons.terms.svg(),
+                    isDevider: true,
                   ),
 
                   ///=======================Privacy==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.privacyPolicyScreen),
                     title: AppStrings.privacyPolicy,
-                    icon: Assets.icons.privacy.svg(), isDevider: true,
+                    icon: Assets.icons.privacy.svg(),
+                    isDevider: true,
                   ),
 
                   ///=======================setting==================
                   CustomMenuCard(
                     onTap: () => Get.toNamed(AppRoute.settingScreen),
                     title: AppStrings.settings,
-                    icon: Assets.icons.settings.svg(), isDevider: true,
+                    icon: Assets.icons.settings.svg(),
+                    isDevider: true,
                   ),
                   Gap(50.h),
 
                   ///=======================logout==================
                   CustomMenuCard(
-                   onTap: (){
+                    onTap: () {
+                      permissionPopUp(
+                          title: 'Are you sure you want to log out',
+                          context: context,
+                          ontapNo: () {
+                            Get.back();
+                          },
+                          ontapYes: () async {
+                            await SharePrefsHelper.remove(
+                                AppConstants.bearerToken);
+                            await SharePrefsHelper.remove(
+                                AppConstants.profileID);
 
-                     permissionPopUp(
-                         title: 'Are you sure you want to log out',
-                         context: context,
-                         ontapNo: () {
-                           Get.back();
-                         },
-                         ontapYes: () async {
-                           await SharePrefsHelper.remove(
-                               AppConstants.bearerToken);
-                           await SharePrefsHelper.remove(
-                               AppConstants.profileID);
+                            print(
+                                'remove token========================"${AppConstants.bearerToken}"');
+                            print(
+                                'remove profileId========================"${AppConstants.profileID}"');
 
-
-                           print(
-                               'remove token========================"${AppConstants.bearerToken}"');
-                           print(
-                               'remove profileId========================"${AppConstants.profileID}"');
-
-
-                           Get.offAllNamed(AppRoute.signInScreen);
-                         });
-                   },
+                            Get.offAllNamed(AppRoute.signInScreen);
+                          });
+                    },
                     title: AppStrings.logout,
-                    icon: Assets.icons.logout.svg(), isDevider: false
-                    ,
+                    icon: Assets.icons.logout.svg(),
+                    isDevider: false,
                   ),
                 ],
               ),
@@ -157,7 +191,7 @@ class SideDrawer extends StatelessWidget {
   // Helper method to create stat cards
   Widget _buildStatCard({required SvgGenImage icon, required String text}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 20),
       child: Container(
         height: 25.h,
         decoration: const BoxDecoration(
@@ -174,9 +208,9 @@ class SideDrawer extends StatelessWidget {
                 color: AppColors.green100,
                 shape: BoxShape.circle,
               ),
-              child: icon.svg(height: 15,width: 9),
+              child: icon.svg(height: 15, width: 9),
             ),
-             CustomText(
+            CustomText(
               left: 10,
               right: 30,
               text: text,
