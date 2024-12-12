@@ -105,7 +105,7 @@ class PaymentController extends GetxController {
           // Send payment info to the server
           await makeOrder(
             transactionId: transactionId,
-            clientSecret: paymentIntentData['clientSecret'],
+            // clientSecret: paymentIntentData['clientSecret'],
           );
 
           toastMessage(message: "Payment Successful");
@@ -127,25 +127,25 @@ class PaymentController extends GetxController {
 
   Future<void> makeOrder({
     required String transactionId,
-    required String clientSecret,
+    // required String clientSecret,
   }) async {
-    var bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
-
-    var mainHeaders = {
-      'Content-Type': 'application/json',
-      'Authorization': '$bearerToken'
-    };
+    // var bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
+    //
+    // var mainHeaders = {
+    //   'Content-Type': 'application/json',
+    //   'Authorization': '$bearerToken'
+    // };
 
     // Prepare body with transactionId and clientSecret to send to server
     Map<String, dynamic> body = {
       "transactionId": transactionId,
-      "clientSecret": clientSecret,
+      // "clientSecret": clientSecret,
     };
 
     try {
       var response = await ApiClient.postData(
           ApiUrl.stripeDeposit, jsonEncode(body),
-          headers: mainHeaders);
+          );
 
       if (response.statusCode == 200) {
         print("============================${response.body}");

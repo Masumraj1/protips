@@ -95,7 +95,7 @@ class DepositeScreen extends StatelessWidget {
                     if (amount > 0) {
                       if (selectedPaymentMethod.value == "Stripe") {
                         // Call Stripe payment method
-                        paymentController.makePayment(amount: (amount * 100).toInt());  // Convert to cents for Stripe
+                        paymentController.makePayment(amount: (amount).toInt());  // Convert to cents for Stripe
                       } else if (selectedPaymentMethod.value == "Paypal") {
                         // Call PayPal payment method
                         paymentController.paymentPaypal(amount: amount);

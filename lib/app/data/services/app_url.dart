@@ -1,7 +1,9 @@
 class ApiUrl {
 
-  static const baseUrl = "http://192.168.10.11:5050";
-  static const netWorkUrl = "http://192.168.10.11:5050/";
+  // static const baseUrl = "http://192.168.10.11:5050";
+  static const baseUrl = "http://103.145.138.200:5050";
+  // static const netWorkUrl = "http://192.168.10.11:5050/";
+  static const netWorkUrl = "http://103.145.138.200:5050/";
 
   ///================================= User Authentication url==========================
   static const signupAuth = "/user/register-user";
@@ -29,7 +31,7 @@ class ApiUrl {
   ///=========================payment=========================
   static const myTransactionLog = "/transaction/my-transactions";
   static const createDepositIntend = "/deposit/create-deposit-intent";
-  static const stripeDeposit = "/tip/execute-stipe-payment";
+  static const stripeDeposit = "/deposit/execute-stripe-deposit";
 
 
   ///=======================my Tips==================
