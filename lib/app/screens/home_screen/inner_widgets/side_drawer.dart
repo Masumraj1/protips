@@ -6,6 +6,7 @@ import 'package:protippz/app/controller/home_controller.dart';
 import 'package:protippz/app/controller/profile_controller.dart';
 import 'package:protippz/app/core/app_routes.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
+import 'package:protippz/app/data/services/google_sign_In_service.dart';
 import 'package:protippz/app/global/helper/local_db/local_db.dart';
 import 'package:protippz/app/global/widgets/custom_menu_card/custom_menu_card.dart';
 import 'package:protippz/app/global/widgets/custom_text/custom_text.dart';
@@ -162,6 +163,7 @@ class _SideDrawerState extends State<SideDrawer> {
                             Get.back();
                           },
                           ontapYes: () async {
+                            GoogleSignInService.logout();
                             await SharePrefsHelper.remove(
                                 AppConstants.bearerToken);
                             await SharePrefsHelper.remove(

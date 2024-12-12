@@ -1,7 +1,4 @@
-import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
@@ -9,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:protippz/app/controller/google_auth_controller.dart';
 import 'package:protippz/app/core/app_routes.dart';
 import 'package:protippz/app/core/custom_assets/assets.gen.dart';
-import 'package:protippz/app/data/services/google_sign_In_service.dart';
 import 'package:protippz/app/global/controllers/auth_controller/auth_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';

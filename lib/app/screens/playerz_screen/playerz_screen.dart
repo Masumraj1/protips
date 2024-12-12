@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:protippz/app/controller/player_controller.dart';
+import 'package:protippz/app/core/app_routes.dart';
+import 'package:protippz/app/core/custom_assets/assets.gen.dart';
 import 'package:protippz/app/data/services/app_url.dart';
 import 'package:protippz/app/global/controllers/genarel_controller/genarel_controller.dart';
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
@@ -29,7 +31,7 @@ class PlayerScreen extends StatefulWidget {
 class _PlayerScreenState extends State<PlayerScreen> {
   int? _selectedValue;
   final List<String> amountOptions = [
-    "Send From Deposit Account",
+    "Profile Balance",
     "Send From Credit Card/Paypal"
   ];
   bool _isDropdownOpen = false;
@@ -86,48 +88,48 @@ class _PlayerScreenState extends State<PlayerScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: List.generate(_generalController.leagueList.length,
-                          (index) {
-                        final item = _generalController.leagueList[index];
-                        final isSelected =
-                            _playerController.selectedIndex.value == index;
+                      (index) {
+                    final item = _generalController.leagueList[index];
+                    final isSelected =
+                        _playerController.selectedIndex.value == index;
 
-                        return GestureDetector(
-                          onTap: () {
-                            _playerController.selectedIndex.value = index;
-                            _playerController.selectPlayer(id: item.id ?? "");
-                          },
-                          child: Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              border: isSelected
-                                  ? Border.all(color: AppColors.green500, width: 2)
-                                  : null,
-                            ),
-                            child: Column(
-                              children: [
-                                // League Image
-                                CustomNetworkImage(
-                                  imageUrl:
+                    return GestureDetector(
+                      onTap: () {
+                        _playerController.selectedIndex.value = index;
+                        _playerController.selectPlayer(id: item.id ?? "");
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: isSelected
+                              ? Border.all(color: AppColors.green500, width: 2)
+                              : null,
+                        ),
+                        child: Column(
+                          children: [
+                            // League Image
+                            CustomNetworkImage(
+                              imageUrl:
                                   "${ApiUrl.netWorkUrl}${item.leagueImage ?? ""}",
-                                  height: 72,
-                                  width: 73,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                SizedBox(height: 10.h),
-                                // League Name
-                                Text(
-                                  item.name ?? "",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12.sp,
-                                    color: AppColors.gray500,
-                                  ),
-                                ),
-                              ],
+                              height: 72,
+                              width: 73,
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                          ),
-                        );
-                      }),
+                            SizedBox(height: 10.h),
+                            // League Name
+                            Text(
+                              item.name ?? "",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 12.sp,
+                                color: AppColors.gray500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
                 ),
               );
             }),
@@ -212,12 +214,11 @@ class _PlayerScreenState extends State<PlayerScreen> {
                     // Responsive GridView
                     return LayoutBuilder(
                       builder: (context, constraints) {
-                        int crossAxisCount =
-                        constraints.maxWidth > 640 ? 3 : 2;
+                        int crossAxisCount = constraints.maxWidth > 640 ? 3 : 2;
                         return GridView.builder(
                           itemCount: _playerController.selectPlayerList.length,
                           gridDelegate:
-                          SliverGridDelegateWithFixedCrossAxisCount(
+                              SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: crossAxisCount,
                             crossAxisSpacing: 16.w,
                             mainAxisSpacing: 16.h,
@@ -225,7 +226,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                           ),
                           itemBuilder: (context, index) {
                             final data =
-                            _playerController.selectPlayerList[index];
+                                _playerController.selectPlayerList[index];
                             String imageUrl =
                                 "${ApiUrl.netWorkUrl}${data.playerImage}";
 
@@ -280,34 +281,106 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
   void showCustomDialog(BuildContext context,
       {required String image,
-        required String title,
-        required String team,
-        required String position}) {
+      required String title,
+      required String team,
+      required String position}) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Obx(() {
-          return CustomDialogBox(
-            title: title,
-            team: team,
-            position: position,
-            controller: _generalController.sendAmountController,
-            image: image,
-            button: _generalController.isSendTips.value
-                ? const CustomLoader()
-                : CustomButton(
-              title: AppStrings.sendTippz,
-              onTap: () {
-                _generalController.sendTips(
-                  entityId: _playerController.selectPlayerList[0].id ??
-                      "67556c5778fff26bb6d1bbd6",
-                  entityType: 'Player',
-                  tipBy: 'Profile balance',
-                );
-              },
-            ),
-          );
-        });
+        return CustomDialogBox(
+          title: title,
+          team: team,
+          position: position,
+          controller: _generalController.sendAmountController,
+          image: image,
+          button: CustomButton(
+            title: AppStrings.sendTippz,
+            onTap: () {
+              Get.back();
+              showDialogBox(context);
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  void showDialogBox(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: AppColors.white50,
+          content: Obx(() {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const SizedBox(),
+                    const Spacer(),
+                    GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop(); // Close dialog
+                        },
+                        child: Assets.icons.closeSmall.svg())
+                  ],
+                ),
+                const CustomText(
+                  textAlign: TextAlign.start,
+                  maxLines: 2,
+                  fontSize: 20,
+                  text: "Select your payment method",
+                  fontWeight: FontWeight.w500,
+                  color: AppColors.gray500,
+                  bottom: 10,
+                ),
+                Column(
+                  children: amountOptions.asMap().entries.map((entry) {
+                    int index = entry.key;
+                    String amount = entry.value;
+                    return RadioListTile<int>(
+                      value: index,
+                      groupValue: _selectedValue,
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedValue = value;
+                        });
+                      },
+                      activeColor: Colors.teal,
+                      title: Text(
+                        amount,
+                        style:
+                            const TextStyle(color: Colors.blue, fontSize: 18),
+                      ),
+                    );
+                  }).toList(),
+                ),
+                _generalController.isSendTips.value
+                    ? const CustomLoader()
+                    : CustomButton(
+                        fillColor: AppColors.blue500,
+                        onTap: () {
+                          if (_selectedValue==0){
+                            _generalController.sendTips(
+                              entityId:
+                              _playerController.selectPlayerList[0].id ??
+                                  "67556c5778fff26bb6d1bbd6",
+                              entityType: 'Player',
+                              tipBy: 'Profile balance',
+                            );
+                          }else if (_selectedValue ==1){
+                            Get.toNamed(AppRoute.dairekPayScreen);
+                          }
+
+                        },
+                        title: AppStrings.continues,
+                      )
+              ],
+            );
+          }),
+        );
       },
     );
   }
