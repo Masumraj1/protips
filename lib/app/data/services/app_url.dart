@@ -38,6 +38,9 @@ class ApiUrl {
   static const stripeSendTip = "/tip/execute-stipe-payment";
   static const paypalSend = "/tip/execute-paypal-payment-app";
 
+  ///===========================Withdraw=====================
+  static const withdrawFunds = "/withdraw/create";
+
   ///===========================Notification===========================
   static const notification = "/notification/get-notifications";
 
