@@ -28,15 +28,13 @@ class PlayerScreen extends StatefulWidget {
 }
 
 class _PlayerScreenState extends State<PlayerScreen> {
-
-
-
   final PlayerController _playerController = Get.find<PlayerController>();
   final GeneralController _generalController = Get.find<GeneralController>();
 
+  ///===========================A TO Z=======================
   String dropdownValue = 'A to Z'; // Initial dropdown value
 
- void _updatePlayerSorting() {
+  void _updatePlayerSorting() {
     String selectedId = _playerController.selectPlayerId.value;
     if (selectedId.isEmpty && _playerController.selectPlayerList.isNotEmpty) {
       selectedId = _playerController.selectPlayerList[0].id ?? "";
@@ -45,6 +43,21 @@ class _PlayerScreenState extends State<PlayerScreen> {
     _playerController.playerShort(
       id: selectedId,
       name: dropdownValue == 'A to Z' ? 'name' : '-name',
+    );
+  }
+
+  ///=================================Name=========================
+  String dropdownName = 'Name'; // Initial dropdown value
+
+  void _updatePlayerSortingName() {
+    String selectedId = _playerController.selectPlayerId.value;
+    if (selectedId.isEmpty && _playerController.selectPlayerList.isNotEmpty) {
+      selectedId = _playerController.selectPlayerList[0].id ?? "";
+    }
+
+    _playerController.playerShort(
+      id: selectedId,
+      name: dropdownValue == 'Name' ? 'name' : 'position',
     );
   }
 
@@ -161,33 +174,72 @@ class _PlayerScreenState extends State<PlayerScreen> {
               fieldBorderColor: AppColors.grey400,
             ),
             Gap(14.h),
-            ///============================A to z========================
-            Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.green500, width: 2),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: DropdownButton<String>(
-                value: dropdownValue,
-                onChanged: (String? value) {
-                  setState(() {
-                    dropdownValue = value!;
-                    // Trigger sorting when dropdown value changes
-                    _updatePlayerSorting();
-                  });
-                },
-                items: ['A to Z', 'Z to A'].map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                underline: Container(),
-                isExpanded: false,
-              ),
-            ),
 
+            ///============================Short BY========================
+            Row(
+              children: [
+                const CustomText(
+                  text: "Sort By:",
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                  color: AppColors.gray500,
+                  right: 8,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.green500, width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: DropdownButton<String>(
+                    value: dropdownName,
+                    onChanged: (String? value) {
+                      setState(() {
+                        dropdownName = value!;
+                        // Trigger sorting when dropdown value changes
+                        _updatePlayerSortingName();
+                      });
+                    },
+                    items: ['Name', 'Position'].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    underline: Container(),
+                    isExpanded: false,
+                  ),
+                ),
+                SizedBox(
+                  width: 8.w,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.green500, width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: DropdownButton<String>(
+                    value: dropdownValue,
+                    onChanged: (String? value) {
+                      setState(() {
+                        dropdownValue = value!;
+                        // Trigger sorting when dropdown value changes
+                        _updatePlayerSorting();
+                      });
+                    },
+                    items: ['A to Z', 'Z to A'].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    underline: Container(),
+                    isExpanded: false,
+                  ),
+                ),
+              ],
+            ),
 
             Gap(24.h),
 

@@ -30,6 +30,8 @@ class TeamScreen extends StatefulWidget {
 class _TeamScreenState extends State<TeamScreen> {
   final TeamController teamController = Get.find<TeamController>();
   final GeneralController _generalController = Get.find<GeneralController>();
+
+  ///======================================A to z======================
   String dropdownValue = 'A to Z'; // Initial dropdown value
 
   void _updatePlayerSorting() {
@@ -41,6 +43,21 @@ class _TeamScreenState extends State<TeamScreen> {
     teamController.teamShort(
       id: selectedId,
       name: dropdownValue == 'A to Z' ? 'name' : '-name',
+    );
+  }
+
+  ///======================================Name And Position======================
+  String dropdownName = 'Name'; // Initial dropdown value
+
+  void _updateTeamSortingName() {
+    String selectedId = teamController.selectTeamId.value;
+    if (selectedId.isEmpty && teamController.selectTeamList.isNotEmpty) {
+      selectedId = teamController.selectTeamList[0].id ?? "";
+    }
+
+    teamController.teamShort(
+      id: selectedId,
+      name: dropdownValue == 'Name' ? 'name' : 'sport',
     );
   }
 
@@ -156,31 +173,72 @@ class _TeamScreenState extends State<TeamScreen> {
               fieldBorderColor: AppColors.grey400,
             ),
             Gap(14.h),
+
             ///============================A to z========================
-            Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.green500, width: 2),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: DropdownButton<String>(
-                value: dropdownValue,
-                onChanged: (String? value) {
-                  setState(() {
-                    dropdownValue = value!;
-                    // Trigger sorting when dropdown value changes
-                    _updatePlayerSorting();
-                  });
-                },
-                items: ['A to Z', 'Z to A'].map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                underline: Container(),
-                isExpanded: false,
-              ),
+
+            Row(
+              children: [
+                const CustomText(
+                  text: "Sort By:",
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                  color: AppColors.gray500,
+                  right: 8,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.green500, width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: DropdownButton<String>(
+                    value: dropdownName,
+                    onChanged: (String? value) {
+                      setState(() {
+                        dropdownName = value!;
+                        // Trigger sorting when dropdown value changes
+                        _updateTeamSortingName();
+                      });
+                    },
+                    items: ['Name', 'Sport'].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    underline: Container(),
+                    isExpanded: false,
+                  ),
+                ),
+                SizedBox(
+                  width: 8.w,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.green500, width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: DropdownButton<String>(
+                    value: dropdownValue,
+                    onChanged: (String? value) {
+                      setState(() {
+                        dropdownValue = value!;
+                        // Trigger sorting when dropdown value changes
+                        _updatePlayerSorting();
+                      });
+                    },
+                    items: ['A to Z', 'Z to A'].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    underline: Container(),
+                    isExpanded: false,
+                  ),
+                ),
+              ],
             ),
             Gap(24.h),
 
@@ -240,28 +298,27 @@ class _TeamScreenState extends State<TeamScreen> {
                     if (data.teamLogo == null || data.teamLogo!.isEmpty) {
                       imageUrl = AppConstants.profileImage; // Default image
                     }
-                    RxBool isBookmarked =
-                        (data.isBookmark ?? false).obs;
+                    RxBool isBookmarked = (data.isBookmark ?? false).obs;
                     return CustomTeamCard(
                       imageUrl: imageUrl,
                       name: data.name ?? "",
-                      sport: data.league?.sport??"",
+                      sport: data.league?.sport ?? "",
                       onTap: () {
                         showCustomDialog(context,
                             title: data.name ?? "",
                             team: '',
                             position: '',
                             image: imageUrl);
-                      },   onBookMarkTab: () {
-                      if (isBookmarked.value) {
-                        teamController.teamBookmarkDelete(
-                            id: data.id ?? "");
-                      } else {
-                        teamController.teamBookmark(
-                            teamId: data.id ?? "");
-                      }
-                      isBookmarked.value = !isBookmarked.value;
-                    }, isBookmark: isBookmarked,
+                      },
+                      onBookMarkTab: () {
+                        if (isBookmarked.value) {
+                          teamController.teamBookmarkDelete(id: data.id ?? "");
+                        } else {
+                          teamController.teamBookmark(teamId: data.id ?? "");
+                        }
+                        isBookmarked.value = !isBookmarked.value;
+                      },
+                      isBookmark: isBookmarked,
                     );
                   },
                 );
@@ -281,26 +338,24 @@ class _TeamScreenState extends State<TeamScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Obx(
-           () {
-            return CustomDialogBox(
-              title: title,
-              team: team,
-              position: position,
-              controller: _generalController.sendAmountController,
-              image: image,
-              button: _generalController.isSendTips.value
-                  ? const CustomLoader()
-                  : CustomButton(
-                title: AppStrings.sendTippz,
-                      onTap: () {
-                  Get.back();
-                        showDialogBox(context);
-                      },
-                    ),
-            );
-          }
-        );
+        return Obx(() {
+          return CustomDialogBox(
+            title: title,
+            team: team,
+            position: position,
+            controller: _generalController.sendAmountController,
+            image: image,
+            button: _generalController.isSendTips.value
+                ? const CustomLoader()
+                : CustomButton(
+                    title: AppStrings.sendTippz,
+                    onTap: () {
+                      Get.back();
+                      showDialogBox(context);
+                    },
+                  ),
+          );
+        });
       },
     );
   }
@@ -337,21 +392,27 @@ class _TeamScreenState extends State<TeamScreen> {
                   bottom: 10,
                 ),
                 Column(
-                  children: _generalController.amountOptions.asMap().entries.map((entry) {
+                  children: _generalController.amountOptions
+                      .asMap()
+                      .entries
+                      .map((entry) {
                     int index = entry.key;
                     String amount = entry.value;
                     return RadioListTile<int>(
                       value: index,
-                      groupValue: _generalController.selectedValue, // Get the value from controller
+                      groupValue: _generalController.selectedValue,
+                      // Get the value from controller
                       onChanged: (int? value) {
                         if (value != null) {
-                          _generalController.selectedValue = value; // Update via controller
+                          _generalController.selectedValue =
+                              value; // Update via controller
                         }
                       },
                       activeColor: Colors.teal,
                       title: Text(
                         amount,
-                        style: const TextStyle(color: Colors.blue, fontSize: 18),
+                        style:
+                            const TextStyle(color: Colors.blue, fontSize: 18),
                       ),
                     );
                   }).toList(),
@@ -359,19 +420,20 @@ class _TeamScreenState extends State<TeamScreen> {
                 _generalController.isSendTips.value
                     ? const CustomLoader()
                     : CustomButton(
-                  fillColor: AppColors.blue500,
-                  onTap: () {
-                    if (_generalController.selectedValue == 0) {
-                      _generalController.sendTips(
-                          entityId: teamController.selectTeamList[0].id ?? "",
-                          entityType: 'Team',
-                          tipBy: 'Profile balance');
-                    } else if (_generalController.selectedValue == 1) {
-                      Get.toNamed(AppRoute.dairekPayScreen);
-                    }
-                  },
-                  title: AppStrings.continues,
-                ),
+                        fillColor: AppColors.blue500,
+                        onTap: () {
+                          if (_generalController.selectedValue == 0) {
+                            _generalController.sendTips(
+                                entityId:
+                                    teamController.selectTeamList[0].id ?? "",
+                                entityType: 'Team',
+                                tipBy: 'Profile balance');
+                          } else if (_generalController.selectedValue == 1) {
+                            Get.toNamed(AppRoute.dairekPayScreen);
+                          }
+                        },
+                        title: AppStrings.continues,
+                      ),
               ],
             );
           }),
