@@ -175,7 +175,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
             ),
             Gap(14.h),
 
-            ///============================Short BY========================
+            ///============================A to z========================
             Row(
               children: [
                 const CustomText(
@@ -366,7 +366,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
             title: AppStrings.sendTippz,
             onTap: () {
               Get.back();
-              showDialogBox(context);
+              showDialogBox(context,id);
             },
           ),
         );
@@ -374,7 +374,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
     );
   }
 
-  void showDialogBox(BuildContext context) {
+  void showDialogBox(BuildContext context, String id) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -415,18 +415,15 @@ class _PlayerScreenState extends State<PlayerScreen> {
                     return RadioListTile<int>(
                       value: index,
                       groupValue: _generalController.selectedValue,
-                      // Get the value from controller
                       onChanged: (int? value) {
                         if (value != null) {
-                          _generalController.selectedValue =
-                              value; // Update via controller
+                          _generalController.selectedValue = value; // Update via controller
                         }
                       },
                       activeColor: Colors.teal,
                       title: Text(
                         amount,
-                        style:
-                            const TextStyle(color: Colors.blue, fontSize: 18),
+                        style: const TextStyle(color: Colors.blue, fontSize: 18),
                       ),
                     );
                   }).toList(),
@@ -434,22 +431,20 @@ class _PlayerScreenState extends State<PlayerScreen> {
                 _generalController.isSendTips.value
                     ? const CustomLoader()
                     : CustomButton(
-                        fillColor: AppColors.blue500,
-                        onTap: () {
-                          if (_generalController.selectedValue == 0) {
-                            _generalController.sendTips(
-                              entityId:
-                                  _playerController.selectPlayerList[0].id ??
-                                      "67556c5778fff26bb6d1bbd6",
-                              entityType: 'Player',
-                              tipBy: 'Profile balance',
-                            );
-                          } else if (_generalController.selectedValue == 1) {
-                            Get.toNamed(AppRoute.dairekPayScreen);
-                          }
-                        },
-                        title: AppStrings.continues,
-                      ),
+                  fillColor: AppColors.blue500,
+                  onTap: () {
+                    if (_generalController.selectedValue == 0) {
+                      _generalController.sendTips(
+                        entityId: _playerController.selectPlayerList[0].id ?? "defaultId",
+                        entityType: 'Player',
+                        tipBy: 'Profile balance',
+                      );
+                    } else if (_generalController.selectedValue == 1) {
+                      Get.toNamed(AppRoute.dairekPayScreen, arguments: id); // Pass id here to the next screen
+                    }
+                  },
+                  title: AppStrings.continues,
+                ),
               ],
             );
           }),
@@ -457,4 +452,5 @@ class _PlayerScreenState extends State<PlayerScreen> {
       },
     );
   }
+
 }

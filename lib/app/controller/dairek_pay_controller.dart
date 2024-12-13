@@ -159,8 +159,7 @@ class DairekPayController extends GetxController {
   ///=============================== PayPal Payment Method ======================
   void paymentPaypal({
     required double amount,
-    // required String driverId,
-    // required String tripId,
+    required String playerId,
   }) {
     var transactions = [
       {
@@ -173,42 +172,37 @@ class DairekPayController extends GetxController {
     ];
 
     if (kDebugMode) {
-      print(
-          "=========Transaction Data:========================================== $transactions");
+      print("=========Transaction Data:========================================== $transactions");
     }
 
     // Navigate to PayPal Checkout view
     Get.to(
-      () => PaypalCheckoutView(
+          () => PaypalCheckoutView(
         clientId: AppConstants.clientId,
         sandboxMode: true,
         secretKey: AppConstants.clientSecret,
         transactions: transactions,
         note: "Contact us for any questions on your order.",
         onSuccess: (Map params) async {
-          toastMessage(message: 'Payment Successfully Completed');
-
-          // Extract the PayPal transaction ID and order details from the response
+          // Extract Payment Data
           String orderId = params['data']['cart'];
-          String paymentId = params['data']['id']; // Extracting payment ID
-          String transactionId = params['data']['transactions'][0]
-              ['related_resources'][0]['sale']['id'];
-          String payerName =
-              "${params['data']['payer']['payer_info']['first_name']} ${params['data']['payer']['payer_info']['last_name']}";
+          String paymentId = params['data']['id'];
+          String payerName = "${params['data']['payer']['payer_info']['first_name']} ${params['data']['payer']['payer_info']['last_name']}";
 
+          // Debugging output
           if (kDebugMode) {
-            print("======onSuccess: Payment Data$params");
-            debugPrint("============================PAYID========: $orderId",
-                wrapWidth: 1024);
-            debugPrint("======================Payer Name: $payerName",
-                wrapWidth: 1024);
-            debugPrint("====================Amount: $amount", wrapWidth: 1024);
+            debugPrint("======onSuccess: Payment Data$params");
+            debugPrint("Order ID: $orderId");
+            debugPrint("Payer Name: $payerName");
+            debugPrint("Amount: $amount");
           }
 
-          // Call the payment method to save the transaction data
-          paymentMethod(
-              paymentId: paymentId,
-              payerId: params['data']['payer']['payer_info']['payer_id']);
+          // Process payment method after successful transaction
+          await paymentMethod(
+            paymentId: paymentId,
+            payerId: params['data']['payer']['payer_info']['payer_id'],
+            playerId: playerId,
+          );
 
           // Close the payment screen
           Navigator.pop(Get.context!);
@@ -238,18 +232,29 @@ class DairekPayController extends GetxController {
   Future<void> paymentMethod({
     required String paymentId,
     required String payerId,
+    required String playerId,
   }) async {
     isPayment.value = true;
     refresh();
+
+    // Ensure valid parameters
+    if (paymentId.isEmpty || payerId.isEmpty || playerId.isEmpty) {
+      toastMessage(message: 'Invalid payment or player information.');
+      isPayment.value = false;
+      refresh();
+      return;
+    }
+
     Map<String, dynamic> body = {
       "paymentId": paymentId,
       "payerId": payerId,
-      "entityId": "6757c2257394f1a0eb1175ab",
+      "entityId": playerId,
       "entityType": "Player"
     };
 
-    var response =
-        await ApiClient.patchData(ApiUrl.paypalSend, jsonEncode(body));
+    var response = await ApiClient.patchData(ApiUrl.paypalSend, jsonEncode(body));
+
+    // Handle the response from API
     if (response.statusCode == 200) {
       isPayment.value = false;
       refresh();
@@ -257,7 +262,10 @@ class DairekPayController extends GetxController {
     } else {
       ApiChecker.checkApi(response);
     }
+
+    // Reset payment status
     isPayment.value = false;
     refresh();
   }
+
 }

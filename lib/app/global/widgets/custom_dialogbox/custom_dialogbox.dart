@@ -164,7 +164,8 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
             ),
             const SizedBox(height: 20),
             ///===========================Send tips Button===========================
-            widget.button
+            widget.button,
+
           ],
         ),
       ),

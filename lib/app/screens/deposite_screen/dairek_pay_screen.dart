@@ -24,6 +24,8 @@ class DairekPayScreen extends StatelessWidget {
   final GeneralController generalController = Get.find<GeneralController>();
 
   final PlayerController _playerController = Get.find<PlayerController>();
+
+  final String id = Get.arguments ?? ''; // Default to empty string if id is not passed
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,21 +82,20 @@ class DairekPayScreen extends StatelessWidget {
                 onTap: () {
                   String amountText =
                       generalController.sendAmountController.text;
-                  var playerList = _playerController.selectPlayerList;
-                  int selectedIndex = 0; // Assuming you want to process the first player, you can change this logic
-
-                  String id = playerList[selectedIndex].id ?? "";
+                  // var playerList = _playerController.selectPlayerList;
+                  // int selectedIndex = 0; // Assuming you want to process the first player, you can change this logic
+                  //
+                  // String id = playerList[selectedIndex].id ?? "";
                   double amount = double.tryParse(amountText) ?? 0.0;
                   if (selectedPaymentMethod.value == "Stripe") {
-                    // Call Stripe payment method
-                    // _controller.makePayment(amount:int.parse(amountText), id: '6757c2257394f1a0eb1175ab' );  // Convert to cents for Stripe
+
                     _controller.makePayment(
                         amount: int.parse(amountText),
                         id: id,
                         playerOrTeamId: 'Player'); // Convert to cents for Stripe
                   } else if (selectedPaymentMethod.value == "Paypal") {
                     // Call PayPal payment method
-                    _controller.paymentPaypal(amount: amount);
+                    _controller.paymentPaypal(amount: amount, playerId: id);
                   } else {
                     toastMessage(message: "Please enter a valid amount");
                   }
