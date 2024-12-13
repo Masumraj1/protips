@@ -71,7 +71,6 @@ class WithdrawScreen extends StatelessWidget {
                 CustomButton(
                   isRadius: true,
                   onTap: () {
-
                       if (selectedPaymentMethod.value == "Ach") {
                         Get.toNamed(AppRoute.withdrawAch);
                       } else if (selectedPaymentMethod.value == "Check") {

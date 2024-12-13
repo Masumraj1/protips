@@ -258,7 +258,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                   image: imageUrl,
                                   title: data.name ?? "",
                                   team: data.team?.name ?? "",
-                                  position: data.position ?? "",
+                                  position: data.position ?? "", id: data.id??'',
                                 );
                               },
                               onBookMarkTab: () {
@@ -292,6 +292,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
       {required String image,
       required String title,
       required String team,
+      required String id,
       required String position}) {
     showDialog(
       context: context,

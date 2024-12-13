@@ -12,13 +12,16 @@ import 'package:protippz/app/global/helper/local_db/local_db.dart';
 import 'package:protippz/app/global/widgets/toast_message/toast_message.dart';
 import 'package:protippz/app/utils/app_constants.dart';
 
-class DairekPayController extends GetxController{
-
+class DairekPayController extends GetxController {
   ///========================= Create Payment Intent =========================
   Map<String, dynamic> value = {};
 
-  Future<Map<String, dynamic>> createPaymentIntent({required int amount,required String id}) async {
-    var bearerToken = await SharePrefsHelper.getString(AppConstants.bearerToken);
+  Future<Map<String, dynamic>> createPaymentIntent(
+      {required int amount,
+      required String id,
+      required String playerOrTeamId}) async {
+    var bearerToken =
+        await SharePrefsHelper.getString(AppConstants.bearerToken);
 
     var mainHeaders = {
       'Content-Type': 'application/json',
@@ -26,18 +29,17 @@ class DairekPayController extends GetxController{
     };
     var body = {
       "entityId": id,
-      "entityType": "Player",
+      "entityType": playerOrTeamId,
       "amount": amount,
       "tipBy": "Credit card"
-    }
-    ;
+    };
 
     try {
-      var response = await ApiClient.postData(
-          ApiUrl.sendTip, jsonEncode(body),
+      var response = await ApiClient.postData(ApiUrl.sendTip, jsonEncode(body),
           headers: mainHeaders);
 
-      debugPrint("==============Payment Intent Response ===========${response.body}");
+      debugPrint(
+          "==============Payment Intent Response ===========${response.body}");
 
       if (response.statusCode == 201) {
         var data = response.body["data"];
@@ -46,7 +48,8 @@ class DairekPayController extends GetxController{
         if (paymentIntentId.isNotEmpty) {
           debugPrint("Payment Intent ID: $paymentIntentId");
         } else {
-          debugPrint("========================Payment Intent ID not found.====================");
+          debugPrint(
+              "========================Payment Intent ID not found.====================");
         }
 
         return value; // Return the payment intent data
@@ -55,42 +58,55 @@ class DairekPayController extends GetxController{
         return {}; // Return an empty map if something goes wrong
       }
     } catch (error) {
-      debugPrint("======================Error creating payment intent:====================== $error");
-      Get.snackbar("Error", error.toString());
+      debugPrint(
+          "======================Error creating payment intent:====================== $error");
+      Get.snackbar("", 'Payment Canceled');
       return {}; // Handle the error and return empty
     }
   }
 
   ///========================= Make Payment =========================
 
-  Future<void> makePayment({required int amount , required String id}) async {
+  Future<void> makePayment(
+      {required int amount,
+      required String id,
+      required String playerOrTeamId}) async {
     try {
-      Map<String, dynamic> paymentIntentData = await createPaymentIntent(amount: amount, id: id);
+      Map<String, dynamic> paymentIntentData =
+          await createPaymentIntent(amount: amount, id: id, playerOrTeamId: playerOrTeamId);
 
       if (paymentIntentData.isNotEmpty) {
         await Stripe.instance.initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
-            merchantDisplayName: 'Masum', // Replace with your merchant name
-            paymentIntentClientSecret: paymentIntentData['clientSecret'], // Use the retrieved clientSecret
+            merchantDisplayName: 'Masum',
+            // Replace with your merchant name
+            paymentIntentClientSecret: paymentIntentData['clientSecret'],
+            // Use the retrieved clientSecret
             allowsDelayedPaymentMethods: true,
             style: ThemeMode.light,
           ),
         );
 
-        debugPrint("========================Payment Sheet Initialized=========================");
+        debugPrint(
+            "========================Payment Sheet Initialized=========================");
 
         await Stripe.instance.presentPaymentSheet();
 
-        debugPrint("=========================Payment Sheet Presented===================");
+        debugPrint(
+            "=========================Payment Sheet Presented===================");
 
-        final paymentIntent = await Stripe.instance.retrievePaymentIntent(paymentIntentData['clientSecret']);
+        final paymentIntent = await Stripe.instance
+            .retrievePaymentIntent(paymentIntentData['clientSecret']);
 
-        debugPrint("=========================Fetched PaymentIntent===========================");
+        debugPrint(
+            "=========================Fetched PaymentIntent===========================");
         debugPrint("PaymentIntent Data: $paymentIntent");
         String transactionId = paymentIntent.id; // Stripe's PaymentIntent ID
-        String status = paymentIntent.status.name; // Payment status (e.g., "succeeded")
+        String status =
+            paymentIntent.status.name; // Payment status (e.g., "succeeded")
 
-        debugPrint("=================================Transaction ID: $transactionId");
+        debugPrint(
+            "=================================Transaction ID: $transactionId");
         debugPrint("=================================Payment Status: $status");
         if (status.toLowerCase() == "succeeded") {
           await makeOrder(
@@ -101,16 +117,15 @@ class DairekPayController extends GetxController{
           debugPrint("============================Payment Successful");
         } else {
           toastMessage(message: "Payment failed or incomplete.");
-          debugPrint("====================================Payment failed or incomplete.");
+          debugPrint(
+              "====================================Payment failed or incomplete.");
         }
       }
     } catch (e) {
       debugPrint("Error in makePayment: ${e.toString()}");
-      toastMessage(message: "Error: $e");
+      toastMessage(message: " ""Your Payment Canceled");
     }
   }
-
-
 
   ///============================ Send Response to server ==============================
 
@@ -122,9 +137,10 @@ class DairekPayController extends GetxController{
     };
 
     try {
-      var response = await ApiClient.postData(
-          ApiUrl.stripeDeposit, jsonEncode(body),
-         );
+      var response = await ApiClient.patchData(
+        ApiUrl.stripeDeposit,
+        jsonEncode(body),
+      );
 
       if (response.statusCode == 200) {
         print("============================${response.body}");
@@ -133,23 +149,11 @@ class DairekPayController extends GetxController{
         ApiChecker.checkApi(response);
       }
     } catch (error) {
-      debugPrint("=======================Error sending payment data to server: $error");
+      debugPrint(
+          "=======================Error sending payment data to server: $error");
       Get.snackbar("Error", "Unable to complete order: $error");
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   ///===================================Paypal=================================
   ///=============================== PayPal Payment Method ======================
@@ -169,12 +173,13 @@ class DairekPayController extends GetxController{
     ];
 
     if (kDebugMode) {
-      print("=========Transaction Data:========================================== $transactions");
+      print(
+          "=========Transaction Data:========================================== $transactions");
     }
 
     // Navigate to PayPal Checkout view
     Get.to(
-          () => PaypalCheckoutView(
+      () => PaypalCheckoutView(
         clientId: AppConstants.clientId,
         sandboxMode: true,
         secretKey: AppConstants.clientSecret,
@@ -185,21 +190,24 @@ class DairekPayController extends GetxController{
 
           // Extract the PayPal transaction ID and order details from the response
           String orderId = params['data']['cart'];
-          String paymentId = params['data']['id'];  // Extracting payment ID
+          String paymentId = params['data']['id']; // Extracting payment ID
           String transactionId = params['data']['transactions'][0]
-          ['related_resources'][0]['sale']['id'];
+              ['related_resources'][0]['sale']['id'];
           String payerName =
               "${params['data']['payer']['payer_info']['first_name']} ${params['data']['payer']['payer_info']['last_name']}";
 
           if (kDebugMode) {
             print("======onSuccess: Payment Data$params");
-            debugPrint("============================PAYID========: $orderId", wrapWidth: 1024);
-            debugPrint("======================Payer Name: $payerName", wrapWidth: 1024);
+            debugPrint("============================PAYID========: $orderId",
+                wrapWidth: 1024);
+            debugPrint("======================Payer Name: $payerName",
+                wrapWidth: 1024);
             debugPrint("====================Amount: $amount", wrapWidth: 1024);
           }
 
           // Call the payment method to save the transaction data
-          paymentMethod(paymentId: paymentId,
+          paymentMethod(
+              paymentId: paymentId,
               payerId: params['data']['payer']['payer_info']['payer_id']);
 
           // Close the payment screen
@@ -240,7 +248,8 @@ class DairekPayController extends GetxController{
       "entityType": "Player"
     };
 
-    var response = await ApiClient.patchData(ApiUrl.paypalSend, jsonEncode(body));
+    var response =
+        await ApiClient.patchData(ApiUrl.paypalSend, jsonEncode(body));
     if (response.statusCode == 200) {
       isPayment.value = false;
       refresh();
@@ -251,9 +260,4 @@ class DairekPayController extends GetxController{
     isPayment.value = false;
     refresh();
   }
-
-
-
-
-
 }
