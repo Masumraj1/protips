@@ -23,11 +23,13 @@ class DairekPayScreen extends StatelessWidget {
       "Stripe".obs; // To track the selected payment method
   final GeneralController generalController = Get.find<GeneralController>();
 
-  final PlayerController _playerController = Get.find<PlayerController>();
+  // final PlayerController _playerController = Get.find<PlayerController>();
 
   final String id = Get.arguments ?? ''; // Default to empty string if id is not passed
   @override
   Widget build(BuildContext context) {
+
+    print("=====================id$id");
     return Scaffold(
       backgroundColor: AppColors.bg500,
 
@@ -88,14 +90,18 @@ class DairekPayScreen extends StatelessWidget {
                   // String id = playerList[selectedIndex].id ?? "";
                   double amount = double.tryParse(amountText) ?? 0.0;
                   if (selectedPaymentMethod.value == "Stripe") {
-
                     _controller.makePayment(
                         amount: int.parse(amountText),
                         id: id,
-                        playerOrTeamId: 'Player'); // Convert to cents for Stripe
+                        playerOrTeamId:
+                            'Team'); // Convert to cents for Stripe
                   } else if (selectedPaymentMethod.value == "Paypal") {
                     // Call PayPal payment method
-                    _controller.paymentPaypal(amount: amount, playerId: id);
+                    _controller.paymentPaypal(
+                      amount: amount,
+                      playerId: id,
+                      entityType: 'Team',
+                    );
                   } else {
                     toastMessage(message: "Please enter a valid amount");
                   }

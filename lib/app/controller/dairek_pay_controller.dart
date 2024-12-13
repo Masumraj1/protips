@@ -72,8 +72,8 @@ class DairekPayController extends GetxController {
       required String id,
       required String playerOrTeamId}) async {
     try {
-      Map<String, dynamic> paymentIntentData =
-          await createPaymentIntent(amount: amount, id: id, playerOrTeamId: playerOrTeamId);
+      Map<String, dynamic> paymentIntentData = await createPaymentIntent(
+          amount: amount, id: id, playerOrTeamId: playerOrTeamId);
 
       if (paymentIntentData.isNotEmpty) {
         await Stripe.instance.initPaymentSheet(
@@ -123,7 +123,7 @@ class DairekPayController extends GetxController {
       }
     } catch (e) {
       debugPrint("Error in makePayment: ${e.toString()}");
-      toastMessage(message: " ""Your Payment Canceled");
+      toastMessage(message: " " "Your Payment Canceled");
     }
   }
 
@@ -157,10 +157,10 @@ class DairekPayController extends GetxController {
 
   ///===================================Paypal=================================
   ///=============================== PayPal Payment Method ======================
-  void paymentPaypal({
-    required double amount,
-    required String playerId,
-  }) {
+  void paymentPaypal(
+      {required double amount,
+      required String playerId,
+      required String entityType}) {
     var transactions = [
       {
         "amount": {
@@ -172,12 +172,13 @@ class DairekPayController extends GetxController {
     ];
 
     if (kDebugMode) {
-      print("=========Transaction Data:========================================== $transactions");
+      print(
+          "=========Transaction Data:========================================== $transactions");
     }
 
     // Navigate to PayPal Checkout view
     Get.to(
-          () => PaypalCheckoutView(
+      () => PaypalCheckoutView(
         clientId: AppConstants.clientId,
         sandboxMode: true,
         secretKey: AppConstants.clientSecret,
@@ -187,7 +188,8 @@ class DairekPayController extends GetxController {
           // Extract Payment Data
           String orderId = params['data']['cart'];
           String paymentId = params['data']['id'];
-          String payerName = "${params['data']['payer']['payer_info']['first_name']} ${params['data']['payer']['payer_info']['last_name']}";
+          String payerName =
+              "${params['data']['payer']['payer_info']['first_name']} ${params['data']['payer']['payer_info']['last_name']}";
 
           // Debugging output
           if (kDebugMode) {
@@ -202,6 +204,7 @@ class DairekPayController extends GetxController {
             paymentId: paymentId,
             payerId: params['data']['payer']['payer_info']['payer_id'],
             playerId: playerId,
+            entityType: entityType,
           );
 
           // Close the payment screen
@@ -229,11 +232,11 @@ class DairekPayController extends GetxController {
 
   RxBool isPayment = false.obs;
 
-  Future<void> paymentMethod({
-    required String paymentId,
-    required String payerId,
-    required String playerId,
-  }) async {
+  Future<void> paymentMethod(
+      {required String paymentId,
+      required String payerId,
+      required String playerId,
+      required String entityType}) async {
     isPayment.value = true;
     refresh();
 
@@ -249,10 +252,11 @@ class DairekPayController extends GetxController {
       "paymentId": paymentId,
       "payerId": payerId,
       "entityId": playerId,
-      "entityType": "Player"
+      "entityType": entityType
     };
 
-    var response = await ApiClient.patchData(ApiUrl.paypalSend, jsonEncode(body));
+    var response =
+        await ApiClient.patchData(ApiUrl.paypalSend, jsonEncode(body));
 
     // Handle the response from API
     if (response.statusCode == 200) {
@@ -267,5 +271,4 @@ class DairekPayController extends GetxController {
     isPayment.value = false;
     refresh();
   }
-
 }

@@ -308,7 +308,7 @@ class _TeamScreenState extends State<TeamScreen> {
                             title: data.name ?? "",
                             team: '',
                             position: '',
-                            image: imageUrl);
+                            image: imageUrl, id: data.id??'');
                       },
                       onBookMarkTab: () {
                         if (isBookmarked.value) {
@@ -334,7 +334,9 @@ class _TeamScreenState extends State<TeamScreen> {
       {required String title,
       required String team,
       required String position,
-      required String image}) {
+      required String image,
+      required String id
+      }) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -351,7 +353,7 @@ class _TeamScreenState extends State<TeamScreen> {
                     title: AppStrings.sendTippz,
                     onTap: () {
                       Get.back();
-                      showDialogBox(context);
+                      showDialogBox(context,id);
                     },
                   ),
           );
@@ -360,7 +362,7 @@ class _TeamScreenState extends State<TeamScreen> {
     );
   }
 
-  void showDialogBox(BuildContext context) {
+  void showDialogBox(BuildContext context,String id) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -429,7 +431,7 @@ class _TeamScreenState extends State<TeamScreen> {
                                 entityType: 'Team',
                                 tipBy: 'Profile balance');
                           } else if (_generalController.selectedValue == 1) {
-                            Get.toNamed(AppRoute.dairekPayScreen);
+                            Get.toNamed(AppRoute.dairekPayScreen,arguments: id);
                           }
                         },
                         title: AppStrings.continues,

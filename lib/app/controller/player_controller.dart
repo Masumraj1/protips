@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:protippz/app/data/models/player_model/select_player_model.dart';
-import 'package:protippz/app/data/models/player_model/short_player_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';
 import 'package:protippz/app/data/services/api_client.dart';
 import 'package:protippz/app/data/services/app_url.dart';
@@ -14,7 +13,12 @@ import 'package:protippz/app/utils/app_constants.dart';
 class PlayerController extends GetxController {
   ///==============*********>>>>>>>>Other Element<<<<<<<********===
   final rxRequestStatus = Status.loading.obs;
+  RxBool isPlayer = false.obs; // Default is false (indicating it's not a player)
 
+  // Method to set whether the user is a player
+  void setIsPlayer(bool value) {
+    isPlayer.value = value;
+  }
   void setRxRequestStatus(Status value) => rxRequestStatus.value = value;
 
   ///==============*********>>>>>>>>selectPlayer<<<<<<<********===

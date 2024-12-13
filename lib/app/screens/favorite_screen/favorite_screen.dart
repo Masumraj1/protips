@@ -28,7 +28,8 @@ class FavoriteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final FavoriteController favoriteController = Get.find<FavoriteController>();
+    final FavoriteController favoriteController =
+        Get.find<FavoriteController>();
     final PlayerController playerController = Get.find<PlayerController>();
     final TeamController teamController = Get.find<TeamController>();
 
@@ -57,7 +58,7 @@ class FavoriteScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(
                   favoriteController.favoriteTabList.length,
-                      (index) => GestureDetector(
+                  (index) => GestureDetector(
                     onTap: () {
                       favoriteController.selectedIndex.value = index;
                       // Fetch data only when switching between tabs
@@ -96,7 +97,8 @@ class FavoriteScreen extends StatelessWidget {
             // Body content based on request status
             Expanded(
               child: Obx(() {
-                bool isLoading = favoriteController.rxRequestStatus.value == Status.loading;
+                bool isLoading =
+                    favoriteController.rxRequestStatus.value == Status.loading;
                 bool isEmpty = favoriteController.selectedIndex.value == 0
                     ? favoriteController.favoritePlayerList.isEmpty
                     : favoriteController.favoriteTeamList.isEmpty;
@@ -105,7 +107,8 @@ class FavoriteScreen extends StatelessWidget {
                   return const CustomLoader(); // Show loading indicator
                 }
 
-                if (favoriteController.rxRequestStatus.value == Status.internetError) {
+                if (favoriteController.rxRequestStatus.value ==
+                    Status.internetError) {
                   return NoInternetScreen(onTap: () {
                     favoriteController.getFavoriteTeam();
                     favoriteController.getFavoritePlayer();
@@ -138,37 +141,49 @@ class FavoriteScreen extends StatelessWidget {
                       : favoriteController.favoriteTeamList.length,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2,
+                    crossAxisCount:
+                        MediaQuery.of(context).size.width > 600 ? 3 : 2,
                     crossAxisSpacing: 16.w,
                     mainAxisSpacing: 16.h,
-                    childAspectRatio: favoriteController.selectedIndex.value == 0 ? 1 / 2 : 1 / 1.9,
+                    childAspectRatio:
+                        favoriteController.selectedIndex.value == 0
+                            ? 1 / 2
+                            : 1 / 1.9,
                   ),
                   itemBuilder: (context, index) {
                     if (favoriteController.selectedIndex.value == 0) {
-                      var playerData = favoriteController.favoritePlayerList[index];
+                      var playerData =
+                          favoriteController.favoritePlayerList[index];
                       RxBool isBookmarked = true.obs;
 
+                      ///================================Player=========================
                       return CustomPlayerCard(
-                        imageUrl: "${ApiUrl.netWorkUrl}${playerData.player?.playerImage ?? ""}",
+                        imageUrl:
+                            "${ApiUrl.netWorkUrl}${playerData.player?.playerImage ?? ""}",
                         name: playerData.player?.name ?? "",
                         team: playerData.player?.team?.name ?? "",
                         position: playerData.player?.position ?? "",
                         onTap: () {
                           showCustomDialog(context,
                               title: playerData.player?.name ?? "",
-                              team: playerData.player?.team?.name??"",
-                              position: playerData.player?.position??"",
-                              image: "${ApiUrl.netWorkUrl}${playerData.player?.playerImage ?? ""}");
+                              team: playerData.player?.team?.name ?? "",
+                              position: playerData.player?.position ?? "",
+                              image:
+                                  "${ApiUrl.netWorkUrl}${playerData.player?.playerImage ?? ""}",
+                              id: playerData.id ?? "");
                         },
                         onBookMarkTab: () async {
-                          favoriteController.rxRequestStatus.value = Status.loading;
+                          favoriteController.rxRequestStatus.value =
+                              Status.loading;
 
-                          await playerController.playerBookmarkDelete(id: playerData.player?.id ?? "");
+                          await playerController.playerBookmarkDelete(
+                              id: playerData.player?.id ?? "");
 
                           // Immediately remove player from the list in GetX
                           favoriteController.favoritePlayerList.removeAt(index);
 
-                          favoriteController.rxRequestStatus.value = Status.completed;
+                          favoriteController.rxRequestStatus.value =
+                              Status.completed;
                         },
                         isBookmark: isBookmarked,
                       );
@@ -176,8 +191,10 @@ class FavoriteScreen extends StatelessWidget {
                       var teamData = favoriteController.favoriteTeamList[index];
                       RxBool isBookmarkTeam = true.obs;
 
+                      ///=============================Team==========================
                       return CustomTeamCard(
-                        imageUrl: "${ApiUrl.netWorkUrl}${teamData.team?.teamLogo ?? ""}",
+                        imageUrl:
+                            "${ApiUrl.netWorkUrl}${teamData.team?.teamLogo ?? ""}",
                         name: teamData.team?.name ?? "",
                         sport: teamData.team?.league?.sport ?? "",
                         onTap: () {
@@ -185,23 +202,29 @@ class FavoriteScreen extends StatelessWidget {
                               title: teamData.team?.name ?? "",
                               team: "",
                               position: '',
-                              image: "${ApiUrl.netWorkUrl}${teamData.team?.teamLogo ?? ""}");
+                              image:
+                                  "${ApiUrl.netWorkUrl}${teamData.team?.teamLogo ?? ""}",
+                              id: teamData.id ?? "");
                         },
                         onBookMarkTab: () async {
-                          favoriteController.rxRequestStatus.value = Status.loading;
+                          favoriteController.rxRequestStatus.value =
+                              Status.loading;
 
-                          await teamController.teamBookmarkDelete(id: teamData.team?.id ?? "");
+                          await teamController.teamBookmarkDelete(
+                              id: teamData.team?.id ?? "");
 
                           // Immediately remove team from the list in GetX
                           favoriteController.favoriteTeamList.removeAt(index);
 
-                          favoriteController.rxRequestStatus.value = Status.completed;
+                          favoriteController.rxRequestStatus.value =
+                              Status.completed;
                         },
                         isBookmark: isBookmarkTeam,
                       );
                     } else {
                       toastMessage(message: "Invalid selection");
-                      return const SizedBox.shrink(); // Placeholder for invalid state
+                      return const SizedBox
+                          .shrink(); // Placeholder for invalid state
                     }
                   },
                 );
@@ -213,45 +236,44 @@ class FavoriteScreen extends StatelessWidget {
     );
   }
 
-
   ///==========================Send Player ==========================
   void showCustomDialog(BuildContext context,
       {required String title,
-        required String team,
-        required String position,
-        required String image}) {
+      required String team,
+      required String id,
+      required String position,
+      required String image}) {
     final GeneralController _generalController = Get.find();
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Obx(
-                () {
-              return CustomDialogBox(
-                title: title,
-                team: team,
-                position: position,
-                controller: _generalController.sendAmountController,
-                image: image,
-                button: _generalController.isSendTips.value
-                    ? const CustomLoader()
-                    : CustomButton(
-                  title: AppStrings.sendTippz,
-                  onTap: () {
-                    Get.back();
-                    showDialogBox(context);
-                  },
-                ),
-              );
-            }
-        );
+        return Obx(() {
+          return CustomDialogBox(
+            title: title,
+            team: team,
+            position: position,
+            controller: _generalController.sendAmountController,
+            image: image,
+            button: _generalController.isSendTips.value
+                ? const CustomLoader()
+                : CustomButton(
+                    title: AppStrings.sendTippz,
+                    onTap: () {
+                      Get.back();
+                      showDialogBox(context, id);
+                    },
+                  ),
+          );
+        });
       },
     );
   }
 
-  void showDialogBox(BuildContext context) {
+  void showDialogBox(BuildContext context, String id) {
     final GeneralController generalController = Get.find<GeneralController>();
-    final FavoriteController favoriteController = Get.find<FavoriteController>();
+    final FavoriteController favoriteController =
+        Get.find<FavoriteController>();
 
     showDialog(
       context: context,
@@ -284,21 +306,27 @@ class FavoriteScreen extends StatelessWidget {
                   bottom: 10,
                 ),
                 Column(
-                  children: generalController.amountOptions.asMap().entries.map((entry) {
+                  children: generalController.amountOptions
+                      .asMap()
+                      .entries
+                      .map((entry) {
                     int index = entry.key;
                     String amount = entry.value;
                     return RadioListTile<int>(
                       value: index,
-                      groupValue: generalController.selectedValue, // Get the value from controller
+                      groupValue: generalController.selectedValue,
+                      // Get the value from controller
                       onChanged: (int? value) {
                         if (value != null) {
-                          generalController.selectedValue = value; // Update via controller
+                          generalController.selectedValue =
+                              value; // Update via controller
                         }
                       },
                       activeColor: Colors.teal,
                       title: Text(
                         amount,
-                        style: const TextStyle(color: Colors.blue, fontSize: 18),
+                        style:
+                            const TextStyle(color: Colors.blue, fontSize: 18),
                       ),
                     );
                   }).toList(),
@@ -306,21 +334,24 @@ class FavoriteScreen extends StatelessWidget {
                 generalController.isSendTips.value
                     ? const CustomLoader()
                     : CustomButton(
-                  fillColor: AppColors.blue500,
-                  onTap: () {
-                    if (generalController.selectedValue == 0) {
-                      generalController.sendTips(
-                          entityId:  favoriteController.favoritePlayerList[0].player?.id??"",
-                          entityType: 'Player',
-                          tipBy: 'Profile balance'
-                      );
-                      print("==========================value${generalController.selectedValue}");
-                    } else if (generalController.selectedValue == 1) {
-                      Get.toNamed(AppRoute.dairekPayScreen);
-                    }
-                  },
-                  title: AppStrings.continues,
-                ),
+                        fillColor: AppColors.blue500,
+                        onTap: () {
+                          if (generalController.selectedValue == 0) {
+                            generalController.sendTips(
+                                entityId: favoriteController
+                                        .favoritePlayerList[0].player?.id ??
+                                    "",
+                                entityType: 'Player',
+                                tipBy: 'Profile balance');
+                            print(
+                                "==========================value${generalController.selectedValue}");
+                          } else if (generalController.selectedValue == 1) {
+                            Get.toNamed(AppRoute.dairekPayScreen,
+                                arguments: id);
+                          }
+                        },
+                        title: AppStrings.continues,
+                      ),
               ],
             );
           }),
@@ -329,47 +360,45 @@ class FavoriteScreen extends StatelessWidget {
     );
   }
 
-
   ///==========================Send Team ==========================
   void showCustomDialogTeam(BuildContext context,
       {required String title,
-        required String team,
-        required String position,
-        required String image}) {
+      required String team,
+      required String position,
+      required String id,
+      required String image}) {
     final GeneralController _generalController = Get.find();
 
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Obx(
-                () {
-              return CustomDialogBox(
-                title: title,
-                team: team,
-                position: position,
-                controller: _generalController.sendAmountController,
-                image: image,
-                button: _generalController.isSendTips.value
-                    ? const CustomLoader()
-                    : CustomButton(
-                  title: AppStrings.sendTippz,
-                  onTap: () {
-                    Get.back();
-                    showDialogBox(context);
-                  },
-                ),
-              );
-            }
-        );
+        return Obx(() {
+          return CustomDialogBox(
+            title: title,
+            team: team,
+            position: position,
+            controller: _generalController.sendAmountController,
+            image: image,
+            button: _generalController.isSendTips.value
+                ? const CustomLoader()
+                : CustomButton(
+                    title: AppStrings.sendTippz,
+                    onTap: () {
+                      Get.back();
+                      showDialogBox(context, id);
+                    },
+                  ),
+          );
+        });
       },
     );
   }
 
-
   ///==================================Send Team====================
-  void showDialogBoxTeam(BuildContext context) {
+  void showDialogBoxTeam(BuildContext context, String id) {
     final GeneralController generalController = Get.find<GeneralController>();
-    final FavoriteController favoriteController = Get.find<FavoriteController>();
+    final FavoriteController favoriteController =
+        Get.find<FavoriteController>();
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -401,21 +430,27 @@ class FavoriteScreen extends StatelessWidget {
                   bottom: 10,
                 ),
                 Column(
-                  children: generalController.amountOptions.asMap().entries.map((entry) {
+                  children: generalController.amountOptions
+                      .asMap()
+                      .entries
+                      .map((entry) {
                     int index = entry.key;
                     String amount = entry.value;
                     return RadioListTile<int>(
                       value: index,
-                      groupValue: generalController.selectedValue, // Get the value from controller
+                      groupValue: generalController.selectedValue,
+                      // Get the value from controller
                       onChanged: (int? value) {
                         if (value != null) {
-                          generalController.selectedValue = value; // Update via controller
+                          generalController.selectedValue =
+                              value; // Update via controller
                         }
                       },
                       activeColor: Colors.teal,
                       title: Text(
                         amount,
-                        style: const TextStyle(color: Colors.blue, fontSize: 18),
+                        style:
+                            const TextStyle(color: Colors.blue, fontSize: 18),
                       ),
                     );
                   }).toList(),
@@ -423,19 +458,22 @@ class FavoriteScreen extends StatelessWidget {
                 generalController.isSendTips.value
                     ? const CustomLoader()
                     : CustomButton(
-                  fillColor: AppColors.blue500,
-                  onTap: () {
-                    if (generalController.selectedValue == 0) {
-                      generalController.sendTips(
-                          entityId: favoriteController.favoriteTeamList[0].team?.id??"",
-                          entityType: 'Team',
-                          tipBy: 'Profile balance');
-                    } else if (generalController.selectedValue == 1) {
-                      Get.toNamed(AppRoute.dairekPayScreen);
-                    }
-                  },
-                  title: AppStrings.continues,
-                ),
+                        fillColor: AppColors.blue500,
+                        onTap: () {
+                          if (generalController.selectedValue == 0) {
+                            generalController.sendTips(
+                                entityId: favoriteController
+                                        .favoriteTeamList[0].team?.id ??
+                                    "",
+                                entityType: 'Team',
+                                tipBy: 'Profile balance');
+                          } else if (generalController.selectedValue == 1) {
+                            Get.toNamed(AppRoute.dairekPayScreen,
+                                arguments: id);
+                          }
+                        },
+                        title: AppStrings.continues,
+                      ),
               ],
             );
           }),
