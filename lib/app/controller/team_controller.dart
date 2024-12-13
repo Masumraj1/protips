@@ -112,4 +112,34 @@ class TeamController extends GetxController {
     isTeamRemove.value = false;
     refresh();
   }
+
+
+  ///=====================================Team Short===========================
+
+  teamShort({required String id, required String name}) async {
+    setRxRequestStatus(Status.loading);
+    refresh();
+    var response =
+    await ApiClient.getData(ApiUrl.teamShort(id: id, name: name));
+
+    if (response.statusCode == 200) {
+      selectTeamList.value = List<SelectTeamList>.from(response.body["data"]
+      ['result']
+          .map((x) => SelectTeamList.fromJson(x)));
+      selectTeamId.value = id;
+      print(
+          'selectedTeamId=========================="${selectTeamList.length}"');
+      setRxRequestStatus(Status.completed);
+      refresh();
+    } else {
+      if (response.statusText == ApiClient.noInternetMessage) {
+        setRxRequestStatus(Status.internetError);
+      } else {
+        setRxRequestStatus(Status.error);
+      }
+      ApiChecker.checkApi(response);
+    }
+  }
+
+
 }

@@ -30,12 +30,23 @@ class TeamScreen extends StatefulWidget {
 class _TeamScreenState extends State<TeamScreen> {
   final TeamController teamController = Get.find<TeamController>();
   final GeneralController _generalController = Get.find<GeneralController>();
+  String dropdownValue = 'A to Z'; // Initial dropdown value
 
+  void _updatePlayerSorting() {
+    String selectedId = teamController.selectTeamId.value;
+    if (selectedId.isEmpty && teamController.selectTeamList.isNotEmpty) {
+      selectedId = teamController.selectTeamList[0].id ?? "";
+    }
+
+    teamController.teamShort(
+      id: selectedId,
+      name: dropdownValue == 'A to Z' ? 'name' : '-name',
+    );
+  }
 
   @override
   void initState() {
     super.initState();
-
     // Ensure that the first league is selected by default and its teams are fetched
     if (_generalController.leagueList.isNotEmpty) {
       teamController.selectedIndex.value = 0; // Set default index to 0
@@ -119,6 +130,7 @@ class _TeamScreenState extends State<TeamScreen> {
             }),
             Gap(24.h),
 
+            ///==============================Search ===========================
             CustomTextField(
               isColor: false,
               inputTextStyle: const TextStyle(color: AppColors.gray500),
@@ -144,7 +156,32 @@ class _TeamScreenState extends State<TeamScreen> {
               fieldBorderColor: AppColors.grey400,
             ),
             Gap(14.h),
-
+            ///============================A to z========================
+            Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.green500, width: 2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: DropdownButton<String>(
+                value: dropdownValue,
+                onChanged: (String? value) {
+                  setState(() {
+                    dropdownValue = value!;
+                    // Trigger sorting when dropdown value changes
+                    _updatePlayerSorting();
+                  });
+                },
+                items: ['A to Z', 'Z to A'].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                underline: Container(),
+                isExpanded: false,
+              ),
+            ),
             Gap(24.h),
 
             ///==================================Player============================

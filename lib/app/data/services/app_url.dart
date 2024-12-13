@@ -72,6 +72,9 @@ class ApiUrl {
   static String selectPlayer({required String id}) {
     return "/player/get-all?league=$id";
   }
+  static String playerShort({required String id,required String name}) {
+    return "/player/get-all?sort=$name&league=$id";
+  }
   static const searchPlayer = "/player/get-all?searchTerm";
 
 
@@ -83,6 +86,11 @@ class ApiUrl {
   static String selectTeam({required String id}) {
     return "/team/get-all?league=$id";
   }
+
+  static String teamShort({required String id,required String name}) {
+    return "/team/get-all?league=$id&sort=$name";
+  }
+
   static const searchTeam = "/team/get-all?searchTerm";
 
 

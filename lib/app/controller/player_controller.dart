@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:protippz/app/data/models/player_model/select_player_model.dart';
+import 'package:protippz/app/data/models/player_model/short_player_model.dart';
 import 'package:protippz/app/data/services/api_check.dart';
 import 'package:protippz/app/data/services/api_client.dart';
 import 'package:protippz/app/data/services/app_url.dart';
@@ -114,5 +115,33 @@ class PlayerController extends GetxController {
     }
     isPlayerRemove.value = false;
     refresh();
+  }
+
+  ///=====================================Player Short===========================
+  // RxList<ShortPlayerList> shortPlayerList = <ShortPlayerList>[].obs;
+
+  playerShort({required String id, required String name}) async {
+    setRxRequestStatus(Status.loading);
+    refresh();
+    var response =
+        await ApiClient.getData(ApiUrl.playerShort(id: id, name: name));
+
+    if (response.statusCode == 200) {
+      selectPlayerList.value = List<SelectedPlayerList>.from(response.body["data"]
+              ['result']
+          .map((x) => SelectedPlayerList.fromJson(x)));
+      selectPlayerId.value = id;
+      print(
+          'SelectPlayerList=========================="${selectPlayerList.length}"');
+      setRxRequestStatus(Status.completed);
+      refresh();
+    } else {
+      if (response.statusText == ApiClient.noInternetMessage) {
+        setRxRequestStatus(Status.internetError);
+      } else {
+        setRxRequestStatus(Status.error);
+      }
+      ApiChecker.checkApi(response);
+    }
   }
 }

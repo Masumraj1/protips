@@ -10,7 +10,6 @@ import 'package:protippz/app/global/controllers/genarel_controller/genarel_contr
 import 'package:protippz/app/global/widgets/custom_appbar/custom_appbar.dart';
 import 'package:protippz/app/global/widgets/custom_button/custom_button.dart';
 import 'package:protippz/app/global/widgets/custom_dialogbox/custom_dialogbox.dart';
-import 'package:protippz/app/global/widgets/custom_drop_down/custom_drop_down.dart';
 import 'package:protippz/app/global/widgets/custom_loader/custom_loader.dart';
 import 'package:protippz/app/global/widgets/custom_network_image/custom_network_image.dart';
 import 'package:protippz/app/global/widgets/custom_player_card/custom_player_card.dart';
@@ -32,32 +31,21 @@ class _PlayerScreenState extends State<PlayerScreen> {
 
 
 
-  bool _isDropdownOpen = false;
-  String _selectedSortBy = 'Name';
-  String _selectedOrder = 'A to Z';
-
-  final List<String> _sortByOptions = ['Name', 'Team', 'Position'];
-
   final PlayerController _playerController = Get.find<PlayerController>();
   final GeneralController _generalController = Get.find<GeneralController>();
 
-  void _toggleDropdown() {
-    setState(() {
-      _isDropdownOpen = !_isDropdownOpen;
-    });
-  }
+  String dropdownValue = 'A to Z'; // Initial dropdown value
 
-  void _selectSortBy(String sortBy) {
-    setState(() {
-      _selectedSortBy = sortBy;
-      _isDropdownOpen = false;
-    });
-  }
+ void _updatePlayerSorting() {
+    String selectedId = _playerController.selectPlayerId.value;
+    if (selectedId.isEmpty && _playerController.selectPlayerList.isNotEmpty) {
+      selectedId = _playerController.selectPlayerList[0].id ?? "";
+    }
 
-  void _toggleOrder() {
-    setState(() {
-      _selectedOrder = _selectedOrder == 'A to Z' ? 'Z to A' : 'A to Z';
-    });
+    _playerController.playerShort(
+      id: selectedId,
+      name: dropdownValue == 'A to Z' ? 'name' : '-name',
+    );
   }
 
   @override
@@ -68,9 +56,11 @@ class _PlayerScreenState extends State<PlayerScreen> {
     if (_generalController.leagueList.isNotEmpty) {
       _playerController.selectedIndex.value = 0; // Set default index to 0
       // Fetch teams for the first league (index 0)
-      _playerController.selectPlayer(id: _generalController.leagueList[0].id ?? "");
+      _playerController.selectPlayer(
+          id: _generalController.leagueList[0].id ?? "");
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +73,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         child: Column(
           children: [
-            // League List (Horizontal Scroll)
+            //============================= League List (Horizontal Scroll)=====================
             Obx(() {
               if (_generalController.leagueList.isEmpty) {
                 return const CustomText(
@@ -144,7 +134,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
             }),
             Gap(24.h),
 
-            // Search Field
+            //======================== Search Field===================================
             CustomTextField(
               isColor: false,
               inputTextStyle: const TextStyle(color: AppColors.gray500),
@@ -171,18 +161,34 @@ class _PlayerScreenState extends State<PlayerScreen> {
               fieldBorderColor: AppColors.grey400,
             ),
             Gap(14.h),
-
-            // Sort Options
-            SortOptions(
-              selectedSortBy: _selectedSortBy,
-              selectedOrder: _selectedOrder,
-              isDropdownOpen: _isDropdownOpen,
-              sortByOptions: _sortByOptions,
-              toggleDropdown: _toggleDropdown,
-              selectSortBy: _selectSortBy,
-              toggleOrder: _toggleOrder,
-              isName: true,
+            ///============================A to z========================
+            Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.green500, width: 2),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: DropdownButton<String>(
+                value: dropdownValue,
+                onChanged: (String? value) {
+                  setState(() {
+                    dropdownValue = value!;
+                    // Trigger sorting when dropdown value changes
+                    _updatePlayerSorting();
+                  });
+                },
+                items: ['A to Z', 'Z to A'].map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                underline: Container(),
+                isExpanded: false,
+              ),
             ),
+
+
             Gap(24.h),
 
             // Player Grid
@@ -258,7 +264,8 @@ class _PlayerScreenState extends State<PlayerScreen> {
                                   image: imageUrl,
                                   title: data.name ?? "",
                                   team: data.team?.name ?? "",
-                                  position: data.position ?? "", id: data.id??'',
+                                  position: data.position ?? "",
+                                  id: data.id ?? '',
                                 );
                               },
                               onBookMarkTab: () {
@@ -347,21 +354,27 @@ class _PlayerScreenState extends State<PlayerScreen> {
                   bottom: 10,
                 ),
                 Column(
-                  children: _generalController.amountOptions.asMap().entries.map((entry) {
+                  children: _generalController.amountOptions
+                      .asMap()
+                      .entries
+                      .map((entry) {
                     int index = entry.key;
                     String amount = entry.value;
                     return RadioListTile<int>(
                       value: index,
-                      groupValue: _generalController.selectedValue, // Get the value from controller
+                      groupValue: _generalController.selectedValue,
+                      // Get the value from controller
                       onChanged: (int? value) {
                         if (value != null) {
-                          _generalController.selectedValue = value; // Update via controller
+                          _generalController.selectedValue =
+                              value; // Update via controller
                         }
                       },
                       activeColor: Colors.teal,
                       title: Text(
                         amount,
-                        style: const TextStyle(color: Colors.blue, fontSize: 18),
+                        style:
+                            const TextStyle(color: Colors.blue, fontSize: 18),
                       ),
                     );
                   }).toList(),
@@ -369,22 +382,22 @@ class _PlayerScreenState extends State<PlayerScreen> {
                 _generalController.isSendTips.value
                     ? const CustomLoader()
                     : CustomButton(
-                  fillColor: AppColors.blue500,
-                  onTap: () {
-                    if (_generalController.selectedValue == 0) {
-                      _generalController.sendTips(
-                        entityId:
-                        _playerController.selectPlayerList[0].id ??
-                            "67556c5778fff26bb6d1bbd6",
-                        entityType: 'Player',
-                        tipBy: 'Profile balance',
-                      );
-                    } else if (_generalController.selectedValue == 1) {
-                      Get.toNamed(AppRoute.dairekPayScreen);
-                    }
-                  },
-                  title: AppStrings.continues,
-                ),
+                        fillColor: AppColors.blue500,
+                        onTap: () {
+                          if (_generalController.selectedValue == 0) {
+                            _generalController.sendTips(
+                              entityId:
+                                  _playerController.selectPlayerList[0].id ??
+                                      "67556c5778fff26bb6d1bbd6",
+                              entityType: 'Player',
+                              tipBy: 'Profile balance',
+                            );
+                          } else if (_generalController.selectedValue == 1) {
+                            Get.toNamed(AppRoute.dairekPayScreen);
+                          }
+                        },
+                        title: AppStrings.continues,
+                      ),
               ],
             );
           }),
