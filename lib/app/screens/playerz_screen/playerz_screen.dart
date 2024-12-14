@@ -73,6 +73,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
           id: _generalController.leagueList[0].id ?? "");
     }
   }
+  final String type = Get.arguments;  // This will retrieve 'Player' or 'Team'
 
   @override
   Widget build(BuildContext context) {
@@ -366,7 +367,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
             title: AppStrings.sendTippz,
             onTap: () {
               Get.back();
-              showDialogBox(context,id);
+              showDialogBox(context,id,type);
             },
           ),
         );
@@ -374,7 +375,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
     );
   }
 
-  void showDialogBox(BuildContext context, String id) {
+  void showDialogBox(BuildContext context, String id,String type) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -440,7 +441,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
                         tipBy: 'Profile balance',
                       );
                     } else if (_generalController.selectedValue == 1) {
-                      Get.toNamed(AppRoute.dairekPayScreen, arguments: id); // Pass id here to the next screen
+                      Get.toNamed(AppRoute.dairekPayScreen, arguments: [id,type]); // Pass id here to the next screen
                     }
                   },
                   title: AppStrings.continues,

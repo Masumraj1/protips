@@ -8,6 +8,7 @@ import 'package:protippz/app/utils/app_strings.dart';
 class TipzScreen extends StatelessWidget {
   const TipzScreen({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

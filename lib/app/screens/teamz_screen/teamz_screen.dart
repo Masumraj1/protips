@@ -61,6 +61,8 @@ class _TeamScreenState extends State<TeamScreen> {
     );
   }
 
+  final String type = Get.arguments;  // This will retrieve 'Player' or 'Team'
+
   @override
   void initState() {
     super.initState();
@@ -353,7 +355,7 @@ class _TeamScreenState extends State<TeamScreen> {
                     title: AppStrings.sendTippz,
                     onTap: () {
                       Get.back();
-                      showDialogBox(context,id);
+                      showDialogBox(context,id,type);
                     },
                   ),
           );
@@ -362,7 +364,7 @@ class _TeamScreenState extends State<TeamScreen> {
     );
   }
 
-  void showDialogBox(BuildContext context,String id) {
+  void showDialogBox(BuildContext context,String id,String type) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -431,7 +433,7 @@ class _TeamScreenState extends State<TeamScreen> {
                                 entityType: 'Team',
                                 tipBy: 'Profile balance');
                           } else if (_generalController.selectedValue == 1) {
-                            Get.toNamed(AppRoute.dairekPayScreen,arguments: id);
+                            Get.toNamed(AppRoute.dairekPayScreen,arguments: [id,type]);
                           }
                         },
                         title: AppStrings.continues,

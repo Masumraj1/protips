@@ -24,8 +24,12 @@ class DairekPayScreen extends StatelessWidget {
   final GeneralController generalController = Get.find<GeneralController>();
 
   // final PlayerController _playerController = Get.find<PlayerController>();
+  final List<dynamic> arguments = Get.arguments;
 
-  final String id = Get.arguments ?? ''; // Default to empty string if id is not passed
+  // Access individual arguments by index
+  final String id = Get.arguments[0];   // Assuming 'id' is at index 0
+  final String type = Get.arguments[1];
+  // final String id = Get.arguments ?? ''; // Default to empty string if id is not passed
   @override
   Widget build(BuildContext context) {
 
@@ -93,14 +97,13 @@ class DairekPayScreen extends StatelessWidget {
                     _controller.makePayment(
                         amount: int.parse(amountText),
                         id: id,
-                        playerOrTeamId:
-                            'Team'); // Convert to cents for Stripe
+                        playerOrTeamId:type);
                   } else if (selectedPaymentMethod.value == "Paypal") {
                     // Call PayPal payment method
                     _controller.paymentPaypal(
                       amount: amount,
                       playerId: id,
-                      entityType: 'Team',
+                      entityType: type,
                     );
                   } else {
                     toastMessage(message: "Please enter a valid amount");

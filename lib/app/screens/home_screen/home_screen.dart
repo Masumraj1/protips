@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ///=============================Tippz now =====================
-                      _buildSectionTitle(AppStrings.tippzNow),
+                      _buildSectionTitle(AppStrings.tippzNow,),
                       _buildTippzNowSection(),
 
                       ///============================= Reward======================
@@ -173,8 +173,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: GestureDetector(
               onTap: () {
                 index == 0
-                    ? Get.toNamed(AppRoute.playerzScreen)
-                    : Get.toNamed(AppRoute.teamzScreen);
+                    ? Get.toNamed(AppRoute.playerzScreen,arguments: 'Player')
+                    : Get.toNamed(AppRoute.teamzScreen,arguments: "Team");
               },
               child: Column(
                 children: [

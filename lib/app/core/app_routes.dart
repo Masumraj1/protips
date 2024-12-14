@@ -108,7 +108,7 @@ class AppRoute {
     GetPage(name: withdrawCheck, page: () =>   WithdrawCheck(),),
     GetPage(name: withdrawAch, page: () =>   WithdrawAch(),),
     GetPage(name: depositeScreen, page: () =>  DepositeScreen(),),
-    GetPage(name: tipzScreen, page: () =>  const TipzScreen(),),
+    GetPage(name: tipzScreen, page: () =>   TipzScreen(),),
     GetPage(name: playerzScreen, page: () =>  const PlayerScreen(),),
     GetPage(name: teamzScreen, page: () =>   const TeamScreen(),),
     GetPage(name: rewardzScreen, page: () =>   const RewardScreen(),),
