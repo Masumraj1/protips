@@ -170,7 +170,7 @@ class FavoriteScreen extends StatelessWidget {
                               position: playerData.player?.position ?? "",
                               image:
                                   "${ApiUrl.netWorkUrl}${playerData.player?.playerImage ?? ""}",
-                              id: playerData.id ?? "");
+                              id: playerData.player?.id ?? "", type: 'Player');
                         },
                         onBookMarkTab: () async {
                           favoriteController.rxRequestStatus.value =
@@ -204,7 +204,7 @@ class FavoriteScreen extends StatelessWidget {
                               position: '',
                               image:
                                   "${ApiUrl.netWorkUrl}${teamData.team?.teamLogo ?? ""}",
-                              id: teamData.id ?? "");
+                              id: teamData.team?.id ?? "", type: 'Team');
                         },
                         onBookMarkTab: () async {
                           favoriteController.rxRequestStatus.value =
@@ -241,6 +241,7 @@ class FavoriteScreen extends StatelessWidget {
       {required String title,
       required String team,
       required String id,
+      required String type,
       required String position,
       required String image}) {
     final GeneralController _generalController = Get.find();
@@ -261,7 +262,7 @@ class FavoriteScreen extends StatelessWidget {
                     title: AppStrings.sendTippz,
                     onTap: () {
                       Get.back();
-                      showDialogBox(context, id);
+                      showDialogBox(context, id,type);
                     },
                   ),
           );
@@ -270,7 +271,7 @@ class FavoriteScreen extends StatelessWidget {
     );
   }
 
-  void showDialogBox(BuildContext context, String id) {
+  void showDialogBox(BuildContext context, String id,String type) {
     final GeneralController generalController = Get.find<GeneralController>();
     final FavoriteController favoriteController =
         Get.find<FavoriteController>();
@@ -347,7 +348,7 @@ class FavoriteScreen extends StatelessWidget {
                                 "==========================value${generalController.selectedValue}");
                           } else if (generalController.selectedValue == 1) {
                             Get.toNamed(AppRoute.dairekPayScreen,
-                                arguments: id);
+                                arguments:[id,type]);
                           }
                         },
                         title: AppStrings.continues,
@@ -360,12 +361,14 @@ class FavoriteScreen extends StatelessWidget {
     );
   }
 
+
   ///==========================Send Team ==========================
   void showCustomDialogTeam(BuildContext context,
       {required String title,
       required String team,
       required String position,
       required String id,
+        required String type,
       required String image}) {
     final GeneralController _generalController = Get.find();
 
@@ -385,7 +388,7 @@ class FavoriteScreen extends StatelessWidget {
                     title: AppStrings.sendTippz,
                     onTap: () {
                       Get.back();
-                      showDialogBox(context, id);
+                      showDialogBoxTeam(context, id,type);
                     },
                   ),
           );
@@ -395,10 +398,10 @@ class FavoriteScreen extends StatelessWidget {
   }
 
   ///==================================Send Team====================
-  void showDialogBoxTeam(BuildContext context, String id) {
+  void showDialogBoxTeam(BuildContext context, String id,String type) {
     final GeneralController generalController = Get.find<GeneralController>();
     final FavoriteController favoriteController =
-        Get.find<FavoriteController>();
+    Get.find<FavoriteController>();
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -450,7 +453,7 @@ class FavoriteScreen extends StatelessWidget {
                       title: Text(
                         amount,
                         style:
-                            const TextStyle(color: Colors.blue, fontSize: 18),
+                        const TextStyle(color: Colors.blue, fontSize: 18),
                       ),
                     );
                   }).toList(),
@@ -458,22 +461,22 @@ class FavoriteScreen extends StatelessWidget {
                 generalController.isSendTips.value
                     ? const CustomLoader()
                     : CustomButton(
-                        fillColor: AppColors.blue500,
-                        onTap: () {
-                          if (generalController.selectedValue == 0) {
-                            generalController.sendTips(
-                                entityId: favoriteController
-                                        .favoriteTeamList[0].team?.id ??
-                                    "",
-                                entityType: 'Team',
-                                tipBy: 'Profile balance');
-                          } else if (generalController.selectedValue == 1) {
-                            Get.toNamed(AppRoute.dairekPayScreen,
-                                arguments: id);
-                          }
-                        },
-                        title: AppStrings.continues,
-                      ),
+                  fillColor: AppColors.blue500,
+                  onTap: () {
+                    if (generalController.selectedValue == 0) {
+                      generalController.sendTips(
+                          entityId: favoriteController
+                              .favoriteTeamList[0].team?.id ??
+                              "",
+                          entityType: 'Team',
+                          tipBy: 'Profile balance');
+                    } else if (generalController.selectedValue == 1) {
+                      Get.toNamed(AppRoute.dairekPayScreen,
+                          arguments: [id,type]);
+                    }
+                  },
+                  title: AppStrings.continues,
+                ),
               ],
             );
           }),
