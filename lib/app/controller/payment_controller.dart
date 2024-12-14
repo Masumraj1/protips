@@ -144,7 +144,7 @@ class PaymentController extends GetxController {
 
     try {
       var response = await ApiClient.postData(
-          ApiUrl.stripeDeposit, jsonEncode(body),
+          ApiUrl.stripeCardDeposit, jsonEncode(body),
           );
 
       if (response.statusCode == 200) {
