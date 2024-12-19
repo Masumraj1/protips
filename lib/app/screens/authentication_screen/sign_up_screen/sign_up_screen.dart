@@ -143,7 +143,7 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     Gap(12.h),
                     //========================Confirm Password Field=====================
-                    CustomFromCard(
+                    CustomFromCard(                                                                                                                                   
                       isPassword: true,
                       hinText: AppStrings.enterYourPassword,
                       title: AppStrings.confirmPassword,
