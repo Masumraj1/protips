@@ -21,7 +21,7 @@ class InfoController extends GetxController{
     setRxRequestStatus(Status.completed);
 
     if (response.statusCode == 200) {
-      privacyModel = PrivacyModel.fromJson(response.body);
+      privacyModel = PrivacyModel.fromJson(response.body['data']);
       print('Value========================"${privacyModel.data?.description}"');
     } else {
       if (response.statusText == ApiClient.noInternetMessage) {
@@ -44,7 +44,7 @@ class InfoController extends GetxController{
     setRxRequestStatus(Status.completed);
 
     if (response.statusCode == 200) {
-      termsModel = PrivacyModel.fromJson(response.body);
+      termsModel = PrivacyModel.fromJson(response.body['data']);
       print('Value========================"${termsModel.data?.description}"');
     } else {
       if (response.statusText == ApiClient.noInternetMessage) {
